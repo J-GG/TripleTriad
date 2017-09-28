@@ -1,0 +1,25 @@
+{
+  "name": "tripletriad",
+  "version": "1.0.0",
+  "description": "A Triple Triad game",
+  "main": "index.html",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "jquery": "^3.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-less": "^3.3.2",
+    "gulp-rename": "^1.2.2",
+    "jquery": "^3.2.1"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "/"
+  },
+  "author": "",
+  "license": "ISC"
+}
