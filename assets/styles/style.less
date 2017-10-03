@@ -1,6 +1,9 @@
+
+
 body {
 	margin: 0;	
 	overflow: hidden;
+	background: black;
 }
 
 .board {
@@ -10,6 +13,22 @@ body {
 	background-size: cover;
 }
 
+@media(min-width: 166vh) {
+	.board__game-area {
+		content: '';
+		position: relative;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+		background: url(../img/Background.png);
+		background-position: center;
+		background-size: cover;
+		width: 166vh;
+	   	height: 100vh;
+	}
+}
+
+@media(max-width: 165vh) {
 	.board__game-area {
 		content: '';
 		position: relative;
@@ -22,7 +41,7 @@ body {
 		width: 100vmin;
 	   	height: 60vmin;
 	}
-
+}
 	.board__player-selector {
 		position: absolute;
 		background: url('../img/player-selector.png') center no-repeat;
@@ -76,6 +95,46 @@ body {
 			to { top: 6%; }
 		}
 
+/* Message */
+.message {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 50;
+	background: linear-gradient(to right, #676962, #888786);
+	box-shadow: -2px -2px 2px #54544D inset, 2px 2px 2px #9C908D inset;
+    border: 1px solid #57514D;
+    font-family: sans-serif;
+    padding: 1.5% 1.5%;
+    width: 30%;
+	color: white;
+	font-size: 3.5vmin;
+}
+
+	.message--bottom {
+		top: 90%;
+	}
+
+	.message--text-center {
+		text-align: center;
+	}
+
+	.message--hidden {
+		display: none;
+	}
+
+	.message--info::before {
+		content:'INFO.';
+		font-size: 50%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding-left: 1%;
+		text-shadow: -1px 0 #575859, 0 1px #575859, 1px 0 #575859, 0 -1px #575859;
+	}
+
+/* Card */
 .card {
 	width: 12%;
     height: 26%;
@@ -83,39 +142,91 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
 }
-
+	/* For cards in decks, if they are on the right one or the left one */
 	.card--player-1 {
 		left: 5%;
+		top: 100vh;
 	}
 
 	.card--player-2 {
 		right: 5%;
+		top: 100vh;
 	}
 
-	.card--row-1 {
-		top: 6%;	
+	/* Cards in the decks (0...4) */
+	.LOOP-cardAppearance(@n, @i: 0, @j: (@n - @i - 1)) when (@i < @n) {
+		/* Animation when the cards are drawn */
+		.card--player-1-appearance-deck-@{j} {
+			animation: "cardAppearance@{j}" .25s (.05s + .05 * @i) forwards; 
+		}
+
+		.card--player-2-appearance-deck-@{j} {
+			animation: "cardAppearance@{j}" .25s (.3s + .05 * @i) forwards; 
+		}
+
+		@keyframes "cardAppearance@{j}"{
+			from { top: 100vh; }
+			to { top: (12% + @i * 13%); }
+		}
+
+		/* Position in the deck */
+		.card--deck-@{j} {
+			top: (12% + @i * 13%);
+		}
+
+		/* Animation when the cards lower in the deck */
+		.card--deck-lower-@{j} {
+			animation: "cardLower@{j}" .25s forwards;
+		}
+
+		@keyframes "cardLower@{j}"{
+			from { top: (12% + (@i - 1) * 13%); }
+			to { top: (12% + @i * 13%); }
+		}
+
+		/* Animation to make the card leave the deck when it's played */
+		.card--disappearance-deck-@{j} {
+			animation: "cardDisappearance@{j}" .75s;
+		}
+
+		@keyframes "cardDisappearance@{j}" {
+			from{ top: (12% + @i * 13%); }
+			50% { transform: scaleX(1.3); }
+			to{ top: -100vh; }
+		}
+
+		.LOOP-cardAppearance(@n, (@i + 1));
 	}
+	.LOOP-cardAppearance(5);
 
-	.card--row-2 {
-		top: 20%;
+
+	/* Rows and columns of the card on the board (0...2) */
+	.LOOP-card--rowcol(@n, @i: 0) when (@i < @n) {
+		.card--row-@{i} {
+			top: (10% + @i * 27%);
+		}
+
+		.card--col-@{i} {
+			left: (27% + @i * 17%);
+		}
+
+		/* Animation to make the card appear on the board when it's played */
+		.card--appearance-row-@{i} {
+			z-index: 1;
+			animation: "cardAppearanceOnBoard@{i}" .5s ease-out;
+		}
+
+		@keyframes "cardAppearanceOnBoard@{i}" {
+			from { top: -100vh; }
+			50% {transform: scaleX(1.3);}
+			to { top: (10% + @i * 27%); }
+		}
+
+		.LOOP-card--rowcol(@n, (@i + 1));
 	}
+	.LOOP-card--rowcol(3);
 
-	.card--row-3 {
-		top: 40%;
-	}
-
-	.card--col-1 {
-
-	}
-
-	.card--col-2 {
-
-	}
-
-	.card--col-3 {
-
-	}
-
+	/* Shift slightly the card when selected */
 	.card--selected-player-1 {
 		left: 7%;
 	}
@@ -124,6 +235,44 @@ body {
 		right: 7%;
 	}
 
+	.card--flip-X {
+		animation: cardFlipX 1.5s;
+	}
+
+	.card--flip-Y {
+		animation: cardFlipY 1.5s;
+	}
+
+	@keyframes cardFlipX {
+		from { transform: rotateX(0) }
+		to { transform: rotateX(1440deg) }
+	}
+
+	@keyframes cardFlipY {
+		from { transform: rotateY(0) }
+		to { transform: rotateY(1440deg) }
+	}
+
+/* Score */
+.board__score {
+	position: absolute;
+	top: 80%;
+	font-family: serif;
+	font-size: 13vmin;
+	font-style: italic;
+	color: white;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+	
+	.board__score--player-1 {
+		left: 9%;
+	}
+
+	.board__score--player-2 {
+		right: 9%;
+	}
+
+/* Cursor */
 .board__cursor {
 	position: absolute;
 	width: 5%;
@@ -131,6 +280,7 @@ body {
 	background: url('../img/cursor.png') no-repeat;
 	background-size: cover;
 }
+	/* When selecting the card, cursor next to the left or the right deck */
 	.board__cursor--player-1 {
 		left: 18%;
 		transform: scaleX(-1);
@@ -140,22 +290,43 @@ body {
 		right: 18%;
 	}
 
-	.board__cursor--card-4 {
-		top: 25%;
+	.board__cursor--hide {
+		display: none;
 	}
 
-	.board__cursor--card-3 {
-		top: 38%;
-	}
+	/* When selecting the card, cursor facing one card (0...4) */
+	.LOOP-board__cursor--card(@n, @i: 0,  @j: (@n - @i - 1)) when (@i < @n) {
+		.board__cursor--card-@{j} {
+			top: (25% + @i * 13%);
+		}
 
-	.board__cursor--card-2 {
-		top: 51%;
+		.LOOP-board__cursor--card(@n, (@i + 1));
 	}
+	.LOOP-board__cursor--card(5);
 
-	.board__cursor--card-1 {
-		top: 64%;
-	}
+	/* When selecting the case, position of the cursor (0...2) */
+	.LOOP-board__cursor--rowcol(@n, @i: 0) when (@i < @n) {
+		.board__cursor--row-@{i} {
+			top: (22% + @i * 27%);
+		}
 
-	.board__cursor--card-0 {
-		top: 77%;
+		.board__cursor--col-@{i} {
+			left: (27% + @i * 17%);
+		}
+
+		.LOOP-board__cursor--rowcol(@n, (@i + 1));
 	}
+	.LOOP-board__cursor--rowcol(3);
+
+/* GAME OVER */
+.board__game-over {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-family: serif;
+	font-size: 13vmin;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	color: white;
+	z-index: 10;
+}

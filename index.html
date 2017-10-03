@@ -10,12 +10,21 @@
 
 	<body>
     <div class="board">
-      <div class="board__game-area"></div>
+      <div class="board__game-area">
+        <div id="card-name-message" class="message message--info message--bottom message--hidden message--text-center"></div>
+      </div>
     </div>
-    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <audio id="music" loop>
+      <source src="assets/sounds/music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="victory" loop>
+      <source src="assets/sounds/victory.mp3" type="audio/mpeg">
+    </audio>
+    <script src="node_modules/requirejs/require.js"></script>
     <script src="assets/js/view.js"></script>
     <script src="assets/js/model.js"></script>
     <script src="assets/js/controller.js"></script>
+    <script src="assets/js/events.js"></script>
     <script src="assets/js/script.js"></script>
 	</body>
 </html>
