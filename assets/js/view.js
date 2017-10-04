@@ -16,6 +16,8 @@ class View {
 	}
 
 	initGame () {
+
+		
 		var player1Name = "JG";
 		var player2Name = "Cherise";
 
@@ -244,10 +246,10 @@ class View {
 	gameOver(gameState) {
 		$(".board__game-area").append($("<div>", {class: "board__game-over"}));
 
-		if(gameState.getWinner().length == gameState.getPlayers().length) {
+		if(gameState.getWinner().length > 1) {
 			$(".board__game-over").text("Draw!");
 		} else {
-			$(".board__game-over").text(gameState.getWinner().getName() + " Wins!");
+			$(".board__game-over").text(gameState.getWinner()[0].getName() + " Wins!");
 
 			var music = document.getElementById("music");
 			music.pause();

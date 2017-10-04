@@ -122,8 +122,9 @@ class PlayerInGame extends Player {
 }
 
 class Card {
-	constructor(name, up, right, down, left) {
+	constructor(name, level, up, right, down, left) {
 		this.name = name;
+		this.level = level;
 		this.up = up;
 		this.right = right;
 		this.down = down;
@@ -132,6 +133,10 @@ class Card {
 
 	getName() {
 		return this.name;
+	}
+
+	getLevel() {
+		return this.level;
 	}
 
 	getUp() {
@@ -151,7 +156,7 @@ class Card {
 	}
 }
 
-class CardInGame {
+class CardOnBoard {
 	constructor(card, player) {
 		this.card = card;
 		this.player = player;
@@ -188,7 +193,7 @@ class Board {
 	}
 
 	playCardOnBoard(card, playerToPlay, row, col) {
-		this.board[row][col] = new CardInGame(card, playerToPlay);
+		this.board[row][col] = new CardOnBoard(card, playerToPlay);
 	}
 
 	getCardOnBoard(row, col) {
@@ -223,25 +228,51 @@ class Board {
 class CardDB {
 	static initDB() {
 		this.cardList = [];
-		this.cardList.push(new Card("Bite Bug", 1, 3, 3, 5));
-		this.cardList.push(new Card("Funguar", 5, 1, 1, 3));
-		this.cardList.push(new Card("Geezard", 1, 4, 1, 5));
-		this.cardList.push(new Card("Redbat", 6, 1, 1, 2));
-		this.cardList.push(new Card("Blobra", 2, 3, 1, 5));
-		this.cardList.push(new Card("Gayla", 2, 1, 4, 4));
-		this.cardList.push(new Card("Gesper", 1, 5, 4, 1));
-		this.cardList.push(new Card("Fastitocalon-F", 3, 5, 2, 1));
-		this.cardList.push(new Card("Blood Soul", 2, 1, 6, 1));
-		this.cardList.push(new Card("Caterchipillar", 4, 2, 4, 3));
-		this.cardList.push(new Card("Cockatrice", 2, 1, 2, 6));
-		this.cardList.push(new Card("grat", 7, 1, 3, 1));
+		this.cardList.push(new Card("Bite Bug", 1, 1, 3, 3, 5));
+		this.cardList.push(new Card("Funguar", 1, 5, 1, 1, 3));
+		this.cardList.push(new Card("Geezard", 1, 1, 4, 1, 5));
+		this.cardList.push(new Card("Redbat", 1, 6, 1, 1, 2));
+		this.cardList.push(new Card("Blobra", 1, 2, 3, 1, 5));
+		this.cardList.push(new Card("Gayla", 1, 2, 1, 4, 4));
+		this.cardList.push(new Card("Gesper", 1, 1, 5, 4, 1));
+		this.cardList.push(new Card("Fastitocalon-F", 1, 3, 5, 2, 1));
+		this.cardList.push(new Card("Blood Soul", 1, 2, 1, 6, 1));
+		this.cardList.push(new Card("Caterchipillar", 1, 4, 2, 4, 3));
+		this.cardList.push(new Card("Cockatrice", 1, 2, 1, 2, 6));
+
+		this.cardList.push(new Card("Grat", 2, 7, 1, 3, 1));
+
+		this.cardList.push(new Card("Biggs, Wedge", 5, 6, 6, 2, 7));
+
+		this.cardList.push(new Card("Zell", 10, 8, 5, 10, 6));
+		this.cardList.push(new Card("Rinoa", 10, 4, 10, 2, 10));
+		this.cardList.push(new Card("Edea", 10, 10, 10, 3, 3));
+		this.cardList.push(new Card("Seifer", 10, 6, 9, 10, 4));
+		this.cardList.push(new Card("Squall", 10, 10, 4, 6, 9));
+
+		this.LEVEL_MAX = 10;
 	}
 
 	static getRandomCard() {
 		if(this.cardList == undefined) {
 			this.initDB();
 		}
-		var card = this.cardList[Math.floor(Math.random() * this.cardList.length)]; 
-		return new Card(card.getName(), card.getUp(), card.getRight(), card.getDown(), card.getLeft());
+
+		var sum = 0;
+		for(var i = 0; i < this.cardList.length; i++) {
+			sum += this.LEVEL_MAX + 1 - this.cardList[i].getLevel();
+		}
+
+		var randomNumber = Math.floor(Math.random() * sum); 
+
+		var seek = 0;
+		for(var i = 0; i < this.cardList.length; i++) {
+			var card = this.cardList[i];
+			if(randomNumber <= seek + this.LEVEL_MAX + 1 - this.cardList[i].getLevel()) {
+				return new Card(card.getName(), card.getLevel(), card.getUp(), card.getRight(), card.getDown(), card.getLeft());
+			}
+
+			seek += this.LEVEL_MAX + 1 - this.cardList[i].getLevel();
+		}
 	}
 }
