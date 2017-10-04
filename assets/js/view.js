@@ -17,7 +17,7 @@ class View {
 
 	initGame () {
 
-		
+
 		var player1Name = "JG";
 		var player2Name = "Cherise";
 
@@ -33,10 +33,11 @@ class View {
 		/* Show player's cards */
 		for (var i = 0; i < gameState.getPlayers().length; i++) {
 			var deck = gameState.getPlayer(i).getDeck();
+			var color = i == 0 ? "blue" : "red";
 			for (var j = deck.length - 1; j >= 0; j--) {
 				$(".board__game-area").append($("<div>", {
 					class: "card card--player-" + (i + 1) + " card--player-" + (i + 1) + "-appearance-deck-" + j, 
-					style: "background-image:url('assets/img/cards/blue/" + deck[j].getName().replace(/ /g,'').toLowerCase() + ".jpg');" 
+					style: "background-image:url('assets/img/cards/" + color + "/" + deck[j].getName().replace(/ /g,'').toLowerCase() + ".jpg');" 
 				}));
 			}
 
@@ -211,8 +212,21 @@ class View {
 				.addClass("card--appearance-row-" + row + " card--col-" + col);
 
 				setTimeout(function() {
+					//Position the card on its case
 					$(".card--appearance-row-" + row).removeClass("card--appearance-row-" + row)
 						.addClass("card--row-" + row);
+
+					//Flip the cards
+					for(var i = 0; i < gameState.getBoard().getRows(); i++) {
+						for(var j = 0; j < gameState.getBoard().getCols(); j++) {
+							if(gameState.getBoard().getCardOnBoard(i, j) !== false && gameState.getBoard().getCardOnBoard(i, j).isFlipped()) {
+								var color = gameState.getBoard().getCardOnBoard(i, j).getOwner() == gameState.getPlayer(0) ? "blue" : "red";
+								$(".card.card--row-" + i + ".card--col-" + j)
+									.attr("style", "background-image:url('assets/img/cards/" + color + "/" + gameState.getBoard().getCardOnBoard(i, j).getCard().getName().replace(/ /g,'').toLowerCase() + ".jpg');");
+							}
+						}
+					}
+
 				}, 500);
 		}, 250);
 
@@ -221,8 +235,7 @@ class View {
 			$(".board__score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
 		}
 
-
-		/* Remove the classes to position the cursor on the board */
+		/* Remove the classes positioning the cursor on the board */
 		$(".board__cursor").addClass("board__cursor--hide");
 
 		/* Lower the position of the cards above the one which has just been removed from the deck */
@@ -230,11 +243,11 @@ class View {
 			$(".card--player-" + playerToPlay + ".card--deck-" + i).removeClass("card--deck-" + i).
 				addClass("card--deck-lower-" + (i - 1));
 
-				(function(playerToPlay, i) {
-					setTimeout(function() {
-						$(".card--player-" + playerToPlay + ".card--deck-lower-" + (i - 1)).removeClass("card--deck-lower-" + (i - 1)).addClass("card--deck-" + (i - 1));
-					}, 250);
-				})(playerToPlay, i);
+			(function(playerToPlay, i) {
+				setTimeout(function() {
+					$(".card--player-" + playerToPlay + ".card--deck-lower-" + (i - 1)).removeClass("card--deck-lower-" + (i - 1)).addClass("card--deck-" + (i - 1));
+				}, 250);
+			})(playerToPlay, i);
 		}
 
 		setTimeout(function() {

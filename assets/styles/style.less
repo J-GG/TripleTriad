@@ -39,6 +39,7 @@ body {
 		background-size: contain;
 		width: 8%;
 		height: 8%;
+	    transform: translateZ(0);
 	}
 
 	.board__player-selector--draw {
@@ -138,6 +139,7 @@ body {
     position: absolute;
     background-size: cover;
     background-repeat: no-repeat;
+    transform: translateZ(0);
 }
 	/* For cards in decks, if they are on the right one or the left one */
 	.card--player-1 {
@@ -260,6 +262,7 @@ body {
 	color: white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+
 @media(max-width: 165vh) {
 	.board__score {
 		font-size: 9vmin;

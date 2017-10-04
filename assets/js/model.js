@@ -160,6 +160,7 @@ class CardOnBoard {
 	constructor(card, player) {
 		this.card = card;
 		this.player = player;
+		this.flipped = false;
 	}
 
 	setCard(card) {
@@ -170,26 +171,43 @@ class CardOnBoard {
 		return this.card;
 	}
 
-	setOwner(player) {
+	getOwner() {
+		return this.player;
+	}
+
+	flip(player) {
+		this.flipped = true;
 		this.player = player;
 	}
 
-	getOwner() {
-		return this.player;
+	unflip() {
+		this.flipped = false;
+	}
+
+	isFlipped() {
+		return this.flipped;
 	}
 }
 
 class Board {
 	constructor () {
-		this.row = 3;
-		this.col = 3;
+		this.rows = 3;
+		this.cols = 3;
 		this.board = [];
-		for (var i = 0; i < this.row; i++) {
+		for (var i = 0; i < this.rows; i++) {
 			this.board[i] = [];
-			for (var j = 0; j < this.col; j++) {
+			for (var j = 0; j < this.cols; j++) {
 				this.board[i][j] = false;
 			}	
 		}
+	}
+
+	getRows() {
+		return this.rows; 
+	}
+
+	getCols() {
+		return this.cols;
 	}
 
 	playCardOnBoard(card, playerToPlay, row, col) {
@@ -202,8 +220,8 @@ class Board {
 
 	getPlayerScore(player) {
 		var score = 0;
-		for (var i = 0; i < this.row; i++) {
-			for (var j = 0; j < this.col; j++) {
+		for (var i = 0; i < this.rows; i++) {
+			for (var j = 0; j < this.cols; j++) {
 				if(typeof this.board[i][j] === "object" && this.board[i][j].getOwner() == player) {
 					score++;
 				}
@@ -214,8 +232,8 @@ class Board {
 	}
 
 	isComplete() {
-		for (var i = 0; i < this.row; i++) {
-			for (var j = 0; j < this.col; j++) {
+		for (var i = 0; i < this.rows; i++) {
+			for (var j = 0; j < this.cols; j++) {
 				if(this.board[i][j] === false) {
 					return false;
 				}
