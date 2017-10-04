@@ -271,26 +271,36 @@ class CardDB {
 		this.LEVEL_MAX = 10;
 	}
 
-	static getRandomCard() {
+	static getRandomCards(number) {
 		if(this.cardList == undefined) {
 			this.initDB();
 		}
 
+		//The total weight of the cards is computed
 		var sum = 0;
 		for(var i = 0; i < this.cardList.length; i++) {
 			sum += this.LEVEL_MAX + 1 - this.cardList[i].getLevel();
 		}
 
-		var randomNumber = Math.floor(Math.random() * sum); 
+		var cards = []
+		
+		draw_card:
+		for(var i = 0; i < number; i++) {
+			var randomNumber = Math.floor(Math.random() * sum); 
+			var seek = 0;
+			for(var j = 0; j < this.cardList.length; j++) {
+				var card = this.cardList[j];
+				if(randomNumber <= seek + this.LEVEL_MAX + 1 - this.cardList[j].getLevel()) {
+					cards.push(new Card(card.getName(), card.getLevel(), card.getUp(), card.getRight(), card.getDown(), card.getLeft()));
+					continue draw_card;
+				}
 
-		var seek = 0;
-		for(var i = 0; i < this.cardList.length; i++) {
-			var card = this.cardList[i];
-			if(randomNumber <= seek + this.LEVEL_MAX + 1 - this.cardList[i].getLevel()) {
-				return new Card(card.getName(), card.getLevel(), card.getUp(), card.getRight(), card.getDown(), card.getLeft());
+				seek += this.LEVEL_MAX + 1 - this.cardList[j].getLevel();
 			}
 
-			seek += this.LEVEL_MAX + 1 - this.cardList[i].getLevel();
+			logger.error("No card has been drawn [Sum of weights : " + sum + "; random number : " + randomNumber + "]");
 		}
+	
+		return cards;	
 	}
 }

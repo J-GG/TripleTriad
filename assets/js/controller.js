@@ -22,10 +22,7 @@ class Game {
 	drawCards() {
 		//Draw the players' cards
 		for(var i = 0, nbPlayers = this.gameState.getPlayers().length; i < nbPlayers; i++) {
-			var deck = [];
-			for(var j = 0; j < 5; j++) {
-				deck.push(CardDB.getRandomCard());
-			}
+			var deck = CardDB.getRandomCards(5);
 
 			logger.info(this.gameState.getPlayer(i).getName() + " drawn " + deck.map(card => card.getName()).join(', '));
 			this.gameState.getPlayer(i).setDeck(deck);
