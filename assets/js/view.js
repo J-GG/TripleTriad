@@ -16,8 +16,6 @@ class View {
 	}
 
 	initGame () {
-
-
 		var player1Name = "JG";
 		var player2Name = "Cherise";
 
@@ -227,13 +225,13 @@ class View {
 						}
 					}
 
+					//Update scores
+					for (var i = 0; i < gameState.getPlayers().length; i++) {
+						$(".board__score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
+					}
+
 				}, 500);
 		}, 250);
-
-		//Update scores
-		for (var i = 0; i < gameState.getPlayers().length; i++) {
-			$(".board__score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
-		}
 
 		/* Remove the classes positioning the cursor on the board */
 		$(".board__cursor").addClass("board__cursor--hide");
@@ -264,12 +262,74 @@ class View {
 		} else {
 			$(".board__game-over").text(gameState.getWinner()[0].getName() + " Wins!");
 
-			var music = document.getElementById("music");
-			music.pause();
+			document.getElementById("music").pause();
 
 			var victory = document.getElementById("victory");
 			victory.currentTime = 0;
 			victory.play();
 		}
+
+		var self = this;
+		setTimeout(function() {
+			self.finalScreen(gameState);
+		}, 500);
+	}
+
+	finalScreen(gameState) {
+		var self = this;
+		$(".board__game-area").fadeOut(function() {
+			$(this).html("").addClass("board__game-area--final-screen").fadeIn();
+			$(".board__game-area").append($("<div>", {id: "play-again-message", class: "message message--info"}));
+			$("#play-again-message").html("Do you want to play again ?<div class='message__choices'>Yes<br />No</div>");
+
+
+			var choice = self.choiceDialog(gameState, $(".message__choices"), 1, 2, 2, function (gameState, choice) { 
+				if(choice == 1) {
+					document.getElementById("victory").pause();
+					var music = document.getElementById("music");
+					music.currentTime = 0;
+					//music.play();
+
+					$(".board__game-area").fadeOut(function() {
+						$(this).html("").removeClass("board__game-area--final-screen").fadeIn();
+						game.initGame(gameState.getPlayers().map(player => player.getName()));
+					});
+				}
+			});
+		});
+	}
+
+	choiceDialog(gameState, messageChoice, defaultChoice, maxChoice, escChoice, callback) {
+		var choice = defaultChoice;
+		$(messageChoice).append($("<div>", {class: "board__cursor board__cursor--choices board__cursor--choice-" + choice}));	
+		$(document).keydown(function(e) {
+			var previousChoice = choice;
+			var end = false;
+
+			switch(e.which) {
+		        case 38: //Up
+		        	choice - 1 > 0 ? choice-- : choice;
+		        	break;
+
+		        case 40: //Down
+		        	choice + 1 <= maxChoice ? choice++ : choice;
+		        	break;
+
+		        case 13: //Enter
+	        		$(document).off("keydown");
+	        		callback(gameState, choice);
+	        		return;
+		        	break;
+
+		       	case 27: //Esc
+		       		choice = escChoice;
+		        	break;
+
+		        default: 
+		        	return;
+			}
+
+			$(".board__cursor").removeClass("board__cursor--choice-" + previousChoice).addClass("board__cursor--choice-" + choice);
+		});
 	}
 }

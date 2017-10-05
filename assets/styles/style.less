@@ -19,11 +19,11 @@ body {
 		transform: translate(-50%, -50%);
 		top: 50%;
 		left: 50%;
-		background: url(../img/Background.png);
+		background-image: url(../img/background.png);
 		background-position: center;
 		background-size: cover;
-		width: 166vh;
-	   	height: 100vh;
+		width: 166vmin;
+	   	height: 100vmin;
 	}
 
 	@media(max-width: 165vh) {
@@ -32,6 +32,9 @@ body {
 		   	height: 60vmin;
 		}
 	}
+		.board__game-area--final-screen {
+			background-image: url(../img/final_screen.png);
+		}
 
 	.board__player-selector {
 		position: absolute;
@@ -130,6 +133,11 @@ body {
 		left: 0;
 		padding-left: 1%;
 		text-shadow: -1px 0 #575859, 0 1px #575859, 1px 0 #575859, 0 -1px #575859;
+	}
+
+	.message__choices {
+		position: relative;
+		padding-left: 15%;
 	}
 
 /* Card */
@@ -280,11 +288,19 @@ body {
 /* Cursor */
 .board__cursor {
 	position: absolute;
-	width: 5%;
-	height: 5%;
+	width: 6.5vmin;
+	height: 4vmin;
 	background: url('../img/cursor.png') no-repeat;
 	background-size: cover;
 }
+
+@media(max-width: 165vh) {
+	.board__cursor {
+		width: 4vmin;
+		height: 2.5vmin;
+	}
+}
+
 	/* When selecting the card, cursor next to the left or the right deck */
 	.board__cursor--player-1 {
 		left: 18%;
@@ -322,6 +338,18 @@ body {
 		.LOOP-board__cursor--rowcol(@n, (@i + 1));
 	}
 	.LOOP-board__cursor--rowcol(3);
+
+	.board__cursor--choices {
+		left: 0;
+	}
+
+	.board__cursor--choice-1 {
+		top: 0.5vmin;
+	}
+
+	.board__cursor--choice-2 {
+		top: 4vmin;
+	}
 
 /* GAME OVER */
 .board__game-over {

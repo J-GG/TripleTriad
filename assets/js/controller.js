@@ -1,13 +1,12 @@
 class Game {
 	start() {
 		logger.info("Game launching");
-		this.gameState = new GameState();
-
-		logger.debug("Notify event : START");
 		Events.notify("START");
 	}
 
 	initGame(playersName) {
+		this.gameState = new GameState();
+
 		//Get players' identity
 		var players = [];
 		for (var i = playersName.length - 1; i >= 0; i--) {
@@ -70,7 +69,7 @@ class Game {
 		//End of the game or next player
 		if(this.gameState.isGameOver()) {
 			Events.notify("GAME.OVER", this.gameState);
-			logger.info("The game is over. Winner(s) : " + this.gameState.getWinner().join(","));
+			logger.info("The game is over. Winner(s) : " + this.gameState.getWinner().map(player => player.getName()).join(","));
 		} else {
 			var nextPlayerToPlay;
 			if(this.gameState.getIndexPlayerToPlay() < this.gameState.getPlayers().length - 1) {
