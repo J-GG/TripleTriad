@@ -28,6 +28,12 @@ class View {
 
 	drawCards(gameState) {
 
+		//Show players' name
+		for (var i = 0; i < gameState.getPlayers().length; i++) {
+				$(".board__game-area").append($("<div>", { class: "board__player-name-box board__player-name-box--player-" + (i + 1) }));
+				$(".board__player-name-box--player-" + (i + 1)).append($("<div>", { class: "board__player-name-text", text: gameState.getPlayer(i).getName() }));
+		}
+
 		/* Show player's cards */
 		for (var i = 0; i < gameState.getPlayers().length; i++) {
 			var deck = gameState.getPlayer(i).getDeck();
@@ -45,8 +51,8 @@ class View {
 		setTimeout(function() {
 			for (var i = 0; i < gameState.getPlayers().length; i++) {
 				/* Display scores */
-				$(".board__game-area").append($("<div>", {class: "board__score board__score--player-" + (i + 1)}));
-				$(".board__score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
+				$(".board__game-area").append($("<div>", {class: "score score--player-" + (i + 1)}));
+				$(".score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
 				
 				for (var j = 0; j < 5; j++) {
 					/* Remove the classes for the animation and add the classes for the position */
@@ -62,12 +68,12 @@ class View {
 	drawFirstPlayerToPlay(gameState) {
 		var playerToPlay = gameState.getIndexPlayerToPlay() + 1;
 
-		$(".board__game-area").append($("<div>", {class: "board__player-selector board__player-selector--draw board__player-selector--draw-player-" + playerToPlay}));
+		$(".board__game-area").append($("<div>", {class: "player-selector player-selector--draw player-selector--draw-player-" + playerToPlay}));
 		
 		var self = this;
 		setTimeout(function() {
-			$(".board__player-selector").removeClass("board__player-selector--draw board__player-selector--draw-player-" + playerToPlay)
-			$(".board__game-area").append($("<div>", {class: "board__cursor"}));
+			$(".player-selector").removeClass("player-selector--draw player-selector--draw-player-" + playerToPlay)
+			$(".board__game-area").append($("<div>", {class: "cursor"}));
 			self.chooseCardToPlay(gameState, playerToPlay);
 		}, 1750);
 	}
@@ -79,8 +85,8 @@ class View {
 			selectedCard = gameState.getPlayerToPlay().getDeck().length - 1;
 		}
 
-		$(".board__player-selector").removeClass().addClass("board__player-selector board__player-selector--turn board__player-selector--turn-player-" + playerToPlay);
-		$(".board__cursor").removeClass().addClass("board__cursor board__cursor--player-" + playerToPlay + " board__cursor--card-" + selectedCard);
+		$(".player-selector").removeClass().addClass("player-selector player-selector--turn player-selector--turn-player-" + playerToPlay);
+		$(".cursor").removeClass().addClass("cursor cursor--player-" + playerToPlay + " cursor--card-" + selectedCard);
 
 	   	this.updateSelectedCard(gameState, playerToPlay, selectedCard);
 
@@ -99,7 +105,7 @@ class View {
 		        	break;
 
 		        case 13: //Enter
-		        	$(".board__cursor").removeClass("board__cursor--player-" + playerToPlay).removeClass("board__cursor--card-" + selectedCard);
+		        	$(".cursor").removeClass("cursor--player-" + playerToPlay).removeClass("cursor--card-" + selectedCard);
 		        	$(document).off("keydown");
 		        	self.chooseCase(gameState, playerToPlay, selectedCard);
 		        	break;
@@ -112,7 +118,7 @@ class View {
 
 	updateSelectedCard(gameState, playerToPlay, selectedCard, previousSelectedCard) {
 	    //Move the cursor
-	    $(".board__cursor").removeClass("board__cursor--card-" + previousSelectedCard).addClass("board__cursor--card-" + selectedCard);
+	    $(".cursor").removeClass("cursor--card-" + previousSelectedCard).addClass("cursor--card-" + selectedCard);
 
 		//Shift the cards
 		if(previousSelectedCard != undefined) {
@@ -131,7 +137,7 @@ class View {
 		var currentRow = 1, currentCol = 1;
 	    
 	    //Move the cursor to the board
-	    $(".board__cursor").addClass("board__cursor--row-" + currentRow + " board__cursor--col-" + currentCol);
+	    $(".cursor").addClass("cursor--row-" + currentRow + " cursor--col-" + currentCol);
 
 	    //Hide the card name
     	if(gameState.getBoard().getCardOnBoard(currentRow, currentCol)) {
@@ -171,7 +177,7 @@ class View {
 		        	break;
 
 		       	case 27: //Esc
-		       		$(".board__cursor").removeClass("board__cursor--row-" + currentRow + " board__cursor--col-" + currentCol);
+		       		$(".cursor").removeClass("cursor--row-" + currentRow + " cursor--col-" + currentCol);
 		       		$(document).off("keydown");
 		       		self.chooseCardToPlay(gameState, playerToPlay, selectedCard);
 		       		return;
@@ -181,8 +187,8 @@ class View {
 		        	return;
 			}
 
-	    	$(".board__cursor").removeClass("board__cursor--row-" + previousRow + " board__cursor--col-" + previousCol)
-	    		.addClass("board__cursor--row-" + currentRow + " board__cursor--col-" + currentCol);
+	    	$(".cursor").removeClass("cursor--row-" + previousRow + " cursor--col-" + previousCol)
+	    		.addClass("cursor--row-" + currentRow + " cursor--col-" + currentCol);
 
 	    	if(gameState.getBoard().getCardOnBoard(currentRow, currentCol)) {
 		    	self.showCardNameMessage(gameState, gameState.getBoard().getCardOnBoard(currentRow, currentCol).getCard());
@@ -218,23 +224,41 @@ class View {
 					for(var i = 0; i < gameState.getBoard().getRows(); i++) {
 						for(var j = 0; j < gameState.getBoard().getCols(); j++) {
 							if(gameState.getBoard().getCardOnBoard(i, j) !== false && gameState.getBoard().getCardOnBoard(i, j).isFlipped()) {
+								//Color of the player
 								var color = gameState.getBoard().getCardOnBoard(i, j).getOwner() == gameState.getPlayer(0) ? "blue" : "red";
-								$(".card.card--row-" + i + ".card--col-" + j)
-									.attr("style", "background-image:url('assets/img/cards/" + color + "/" + gameState.getBoard().getCardOnBoard(i, j).getCard().getName().replace(/ /g,'').toLowerCase() + ".jpg');");
+								//Add a back to the card
+								$(".card.card--row-" + i + ".card--col-" + j).addClass("card--front card--front-X-row-" + i + "-col-" + j);
+								$(".board__game-area").append($("<div>", { class: "card card--back card--back-X-row-" + i + "-col-" + j + " card--row-" + i + " card--col-" + j } ));
+
+								(function(i, j) {
+									setTimeout(function() {
+										$(".card.card--front.card--row-" + i + ".card--col-" + j)
+											.attr("style", "background-image:url('assets/img/cards/" + color + "/" 
+												+ gameState.getBoard().getCardOnBoard(i, j).getCard().getName().replace(/ /g,'').toLowerCase() + ".jpg');");
+									}, 250);
+								})(i, j);
+
+								(function(i, j) {
+									setTimeout(function() {
+										$(".card.card--front.card--row-" + i + ".card--col-" + j).removeClass("card--front card--front-X-row-" + i + "-col-" + j);
+										$(".card.card--back.card--row-" + i + ".card--col-" + j).remove();
+
+									}, 500);
+								})(i, j);
 							}
 						}
 					}
 
 					//Update scores
 					for (var i = 0; i < gameState.getPlayers().length; i++) {
-						$(".board__score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
+						$(".score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
 					}
 
 				}, 500);
 		}, 250);
 
 		/* Remove the classes positioning the cursor on the board */
-		$(".board__cursor").addClass("board__cursor--hide");
+		$(".cursor").addClass("cursor--hide");
 
 		/* Lower the position of the cards above the one which has just been removed from the deck */
 		for(var i = indexCardPlayed + 1; i < gameState.getPlayerToPlay().getDeck().length + 1; i++) {
@@ -250,7 +274,7 @@ class View {
 
 		setTimeout(function() {
 			this.game.endTurn();
-		}, 1000);
+		}, 1250);
 		
 	}
 
@@ -301,7 +325,7 @@ class View {
 
 	choiceDialog(gameState, messageChoice, defaultChoice, maxChoice, escChoice, callback) {
 		var choice = defaultChoice;
-		$(messageChoice).append($("<div>", {class: "board__cursor board__cursor--choices board__cursor--choice-" + choice}));	
+		$(messageChoice).append($("<div>", {class: "cursor cursor--choices cursor--choice-" + choice}));	
 		$(document).keydown(function(e) {
 			var previousChoice = choice;
 			var end = false;
@@ -329,7 +353,7 @@ class View {
 		        	return;
 			}
 
-			$(".board__cursor").removeClass("board__cursor--choice-" + previousChoice).addClass("board__cursor--choice-" + choice);
+			$(".cursor").removeClass("cursor--choice-" + previousChoice).addClass("cursor--choice-" + choice);
 		});
 	}
 }

@@ -1,11 +1,10 @@
-
-
 body {
 	margin: 0;	
 	overflow: hidden;
 	background: black;
 }
 
+/* Board */
 .board {
 	width: 100vw;
 	height: 100vh;
@@ -36,109 +35,233 @@ body {
 			background-image: url(../img/final_screen.png);
 		}
 
-	.board__player-selector {
+	.board__game-over {
 		position: absolute;
-		background: url('../img/player-selector.png') center no-repeat;
-		background-size: contain;
-		width: 8%;
-		height: 8%;
-	    transform: translateZ(0);
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		font-family: serif;
+		font-size: 13vmin;
+		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+		color: white;
+		z-index: 10;
 	}
 
-	.board__player-selector--draw {
-		top: 45%;
-		left: 45%;
+	.board__player-name-box {
+		z-index: 5;
+		position: absolute;
+		width: 20%;
+		height: 6%;
+		top: 3%;
+		background: #2F0F01;
+		box-shadow: 0 -2px 0 #532b14 inset, 0px 2px 0px #60371f inset;
 	}
 
-		.board__player-selector--draw-player-1 {
-			animation: selectorPlayer1 1.5s ease-out forwards;
-		}
-
-		.board__player-selector--draw-player-2 {
-			animation: selectorPlayer2 1.5s ease-out forwards;
-		}
-
-		@keyframes selectorPlayer1 {
-			from { transform: rotateY(0) rotateZ(90deg); }
-			to { transform: rotateY(3060deg) rotateZ(90deg); }
-		}
-
-		@keyframes selectorPlayer2 {
-			from { transform: rotateY(0) rotateZ(90deg); }
-			to { transform: rotateY(2880deg) rotateZ(90deg); }
-		}
-
-	.board__player-selector--turn {
-		top: 6%;
-		left: auto;
-		right: auto;
-		transform: rotateZ(180deg);
-		animation: selectorPlayerTurn .5s linear infinite;
+	.board__player-name-box::after {
+	    content: '';
+	    position: absolute;
+	    background: #2f0f01;
+	    width: 20%;
+	    height: 100%;
+	    box-shadow: 0 -2px 0 #532b14 inset, 0px 2px 0px #60371f inset;
 	}
 
-		.board__player-selector--turn-player-1 {
-			left: 7%;
-		}
+	.board__player-name-box--player-1 {
+		left: 0;
+		text-align: left;
+		animation: namePlayer1 .55s;
+	}
 
-		.board__player-selector--turn-player-2 {
-			right: 7%;
-		}
+	.board__player-name-box--player-1::after {
+	    right: -15%;
+	    transform: skewX(-20deg);
+	}
 
-		@keyframes selectorPlayerTurn {
-			from { top: 6%; }
-			50% { top: 7%; }
-			to { top: 6%; }
-		}
+	.board__player-name-box--player-2 {
+		right: 0;
+		text-align: right;
+		animation: namePlayer2 .55s;
+	}
 
-/* Message */
-.message {
+	.board__player-name-box--player-2::after {
+	   	left: -15%;
+	    transform: skewX(20deg);
+	}
+
+	@keyframes namePlayer1 {
+		from { left: -20vw; opacity: 0; }
+		to { left: 0; opacity: 1; }
+	}
+
+	@keyframes namePlayer2 {
+		from { right: -20vw; opacity: 0; }
+		to { right: 0; opacity: 1; }
+	}
+
+	.board__player-name-text {
+		padding-left: 5%;
+		padding-right: 5%;
+		padding-top: 3%;
+		display: inline-block;
+		color: white;
+		font-family: sans-serif;
+		font-size: 3.5vmin;
+	}
+	
+	@media(max-width: 165vh) {
+		.board__player-name-text {
+			font-size: 2vmin;
+		}
+	}
+
+/* Player selector */
+.player-selector {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 50;
-	background: linear-gradient(to right, #676962, #888786);
-	box-shadow: -2px -2px 2px #54544D inset, 2px 2px 2px #9C908D inset;
-    border: 1px solid #57514D;
-    font-family: sans-serif;
-    padding: 1.5% 1.5%;
-    width: 30%;
+	background: url('../img/player-selector.png') center no-repeat;
+	background-size: contain;
+	width: 8%;
+	height: 8%;
+    transform: translateZ(0);
+    z-index: 10;
+}
+
+.player-selector--draw {
+	top: 45%;
+	left: 45%;
+}
+
+	.player-selector--draw-player-1 {
+		animation: selectorPlayer1 1.5s ease-out forwards;
+	}
+
+	.player-selector--draw-player-2 {
+		animation: selectorPlayer2 1.5s ease-out forwards;
+	}
+
+	@keyframes selectorPlayer1 {
+		from { transform: rotateY(0) rotateZ(90deg); }
+		to { transform: rotateY(3060deg) rotateZ(90deg); }
+	}
+
+	@keyframes selectorPlayer2 {
+		from { transform: rotateY(0) rotateZ(90deg); }
+		to { transform: rotateY(2880deg) rotateZ(90deg); }
+	}
+
+.player-selector--turn {
+	top: 6%;
+	left: auto;
+	right: auto;
+	transform: rotateZ(180deg);
+	animation: selectorPlayerTurn .5s linear infinite;
+}
+
+	.player-selector--turn-player-1 {
+		left: 7%;
+	}
+
+	.player-selector--turn-player-2 {
+		right: 7%;
+	}
+
+	@keyframes selectorPlayerTurn {
+		from { top: 6%; }
+		50% { top: 7%; }
+		to { top: 6%; }
+	}
+
+/* Score */
+.score {
+	position: absolute;
+	top: 80%;
+	font-family: serif;
+	font-size: 13vmin;
+	font-style: italic;
 	color: white;
-	font-size: 3.5vmin;
 }
 
 @media(max-width: 165vh) {
-	.message {
-		font-size: 2.5vmin;
+	.score {
+		font-size: 9vmin;
+	}
+}
+	
+	.score--player-1 {
+		left: 9%;
+		text-shadow: -2px 0 #3553bf, 0 2px #3553bf, 2px 0 #3553bf, 0 -2px #3553bf;
+	}
+
+	.score--player-2 {
+		right: 9%;
+		text-shadow: -2px 0 #b61303, 0 2px #b61303, 2px 0 #b61303, 0 -2px #b61303;
+	}
+
+/* Cursor */
+.cursor {
+	position: absolute;
+	width: 6.5vmin;
+	height: 4vmin;
+	background: url('../img/cursor.png') no-repeat;
+	background-size: cover;
+}
+
+@media(max-width: 165vh) {
+	.cursor {
+		width: 4vmin;
+		height: 2.5vmin;
 	}
 }
 
-	.message--bottom {
-		top: 90%;
+	/* When selecting the card, cursor next to the left or the right deck */
+	.cursor--player-1 {
+		left: 18%;
+		transform: scaleX(-1);
 	}
 
-	.message--text-center {
-		text-align: center;
+	.cursor--player-2 {
+		right: 18%;
 	}
 
-	.message--hidden {
+	.cursor--hide {
 		display: none;
 	}
 
-	.message--info::before {
-		content:'INFO.';
-		font-size: 50%;
-		position: absolute;
-		top: 0;
+	/* When selecting the card, cursor facing one card (0...4) */
+	.LOOP-cursor--card(@n, @i: 0,  @j: (@n - @i - 1)) when (@i < @n) {
+		.cursor--card-@{j} {
+			top: (25% + @i * 13%);
+		}
+
+		.LOOP-cursor--card(@n, (@i + 1));
+	}
+	.LOOP-cursor--card(5);
+
+	/* When selecting the case, position of the cursor (0...2) */
+	.LOOP-cursor--rowcol(@n, @i: 0) when (@i < @n) {
+		.cursor--row-@{i} {
+			top: (22% + @i * 27%);
+		}
+
+		.cursor--col-@{i} {
+			left: (27% + @i * 17%);
+		}
+
+		.LOOP-cursor--rowcol(@n, (@i + 1));
+	}
+	.LOOP-cursor--rowcol(3);
+
+	.cursor--choices {
 		left: 0;
-		padding-left: 1%;
-		text-shadow: -1px 0 #575859, 0 1px #575859, 1px 0 #575859, 0 -1px #575859;
 	}
 
-	.message__choices {
-		position: relative;
-		padding-left: 15%;
+	.cursor--choice-1 {
+		top: 0.5vmin;
 	}
+
+	.cursor--choice-2 {
+		top: 4vmin;
+	}
+
 
 /* Card */
 .card {
@@ -148,6 +271,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     transform: translateZ(0);
+    backface-visibility: hidden;
 }
 	/* For cards in decks, if they are on the right one or the left one */
 	.card--player-1 {
@@ -242,124 +366,121 @@ body {
 		right: 7%;
 	}
 
-	.card--flip-X {
-		animation: cardFlipX 1.5s;
+	/* Filp the card */
+	.card--back {
+		background: url("../img/cards/blue/back.jpg") no-repeat;
+		background-size: cover;
 	}
 
-	.card--flip-Y {
-		animation: cardFlipY 1.5s;
-	}
+	.LOOP-card--flip-i(@n, @i: 0, @perspectiveY: -1) when (@i < @n) {
+		
+		.LOOP-card--flip-j(@m, @j: 0, @perspectiveX: -1) when (@j < @m) {
 
-	@keyframes cardFlipX {
-		from { transform: rotateX(0) }
-		to { transform: rotateX(1440deg) }
-	}
+			.card--front-Y-row-@{i}-col-@{j} {
+				animation: "flipCardFrontY@{i}@{j}" .5s ease-out backwards;
+			}
 
-	@keyframes cardFlipY {
-		from { transform: rotateY(0) }
-		to { transform: rotateY(1440deg) }
-	}
+			.card--back-Y-row-@{i}-col-@{j} {
+				animation: "flipCardBackY@{i}@{j}" .5s ease-out backwards;
+			}
+			
+			.card--front-X-row-@{i}-col-@{j} {
+				animation: "flipCardFrontX@{i}@{j}" .5s ease-out backwards;
+			}
+			
+			.card--back-X-row-@{i}-col-@{j} {
+				animation: "flipCardBackX@{i}@{j}" .5s ease-out backwards;
+			}
 
-/* Score */
-.board__score {
-	position: absolute;
-	top: 80%;
-	font-family: serif;
-	font-size: 13vmin;
-	font-style: italic;
-	color: white;
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
+			@keyframes "flipCardFrontY@{i}@{j}" {
+				from { transform: rotateY(0deg); }
+				50% { margin-left: (1.5% * @perspectiveX); margin-top: (2.5% * @perspectiveY); transform: rotateY(180deg) scale(1.2); }
+				to { transform: rotateY(360deg); }
+			}
 
-@media(max-width: 165vh) {
-	.board__score {
-		font-size: 9vmin;
-	}
-}
-	
-	.board__score--player-1 {
-		left: 9%;
-	}
+			@keyframes "flipCardBackY@{i}@{j}" {
+				from { transform: rotateY(180deg); }
+				50% { 
+					margin-left: (1.5% * @perspectiveX); 
+					margin-top: (2.5% * @perspectiveY); 
+					transform: scale(1.2);
+					box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(107, 105, 89, 0.65); 
+				}
+				to { transform: rotateY(540deg); }
+			}
 
-	.board__score--player-2 {
-		right: 9%;
-	}
+			@keyframes "flipCardFrontX@{i}@{j}" {
+				from { transform: rotateX(0deg); }
+				50% { margin-left: (1.5% * @perspectiveX); margin-top: (2.5% * @perspectiveY); transform: rotateX(180deg) scale(1.2); }
+				to { transform: rotateX(360deg); }
+			}
 
-/* Cursor */
-.board__cursor {
-	position: absolute;
-	width: 6.5vmin;
-	height: 4vmin;
-	background: url('../img/cursor.png') no-repeat;
-	background-size: cover;
-}
+			@keyframes "flipCardBackX@{i}@{j}" {
+				from { transform: rotateX(180deg); }
+				50% { 
+					margin-left: (1.5% * @perspectiveX); 
+					margin-top: (2.5% * @perspectiveY); 
+					transform: scale(1.2);
+					box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(107, 105, 89, 0.65); 
+				}
+				to { transform: rotateX(540deg); }
+			}
 
-@media(max-width: 165vh) {
-	.board__cursor {
-		width: 4vmin;
-		height: 2.5vmin;
-	}
-}
-
-	/* When selecting the card, cursor next to the left or the right deck */
-	.board__cursor--player-1 {
-		left: 18%;
-		transform: scaleX(-1);
-	}
-
-	.board__cursor--player-2 {
-		right: 18%;
-	}
-
-	.board__cursor--hide {
-		display: none;
-	}
-
-	/* When selecting the card, cursor facing one card (0...4) */
-	.LOOP-board__cursor--card(@n, @i: 0,  @j: (@n - @i - 1)) when (@i < @n) {
-		.board__cursor--card-@{j} {
-			top: (25% + @i * 13%);
+			.LOOP-card--flip-j(@n, (@j + 1), (@perspectiveX + 1));
 		}
+		.LOOP-card--flip-j(3);
 
-		.LOOP-board__cursor--card(@n, (@i + 1));
+		.LOOP-card--flip-i(@n, (@i + 1), (@perspectiveY + 1));
 	}
-	.LOOP-board__cursor--card(5);
+	.LOOP-card--flip-i(3);
 
-	/* When selecting the case, position of the cursor (0...2) */
-	.LOOP-board__cursor--rowcol(@n, @i: 0) when (@i < @n) {
-		.board__cursor--row-@{i} {
-			top: (22% + @i * 27%);
-		}
 
-		.board__cursor--col-@{i} {
-			left: (27% + @i * 17%);
-		}
-
-		.LOOP-board__cursor--rowcol(@n, (@i + 1));
-	}
-	.LOOP-board__cursor--rowcol(3);
-
-	.board__cursor--choices {
-		left: 0;
-	}
-
-	.board__cursor--choice-1 {
-		top: 0.5vmin;
-	}
-
-	.board__cursor--choice-2 {
-		top: 4vmin;
-	}
-
-/* GAME OVER */
-.board__game-over {
+/* Message */
+.message {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-family: serif;
-	font-size: 13vmin;
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	z-index: 50;
+	background: linear-gradient(to right, #676962, #888786);
+	box-shadow: -2px -2px 2px #54544D inset, 2px 2px 2px #9C908D inset;
+    border: 1px solid #57514D;
+    font-family: sans-serif;
+    padding: 1.5% 1.5%;
+    width: 30%;
 	color: white;
-	z-index: 10;
+	font-size: 3.5vmin;
 }
+
+@media(max-width: 165vh) {
+	.message {
+		font-size: 2.5vmin;
+	}
+}
+
+	.message--bottom {
+		top: 90%;
+	}
+
+	.message--text-center {
+		text-align: center;
+	}
+
+	.message--hidden {
+		display: none;
+	}
+
+	.message--info::before {
+		content:'INFO.';
+		font-size: 50%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding-left: 1%;
+		text-shadow: -1px 0 #575859, 0 1px #575859, 1px 0 #575859, 0 -1px #575859;
+	}
+
+	.message__choices {
+		position: relative;
+		padding-left: 15%;
+	}

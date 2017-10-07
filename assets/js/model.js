@@ -160,7 +160,7 @@ class CardOnBoard {
 	constructor(card, player) {
 		this.card = card;
 		this.player = player;
-		this.flipped = false;
+		this.flippedBy = false;
 	}
 
 	setCard(card) {
@@ -175,17 +175,21 @@ class CardOnBoard {
 		return this.player;
 	}
 
-	flip(player) {
-		this.flipped = true;
+	flip(player, card) {
+		this.flippedBy = card;
 		this.player = player;
 	}
 
 	unflip() {
-		this.flipped = false;
+		this.flippedBy = false;
 	}
 
 	isFlipped() {
-		return this.flipped;
+		return this.flippedBy !== false ? true : false;
+	}
+
+	getFlippedBy() {
+		return this.flippedBy;
 	}
 }
 
@@ -216,6 +220,10 @@ class Board {
 
 	getCardOnBoard(row, col) {
 		return this.board[row][col];
+	}
+
+	getRelativePositionOf(card1, card2) {
+
 	}
 
 	getPlayerScore(player) {
