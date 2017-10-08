@@ -23,6 +23,7 @@ body {
 		background-size: cover;
 		width: 166vmin;
 	   	height: 100vmin;
+	   	overflow: hidden;
 	}
 
 	@media(max-width: 165vh) {
@@ -89,13 +90,13 @@ body {
 	}
 
 	@keyframes namePlayer1 {
-		from { left: -20vw; opacity: 0; }
-		to { left: 0; opacity: 1; }
+		from { left: -20vw; }
+		to { left: 0; }
 	}
 
 	@keyframes namePlayer2 {
-		from { right: -20vw; opacity: 0; }
-		to { right: 0; opacity: 1; }
+		from { right: -20vw; }
+		to { right: 0; }
 	}
 
 	.board__player-name-text {
@@ -259,7 +260,7 @@ body {
 	}
 
 	.cursor--choice-2 {
-		top: 4vmin;
+		top: 5vmin;
 	}
 
 
@@ -349,7 +350,7 @@ body {
 
 		@keyframes "cardAppearanceOnBoard@{i}" {
 			from { top: -100vh; }
-			50% {transform: scaleX(1.3);}
+			50% {transform: scaleX(1.3); }
 			to { top: (10% + @i * 27%); }
 		}
 
@@ -368,8 +369,7 @@ body {
 
 	/* Filp the card */
 	.card--back {
-		background: url("../img/cards/blue/back.jpg") no-repeat;
-		background-size: cover;
+		background-image: url("../img/cards/back.png");
 	}
 
 	.LOOP-card--flip-i(@n, @i: 0, @perspectiveY: -1) when (@i < @n) {
@@ -404,7 +404,7 @@ body {
 					margin-left: (1.5% * @perspectiveX); 
 					margin-top: (2.5% * @perspectiveY); 
 					transform: scale(1.2);
-					box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(107, 105, 89, 0.65); 
+					box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(88, 74, 51, 0.59); 
 				}
 				to { transform: rotateY(540deg); }
 			}
@@ -421,7 +421,7 @@ body {
 					margin-left: (1.5% * @perspectiveX); 
 					margin-top: (2.5% * @perspectiveY); 
 					transform: scale(1.2);
-					box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(107, 105, 89, 0.65); 
+					box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(88, 74, 51, 0.59); 
 				}
 				to { transform: rotateX(540deg); }
 			}
@@ -484,3 +484,105 @@ body {
 		position: relative;
 		padding-left: 15%;
 	}
+
+/* Title */
+.title-blink {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	animation: titleBlink 1s;
+	z-index: 10;
+}
+
+@keyframes titleBlink {
+	19% { background: transparent; }
+	20% { background: rgba(255, 255, 255, 0.6); }
+	20.5% { background: transparent; }
+	49% { background: transparent; }
+	50% { background: rgba(255, 255, 255, 0.5); }
+	55% { background: transparent; }
+	56% { background: transparent; }
+	57% { background: rgba(255, 255, 255, 0.5); }
+	58% { background: transparent; }
+	70% { background: transparent; }
+	71% { background: rgba(255, 255, 255, 0.2); }
+	73% { background: transparent; }
+	95% { background: transparent; }
+	96% { background: rgba(255, 255, 255, 0.5); }
+	98% { background: transparent; }
+	to { background: transparent; }
+}
+
+.title-texte {
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	background: url('../img/title.png') center no-repeat;
+	background-size: contain;
+	width: 50%;
+	height: 50%;
+    transform: translate(-50%, -50%);
+    animation: titleAnimation 1.5s forwards;
+    z-index: 5;
+}
+
+@keyframes titleAnimation {
+	from { top: -20vh; }
+	to { top: 25%; }
+}
+
+	.title-card-1 {
+		top: 52%;
+		left: 40%;
+    	transform: translate(-50%, -50%) rotate(140deg);
+    	animation: titleCardAnimation 1s;
+    	z-index: 3;
+	}
+
+	.title-card-2 {
+		top: 47%;
+		left: 45%;
+    	transform: translate(-50%, -50%) rotate(160deg);
+    	animation: titleCardAnimation 1s;
+    	z-index: 4;
+	}
+
+	.title-card-3 {
+		top: 45%;
+		left: 50%;
+    	transform: translate(-50%, -50%) rotate(180deg);
+    	animation: titleCardAnimation 1s;
+    	z-index: 5;
+	}
+
+	.title-card-4 {
+		top: 47%;
+		left: 55%;
+    	transform: translate(-50%, -50%) rotate(200deg);
+    	animation: titleCardAnimation 1s;
+    	z-index: 4;
+	}
+
+	.title-card-5 {
+		top: 52%;
+		left: 60%;
+    	transform: translate(-50%, -50%) rotate(220deg);
+    	animation: titleCardAnimation 1s;
+    	z-index: 3;
+	}
+
+	@keyframes titleCardAnimation {
+		from { margin-top: 2.5%; }
+		to { margin-top: 0; }
+	}
+
+.title-menu {
+	position: absolute;
+	top: 78%;
+	left: 49%;
+    transform: translate(-50%, -50%);
+    padding-left: 5%;
+    font-family: sans-serif;
+    color: white;
+    font-size: 3.5vmin;
+}

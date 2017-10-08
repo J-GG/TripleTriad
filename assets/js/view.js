@@ -2,7 +2,7 @@ class View {
 	constructor(game) {
 		this.game = game;
 		this.events = {
-			"START": "initGame",
+			"START": "splashScreen",
 			"DRAW.CARDS": "drawCards",
 			"DRAW.FIRST.PLAYER": "drawFirstPlayerToPlay",
 			"CARD.PLAYED": "playCard",
@@ -15,7 +15,31 @@ class View {
 		return this.events;
 	}
 
-	initGame () {
+	splashScreen() {
+		$(".board__game-area").append($("<div>", { class: "title-texte" } ));
+		for(var i = 1; i <= 5; i++) {
+			$(".board__game-area").append($("<div>", { class: "card card--back title-card-" + i }));
+		}
+
+		$(".board__game-area").append($("<div>", { class: "title-blink" }));
+
+		var self = this;
+		setTimeout(function() {
+			$(".board__game-area").append($("<div>", { class: "title-menu" }));
+			$(".title-menu").html("Play<br />Settings").append($("<div>", { class: "cursor cursor--choices cursor--choice-1" }));
+			self.choiceDialog($(".title-menu"), 1, 2, 2, function (gameState, choice) { 
+				if(choice == 1) {
+					$(".board__game-area").text("");
+					self.initGame();
+				}
+			});
+
+		}, 1500);
+	}
+
+	initGame() {
+		$(".board__game-area").append($("<div>", { id: "card-name-message", class: "message message--info message--bottom message--hidden message--text-center" } ));
+
 		var player1Name = "JG";
 		var player2Name = "Cherise";
 
@@ -224,23 +248,33 @@ class View {
 					for(var i = 0; i < gameState.getBoard().getRows(); i++) {
 						for(var j = 0; j < gameState.getBoard().getCols(); j++) {
 							if(gameState.getBoard().getCardOnBoard(i, j) !== false && gameState.getBoard().getCardOnBoard(i, j).isFlipped()) {
+								var flippedCard = gameState.getBoard().getCardOnBoard(i, j);
 								//Color of the player
-								var color = gameState.getBoard().getCardOnBoard(i, j).getOwner() == gameState.getPlayer(0) ? "blue" : "red";
+								var color = flippedCard.getOwner() == gameState.getPlayer(0) ? "blue" : "red";
+								//X or Y rotation
+								var position = gameState.getBoard().getRelativePositionOf(flippedCard, flippedCard.getFlippedBy());
+								var rotation = "Y";
+								if(position === "BOTTOM" || position === "UP") {
+									rotation = "X";
+								}
+
 								//Add a back to the card
-								$(".card.card--row-" + i + ".card--col-" + j).addClass("card--front card--front-X-row-" + i + "-col-" + j);
-								$(".board__game-area").append($("<div>", { class: "card card--back card--back-X-row-" + i + "-col-" + j + " card--row-" + i + " card--col-" + j } ));
+								$(".card.card--row-" + i + ".card--col-" + j).addClass("card--front card--front-" + rotation + "-row-" + i + "-col-" + j);
+								$(".board__game-area").append($("<div>", { 
+									class: "card card--back card--back-" + rotation + "-row-" + i + "-col-" + j + " card--row-" + i + " card--col-" + j
+								} ));
 
 								(function(i, j) {
 									setTimeout(function() {
 										$(".card.card--front.card--row-" + i + ".card--col-" + j)
 											.attr("style", "background-image:url('assets/img/cards/" + color + "/" 
-												+ gameState.getBoard().getCardOnBoard(i, j).getCard().getName().replace(/ /g,'').toLowerCase() + ".jpg');");
+												+ flippedCard.getCard().getName().replace(/ /g,'').toLowerCase() + ".jpg');");
 									}, 250);
 								})(i, j);
 
 								(function(i, j) {
 									setTimeout(function() {
-										$(".card.card--front.card--row-" + i + ".card--col-" + j).removeClass("card--front card--front-X-row-" + i + "-col-" + j);
+										$(".card.card--front.card--row-" + i + ".card--col-" + j).removeClass("card--front card--front-" + rotation + "-row-" + i + "-col-" + j);
 										$(".card.card--back.card--row-" + i + ".card--col-" + j).remove();
 
 									}, 500);
@@ -274,8 +308,7 @@ class View {
 
 		setTimeout(function() {
 			this.game.endTurn();
-		}, 1250);
-		
+		}, 1000);
 	}
 
 	gameOver(gameState) {
@@ -307,7 +340,7 @@ class View {
 			$("#play-again-message").html("Do you want to play again ?<div class='message__choices'>Yes<br />No</div>");
 
 
-			var choice = self.choiceDialog(gameState, $(".message__choices"), 1, 2, 2, function (gameState, choice) { 
+			var choice = self.choiceDialog($(".message__choices"), 1, 2, 2, function (gameState, choice) { 
 				if(choice == 1) {
 					document.getElementById("victory").pause();
 					var music = document.getElementById("music");
@@ -318,12 +351,18 @@ class View {
 						$(this).html("").removeClass("board__game-area--final-screen").fadeIn();
 						game.initGame(gameState.getPlayers().map(player => player.getName()));
 					});
+				} else {
+					document.getElementById("victory").pause();
+					$(".board__game-area").fadeOut(function() {
+						$(this).html("").removeClass("board__game-area--final-screen").fadeIn();
+						self.splashScreen();
+					});
 				}
-			});
+			}, gameState);
 		});
 	}
 
-	choiceDialog(gameState, messageChoice, defaultChoice, maxChoice, escChoice, callback) {
+	choiceDialog(messageChoice, defaultChoice, maxChoice, escChoice, callback, gameState) {
 		var choice = defaultChoice;
 		$(messageChoice).append($("<div>", {class: "cursor cursor--choices cursor--choice-" + choice}));	
 		$(document).keydown(function(e) {

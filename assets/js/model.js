@@ -222,8 +222,41 @@ class Board {
 		return this.board[row][col];
 	}
 
+	/* Return the relative position of card1 to card2 among "UP, UPRIGHT, RIGHT, BOTTOMRIGHT, BOTTOM, BOTTOMLEFT, LEFT and UPLEFT" */
 	getRelativePositionOf(card1, card2) {
+		var card1Pos, card2Pos;
+		for (var i = 0; i < this.rows; i++) {
+			for (var j = 0; j < this.cols; j++) {
+				if(this.board[i][j] === card1) {
+					card1Pos = {row: i, col: j};
+				} else if(this.board[i][j] === card2) {
+					card2Pos = {row: i, col: j};
+				}
+			}
+		}
 
+		if(card1Pos === undefined || card2Pos === undefined) {
+			logger.warning(card1.getCard().getName() + " and/or " + card2.getCard().getName() + " are not on the board");
+			return;
+		}
+
+		var X = "", Y = "";
+		if(card1Pos.col < card2Pos.col) {
+			X = "LEFT";
+		} else if(card1Pos.col > card2Pos.col) {
+			X = "RIGHT";
+		}
+
+		if(card1Pos.row < card2Pos.row) {
+			Y = "UP";
+		} else if(card1Pos.row > card2Pos.row) {
+			Y = "BOTTOM";
+		}
+
+		var position = X + Y;
+		logger.debug(card1.getCard().getName() + "'s relative position to " + card2.getCard().getName() + " is " + position);
+
+		return position;
 	}
 
 	getPlayerScore(player) {

@@ -92,29 +92,29 @@ class Rule {
 		if(row - 1 >= 0) {
 			var cardUp = board.getCardOnBoard(row - 1, col);
 			if(cardUp !== false && cardUp.getOwner() != card.getOwner() && cardUp.getCard().getDown() < card.getCard().getUp()) {
-				cardUp.flip(card.getOwner());
-				logger.info(card.getCard().getName() + " flips " + cardUp.getCard().getName() + " (" + cardUp.getCard().getUp() + " > " + card.getCard().getDown() + ")");
+				cardUp.flip(card.getOwner(), card);
+				logger.info(card.getCard().getName() + " flips " + cardUp.getCard().getName() + " (" + cardUp.getCard().getDown() + " < " + card.getCard().getUp() + ")");
 			}
 		}
 		if(row + 1 <= 2) {
 			var cardDown = board.getCardOnBoard(row + 1, col);
 			if(cardDown !== false && cardDown.getOwner() != card.getOwner() && cardDown.getCard().getUp() < card.getCard().getDown()) {
-				cardDown.flip(card.getOwner());
-				logger.info(card.getCard().getName() + " flips " + cardDown.getCard().getName() + " (" + cardDown.getCard().getDown() + " > " + card.getCard().getUp() + ")");
+				cardDown.flip(card.getOwner(), card);
+				logger.info(card.getCard().getName() + " flips " + cardDown.getCard().getName() + " (" + cardDown.getCard().getUp() + " < " + card.getCard().getDown() + ")");
 			}
 		}
 		if(col - 1 >= 0) {
 			var cardLeft = board.getCardOnBoard(row, col - 1);
 			if(cardLeft !== false && cardLeft.getOwner() != card.getOwner() && cardLeft.getCard().getRight() < card.getCard().getLeft()) {
-				cardLeft.flip(card.getOwner());
-				logger.info(card.getCard().getName() + " flips " + cardLeft.getCard().getName() + " (" + cardLeft.getCard().getLeft() + " > " + card.getCard().getRight() + ")");
+				cardLeft.flip(card.getOwner(), card);
+				logger.info(card.getCard().getName() + " flips " + cardLeft.getCard().getName() + " (" + cardLeft.getCard().getRight() + " < " + card.getCard().getLeft() + ")");
 			}
 		}
 		if(col + 1 <= 2) {
 			var cardRight = board.getCardOnBoard(row, col + 1);
 			if(cardRight !== false && cardRight.getOwner() != card.getOwner() && cardRight.getCard().getLeft() < card.getCard().getRight()) {
-				cardRight.flip(card.getOwner());
-				logger.info(card.getCard().getName() + " flips " + cardRight.getCard().getName() + " (" + cardRight.getCard().getRight() + " > " + card.getCard().getLeft() + ")");
+				cardRight.flip(card.getOwner(), card);
+				logger.info(card.getCard().getName() + " flips " + cardRight.getCard().getName() + " (" +cardRight.getCard().getLeft() + " < " + card.getCard().getRight() + ")");
 			}
 		}
 	}
