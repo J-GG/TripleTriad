@@ -36,16 +36,29 @@ body {
 			background-image: url(../img/final_screen.png);
 		}
 
-	.board__game-over {
+	.board__game-text {
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		width: 100%;
+    	text-align: center;
 		transform: translate(-50%, -50%);
 		font-family: serif;
 		font-size: 13vmin;
 		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 		color: white;
 		z-index: 10;
+	}
+
+	.board__game-text--slide {
+		animation: textSlide 1.5s ease-out; 
+	}
+
+	@keyframes textSlide {
+		from { left: 0; }
+		40% { left: 50%; }
+		60% { left: 50%; }
+		to { left: 100vw; }
 	}
 
 	.board__player-name-box {
@@ -179,6 +192,7 @@ body {
 	font-size: 13vmin;
 	font-style: italic;
 	color: white;
+	z-index: 10;
 }
 
 @media(max-width: 165vh) {
@@ -263,6 +277,32 @@ body {
 		top: 5vmin;
 	}
 
+	/* Cursor in the settings (0...2) */
+	.LOOP-cursor--settings(@n, @i: 0) when (@i < @n) {
+		.cursor--settings-@{i} {
+			top: (9% + @i * 10%);
+		}
+
+		.LOOP-cursor--settings(@n, (@i + 1));
+	}
+	.LOOP-cursor--settings(3);
+
+	.cursor--settings-3 {
+		top: 45%;
+	}
+
+	.cursor--settings-4 {
+		top: 56%;
+	}
+
+	.cursor--settings-5 {
+		top: 71%;
+	}
+	
+	.cursor--settings-6 {
+		top: 92%;
+    	left: 38%;
+	}
 
 /* Card */
 .card {
@@ -367,7 +407,7 @@ body {
 		right: 7%;
 	}
 
-	/* Filp the card */
+	/* Flip the card */
 	.card--back {
 		background-image: url("../img/cards/back.png");
 	}
@@ -466,6 +506,10 @@ body {
 		text-align: center;
 	}
 
+	.message--text-small {
+		font-size: 2.5vmin;
+	}
+
 	.message--hidden {
 		display: none;
 	}
@@ -480,9 +524,70 @@ body {
 		text-shadow: -1px 0 #575859, 0 1px #575859, 1px 0 #575859, 0 -1px #575859;
 	}
 
+	.message--settings {
+		width: 60%;
+	}
+
+	.message--settings::before {
+		content:'SETTINGS.';
+		font-size: 50%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding-left: 1%;
+		text-shadow: -1px 0 #575859, 0 1px #575859, 1px 0 #575859, 0 -1px #575859;
+	}
+
 	.message__choices {
 		position: relative;
 		padding-left: 15%;
+	}
+
+	.message__setting {
+		padding-top: 3%;
+	}
+
+	.message__label {
+		position: relative;
+    	left: 8%;
+        display: inline-block;
+    	width: 92%;
+	}
+
+	.message__value {
+		position: absolute;
+		left: 40%;
+	}
+
+	.message__input {
+		background: white;
+	    border: 0;
+	    outline: 0;
+	    background-color: transparent;
+   		background-image: linear-gradient(to right,#fff 50%,rgba(255,255,255,0) 0);
+	    background-position: left bottom;
+	    background-size: 3.5vmin 0.5vmin;
+	    background-repeat: repeat-x;
+	    color: white;
+	    font-family: monospace;
+	    letter-spacing: 1.5vmin;
+	    font-size: 3.5vmin;
+	}
+
+	.message__check {
+		margin-right: 5vmin;
+		color: #949694;
+		text-shadow: 2px 2px black;
+	}
+
+	.message__check--enabled {
+		color: white;
+		text-shadow: none;
+	}
+
+	.message__confirm {
+		padding-top: 5%;
+		text-align: center;
 	}
 
 /* Title */

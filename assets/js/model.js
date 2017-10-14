@@ -160,7 +160,9 @@ class CardOnBoard {
 	constructor(card, player) {
 		this.card = card;
 		this.player = player;
-		this.flippedBy = false;
+		this.flippedByCard = undefined;
+		this.flippedByRule = [];
+		this.flippedStep = undefined;
 	}
 
 	setCard(card) {
@@ -175,22 +177,35 @@ class CardOnBoard {
 		return this.player;
 	}
 
-	flip(player, card) {
-		this.flippedBy = card;
+	flip(player, card, rule, step) {
 		this.player = player;
+		this.flippedByCard = card;
+		this.flippedByRule = rule;
+		this.flippedStep = step;
 	}
 
 	unflip() {
-		this.flippedBy = false;
+		this.flippedByCard = undefined;
+		this.flippedByRule = [];
+		this.flippedStep = undefined;
 	}
 
 	isFlipped() {
-		return this.flippedBy !== false ? true : false;
+		return this.flippedByCard !== undefined ? true : false;
 	}
 
-	getFlippedBy() {
-		return this.flippedBy;
+	getFlippedByCard() {
+		return this.flippedByCard;
 	}
+
+	getFlippedByRule() {
+		return this.flippedByRule;
+	}
+
+	getFlippedStep() {
+		return this.flippedStep
+	}
+
 }
 
 class Board {
@@ -299,6 +314,10 @@ class CardDB {
 		this.cardList.push(new Card("Caterchipillar", 1, 4, 2, 4, 3));
 		this.cardList.push(new Card("Cockatrice", 1, 2, 1, 2, 6));
 
+		this.cardList.push(new Card("Dogememe", 1, 2, 2, 2, 2));
+		this.cardList.push(new Card("Blogging Shiba", 1, 4, 2, 4, 10));
+		this.cardList.push(new Card("Pandaminator", 1, 2, 3, 5, 2));
+
 		this.cardList.push(new Card("Grat", 2, 7, 1, 3, 1));
 
 		this.cardList.push(new Card("Biggs, Wedge", 5, 6, 6, 2, 7));
@@ -309,7 +328,7 @@ class CardDB {
 		this.cardList.push(new Card("Seifer", 10, 6, 9, 10, 4));
 		this.cardList.push(new Card("Squall", 10, 10, 4, 6, 9));
 
-		this.LEVEL_MAX = 10;
+		this.LEVEL_MAX = 2;
 	}
 
 	static getRandomCards(number) {
@@ -327,7 +346,7 @@ class CardDB {
 		
 		draw_card:
 		for(var i = 0; i < number; i++) {
-			var randomNumber = Math.floor(Math.random() * sum); 
+			var randomNumber = Math.floor(Math.random() * (sum + 1)); 
 			var seek = 0;
 			for(var j = 0; j < this.cardList.length; j++) {
 				var card = this.cardList[j];
