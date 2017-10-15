@@ -101,6 +101,9 @@ class Rule {
 		if(Settings.isWarEnabled()) {
 			this.warRule();
 		}
+		if(Settings.isPlusEnabled()) {
+			this.plusRule();
+		}
 	}
 
 	simpleRule() {
@@ -148,32 +151,45 @@ class Rule {
 
 	sameRule() {
 		var cardsCouldBeFlipped = [];
+		var sameCards = 0;
 		if(this.row - 1 >= 0) {
 			var cardUp = this.board.getCardOnBoard(this.row - 1, this.col);
-			if(cardUp !== false && cardUp.getOwner() != this.card.getOwner() && cardUp.getCard().getDown() == this.card.getCard().getUp()) {
-				cardsCouldBeFlipped.push(cardUp);
+			if(cardUp !== false && cardUp.getCard().getDown() == this.card.getCard().getUp()) {
+				sameCards++;
+				if(cardUp.getOwner() != this.card.getOwner()) {
+					cardsCouldBeFlipped.push(cardUp);
+				}
 			}
 		}
 		if(this.row + 1 <= 2) {
 			var cardDown = this.board.getCardOnBoard(this.row + 1, this.col);
-			if(cardDown !== false && cardDown.getOwner() != this.card.getOwner() && cardDown.getCard().getUp() == this.card.getCard().getDown()) {
-				cardsCouldBeFlipped.push(cardDown);
+			if(cardDown !== false && cardDown.getCard().getUp() == this.card.getCard().getDown()) {
+				sameCards++;
+				if(cardDown.getOwner() != this.card.getOwner()) {
+					cardsCouldBeFlipped.push(cardDown);
+				}
 			}
 		}
 		if(this.col - 1 >= 0) {
 			var cardLeft = this.board.getCardOnBoard(this.row, this.col - 1);
-			if(cardLeft !== false && cardLeft.getOwner() != this.card.getOwner() && cardLeft.getCard().getRight() == this.card.getCard().getLeft()) {
-				cardsCouldBeFlipped.push(cardLeft);
+			if(cardLeft !== false && cardLeft.getCard().getRight() == this.card.getCard().getLeft()) {
+				sameCards++;
+				if(cardLeft.getOwner() != this.card.getOwner()) {
+					cardsCouldBeFlipped.push(cardLeft);
+				}
 			}
 		}
 		if(this.col + 1 <= 2) {
 			var cardRight = this.board.getCardOnBoard(this.row,this. col + 1);
-			if(cardRight !== false && cardRight.getOwner() != this.card.getOwner() && cardRight.getCard().getLeft() == this.card.getCard().getRight()) {
-				cardsCouldBeFlipped.push(cardRight);
+			if(cardRight !== false && cardRight.getCard().getLeft() == this.card.getCard().getRight()) {
+				sameCards++;
+				if(cardRight.getOwner() != this.card.getOwner()) {
+					cardsCouldBeFlipped.push(cardRight);
+				}
 			}
 		}
 
-		if(cardsCouldBeFlipped.length >= 2) {
+		if(sameCards >= 2 && cardsCouldBeFlipped.length >= 1) {
 			for (var i = cardsCouldBeFlipped.length - 1; i >= 0; i--) {
 				cardsCouldBeFlipped[i].flip(this.card.getOwner(), this.card, "SAME", this.step);
 				logger.info("Rule Same : (step " + this.step + ") "
@@ -237,6 +253,63 @@ class Rule {
 			}
 		}
 		if(flipped) {
+			this.step++;
+		}
+	}
+
+	plusRule() {
+		var sums = [];
+		if(this.row - 1 >= 0) {
+			var cardUp = this.board.getCardOnBoard(this.row - 1, this.col);
+			if(cardUp !== false) {
+				var sum = cardUp.getCard().getDown() + this.card.getCard().getUp();
+				sums[sum] = sums[sum] || [];
+				sums[sum].push(cardUp);
+			}
+		}
+		if(this.row + 1 <= 2) {
+			var cardDown = this.board.getCardOnBoard(this.row + 1, this.col);
+			if(cardDown !== false) {
+				var sum = cardDown.getCard().getUp() + this.card.getCard().getDown();
+				sums[sum] = sums[sum] || [];
+				sums[sum].push(cardDown);
+			}
+		}
+		if(this.col - 1 >= 0) {
+			var cardLeft = this.board.getCardOnBoard(this.row, this.col - 1);
+			if(cardLeft !== false) {
+				var sum = cardLeft.getCard().getRight() + this.card.getCard().getLeft();
+				sums[sum] = sums[sum] || [];
+				sums[sum].push(cardLeft);
+			}
+		}
+		if(this.col + 1 <= 2) {
+			var cardRight = this.board.getCardOnBoard(this.row,this. col + 1);
+			if(cardRight !== false) {
+				var sum = cardRight.getCard().getLeft() + this.card.getCard().getRight();
+				sums[sum] = sums[sum] || [];
+				sums[sum].push(cardRight);
+			}
+		}
+
+		var cardFlipped = false;
+		for(sum in sums) {
+			if(sums[sum].length >= 2) {
+				for(var i = 0; i < sums[sum].length; i++) {
+					var card = sums[sum][i];
+					if(card.getOwner() != this.card.getOwner()) {
+						cardFlipped = true;
+						card.flip(this.card.getOwner(), this.card, "PLUS", this.step);
+						logger.info("Rule Plus : (step " + this.step + ") "
+							+ this.card.getCard().getName() + " flips " + card.getCard().getName() 
+							+ " (sum : " + sum + " with " + sums[sum].map(card => card.getCard().getName()).join(', ') + ")");
+
+					}
+				}
+			}
+		}
+
+		if(cardFlipped) {
 			this.step++;
 		}
 	}

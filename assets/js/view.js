@@ -59,10 +59,12 @@ class View {
 			+ "<br /><span id='rule-open' class='message__label message__check" + (Settings.isOpenEnabled() ? " message__check--enabled" : "") + "'>Open"
 			+ "<br /><span class='message--text-small message__label'>Each player can see the opponent's cards</span></span>"
 			+ "<br /><span id='rule-same' class='message__label message__check" + (Settings.isSameEnabled() ? " message__check--enabled" : "") + "'>Same"
-			+ "<br /><span class='message--text-small message__label'>A card is placed touching two or more opponent's cards, "
-			+ "and the touching sides of each card is the same (e.g. 8 touching 8)</span></span>"
+			+ "<br /><span class='message--text-small message__label'>If the numbers of a card equal to the numbers of two or more adjacent cards of the opponent, they will be flipped</span></span>"
 			+ "<br /><span id='rule-war' class='message__label message__check" + (Settings.isWarEnabled() ? " message__check--enabled" : "") + "'>War"
-			+ "<br /><span class='message--text-small message__label'>The sum of the 4 numbers of each card is compared when the adjacent sides of two cards match</span></span>"
+			+ "<br /><span class='message--text-small message__label'>When the number of an adjacent card matches, if the sum of all the numbers of the opponent's card is smaller"
+			+ ", then it is flipped</span></span>"
+			+ "<br /><span id='rule-^mus' class='message__label message__check" + (Settings.isPlusEnabled() ? " message__check--enabled" : "") + "'>Plus"
+			+ "<br /><span class='message--text-small message__label'>If a card is placed down that adds up to the same value on two or more adjacent cards of the opponent, those cards are flipped</span></span>"
 			+ "</div> "
 			+ "<div class='message__confirm'>Menu</div>"
 			).append($("<div>", {class: "cursor cursor--settings-0"}));
@@ -84,7 +86,7 @@ class View {
 		        case 40: //Down
 		        	$("#setting-player-1 input").blur();
 		        	$("#setting-player-2 input").blur();
-		     		choice + 1 <= 6 ? choice++ : choice;
+		     		choice + 1 <= 7 ? choice++ : choice;
 		        	break;
 
 		        case 13: //Enter
@@ -113,6 +115,10 @@ class View {
 
 		        		case 5:
 			        		$("#rule-war").toggleClass("message__check--enabled");
+		        			break;
+
+		        		case 6:
+			        		$("#rule-plus").toggleClass("message__check--enabled");
 		        			break;
 
 		        		default:
@@ -144,6 +150,12 @@ class View {
 		        				Settings.enableWar();
 		        			} else {
 		        				Settings.disableWar();
+		        			}
+
+	        				if($("#rule-plus").hasClass("message__check--enabled")) {
+		        				Settings.enablePlus();
+		        			} else {
+		        				Settings.disablePlus();
 		        			}
 
 		        			$(document).off("keydown");

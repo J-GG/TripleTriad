@@ -316,7 +316,7 @@ class CardDB {
 
 		this.cardList.push(new Card("Dogememe", 1, 2, 2, 2, 2));
 		this.cardList.push(new Card("Blogging Shiba", 1, 4, 2, 4, 10));
-		this.cardList.push(new Card("Pandaminator", 1, 2, 3, 5, 2));
+		this.cardList.push(new Card("Pandaminator", 1, 3, 3, 5, 2));
 
 		this.cardList.push(new Card("Grat", 2, 7, 1, 3, 1));
 
@@ -328,7 +328,7 @@ class CardDB {
 		this.cardList.push(new Card("Seifer", 10, 6, 9, 10, 4));
 		this.cardList.push(new Card("Squall", 10, 10, 4, 6, 9));
 
-		this.LEVEL_MAX = 2;
+		this.LEVEL_MAX = 10;
 	}
 
 	static getRandomCards(number) {

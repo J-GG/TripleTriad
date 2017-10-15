@@ -1,6 +1,6 @@
 var Settings = (function() {
 	var player1Name = "Player 1", player2Name = "Player 2"
-	var audioEnabled = true, open = false, same = false, war = false;
+	var audioEnabled = true, open = false, same = false, war = false, plus = false;
 
 	if (typeof(Storage) !== "undefined") {
 		player1Name = window.localStorage.getItem("player1Name") ? localStorage.getItem("player1Name").substring(0, 10) : player1Name;
@@ -9,6 +9,7 @@ var Settings = (function() {
 		open = window.localStorage.getItem("open") === 'true' ? true : false;
 		same = window.localStorage.getItem("same") === 'true' ? true : false;
 		war = window.localStorage.getItem("war") === 'true' ? true : false;
+		plus = window.localStorage.getItem("plus") === 'true' ? true : false;
 	}
 
 	return {
@@ -69,6 +70,17 @@ var Settings = (function() {
 		disableWar() {
 			war = false;
 			window.localStorage.setItem("war", 'false');
+		},
+		isPlusEnabled() {
+			return plus;
+		},
+		enablePlus() {
+			plus = true;
+			window.localStorage.setItem("plus", 'true');
+		},
+		disablePlus() {
+			plus = false;
+			window.localStorage.setItem("plus", 'false');
 		}
 	}
 
