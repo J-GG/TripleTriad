@@ -63,7 +63,7 @@ class View {
 			+ "<br /><span id='rule-war' class='message__label message__check" + (Settings.isWarEnabled() ? " message__check--enabled" : "") + "'>War"
 			+ "<br /><span class='message--text-small message__label'>When the number of an adjacent card matches, if the sum of all the numbers of the opponent's card is smaller"
 			+ ", then it is flipped</span></span>"
-			+ "<br /><span id='rule-^mus' class='message__label message__check" + (Settings.isPlusEnabled() ? " message__check--enabled" : "") + "'>Plus"
+			+ "<br /><span id='rule-plus' class='message__label message__check" + (Settings.isPlusEnabled() ? " message__check--enabled" : "") + "'>Plus"
 			+ "<br /><span class='message--text-small message__label'>If a card is placed down that adds up to the same value on two or more adjacent cards of the opponent, those cards are flipped</span></span>"
 			+ "</div> "
 			+ "<div class='message__confirm'>Menu</div>"
