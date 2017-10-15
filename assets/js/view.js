@@ -484,13 +484,13 @@ class View {
 										} ));
 
 										//Change the color of the card
-										(function(i, j) {
+										(function(i, j, flippedCard) {
 											setTimeout(function() {
 												$(".card.card--front.card--row-" + i + ".card--col-" + j)
 													.attr("style", "background-image:url('assets/img/cards/" + color + "/" 
 														+ flippedCard.getCard().getName().replace(/ /g,'').toLowerCase() + ".jpg');");
 											}, 250);
-										})(i, j);
+										})(i, j, flippedCard);
 
 										(function(i, j) {
 											//Remove the back
