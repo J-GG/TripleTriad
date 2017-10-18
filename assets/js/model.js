@@ -216,7 +216,7 @@ class Board {
 		for (var i = 0; i < this.rows; i++) {
 			this.board[i] = [];
 			for (var j = 0; j < this.cols; j++) {
-				this.board[i][j] = false;
+				this.board[i][j] = undefined;
 			}	
 		}
 	}
@@ -235,6 +235,34 @@ class Board {
 
 	getCardOnBoard(row, col) {
 		return this.board[row][col];
+	}
+
+	getCardAbove(row, col) {
+		return (row - 1 >= 0) ? this.board[row - 1][col] : undefined;
+	}
+	
+	getCardOnTheRight(row, col) {
+		return (col + 1 < this.cols) ? this.board[row][col + 1] : undefined;
+	}
+
+	getCardBelow(row, col) {
+		return (row + 1 < this.rows) ? this.board[row + 1][col] : undefined;
+	}
+
+	getCardOnTheLeft(row, col) {
+		return (col - 1 >= 0) ? this.board[row][col - 1] : undefined;
+	}
+
+	getCardCoordinate(card) {
+		for (var i = 0; i < this.rows; i++) {
+			for (var j = 0; j < this.cols; j++) {
+				if(this.board[i][j] === card) {
+					return {row: i, col: j};
+				}
+			}
+		}
+
+		return undefined;
 	}
 
 	/* Return the relative position of card1 to card2 among "UP, UPRIGHT, RIGHT, BOTTOMRIGHT, BOTTOM, BOTTOMLEFT, LEFT and UPLEFT" */
@@ -290,7 +318,7 @@ class Board {
 	isComplete() {
 		for (var i = 0; i < this.rows; i++) {
 			for (var j = 0; j < this.cols; j++) {
-				if(this.board[i][j] === false) {
+				if(this.board[i][j] === undefined) {
 					return false;
 				}
 			}

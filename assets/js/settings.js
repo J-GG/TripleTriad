@@ -1,15 +1,16 @@
 var Settings = (function() {
 	var player1Name = "Player 1", player2Name = "Player 2"
-	var audioEnabled = true, open = false, same = false, war = false, plus = false;
+	var audioEnabled = true, open = false, war = false, same = false, plus = false, combo = false;
 
 	if (typeof(Storage) !== "undefined") {
 		player1Name = window.localStorage.getItem("player1Name") ? localStorage.getItem("player1Name").substring(0, 10) : player1Name;
 		player2Name = window.localStorage.getItem("player2Name") ? localStorage.getItem("player2Name").substring(0, 10) : player2Name;
 		audioEnabled = window.localStorage.getItem("audioEnabled") === 'true' ? true : false;
 		open = window.localStorage.getItem("open") === 'true' ? true : false;
-		same = window.localStorage.getItem("same") === 'true' ? true : false;
 		war = window.localStorage.getItem("war") === 'true' ? true : false;
+		same = window.localStorage.getItem("same") === 'true' ? true : false;
 		plus = window.localStorage.getItem("plus") === 'true' ? true : false;
+		combo = window.localStorage.getItem("combo") === 'true' ? true : false;
 	}
 
 	return {
@@ -81,6 +82,17 @@ var Settings = (function() {
 		disablePlus() {
 			plus = false;
 			window.localStorage.setItem("plus", 'false');
+		},
+		isComboEnabled() {
+			return combo;
+		},
+		enableCombo() {
+			combo = true;
+			window.localStorage.setItem("combo", 'true');
+		},
+		disableCombo() {
+			combo = false;
+			window.localStorage.setItem("combo", 'false');
 		}
 	}
 

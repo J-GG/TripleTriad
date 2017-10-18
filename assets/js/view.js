@@ -58,13 +58,15 @@ class View {
 			+ "<div id='setting-rules' class='message__setting'>Rules"
 			+ "<br /><span id='rule-open' class='message__label message__check" + (Settings.isOpenEnabled() ? " message__check--enabled" : "") + "'>Open"
 			+ "<br /><span class='message--text-small message__label'>Each player can see the opponent's cards</span></span>"
-			+ "<br /><span id='rule-same' class='message__label message__check" + (Settings.isSameEnabled() ? " message__check--enabled" : "") + "'>Same"
-			+ "<br /><span class='message--text-small message__label'>If the numbers of a card equal to the numbers of two or more adjacent cards of the opponent, they will be flipped</span></span>"
 			+ "<br /><span id='rule-war' class='message__label message__check" + (Settings.isWarEnabled() ? " message__check--enabled" : "") + "'>War"
 			+ "<br /><span class='message--text-small message__label'>When the number of an adjacent card matches, if the sum of all the numbers of the opponent's card is smaller"
-			+ ", then it is flipped</span></span>"
+			+ ", then it is flipped</span></span>"	
+			+ "<br /><span id='rule-same' class='message__label message__check" + (Settings.isSameEnabled() ? " message__check--enabled" : "") + "'>Same"
+			+ "<br /><span class='message--text-small message__label'>If the numbers of a card equal to the numbers of two or more adjacent cards of the opponent, they will be flipped</span></span>"
 			+ "<br /><span id='rule-plus' class='message__label message__check" + (Settings.isPlusEnabled() ? " message__check--enabled" : "") + "'>Plus"
 			+ "<br /><span class='message--text-small message__label'>If a card is placed down that adds up to the same value on two or more adjacent cards of the opponent, those cards are flipped</span></span>"
+			+ "<br /><span id='rule-combo' class='message__label message__check" + (Settings.isComboEnabled() ? " message__check--enabled" : "") + "'>Combo"
+			+ "<br /><span class='message--text-small message__label'>All cards which were turned over by the Same or Plus rule can turn over surrounding opponent's cards if they have a greater value</span></span>"
 			+ "</div> "
 			+ "<div class='message__confirm'>Menu</div>"
 			).append($("<div>", {class: "cursor cursor--settings-0"}));
@@ -86,7 +88,7 @@ class View {
 		        case 40: //Down
 		        	$("#setting-player-1 input").blur();
 		        	$("#setting-player-2 input").blur();
-		     		choice + 1 <= 7 ? choice++ : choice;
+		     		choice + 1 <= 8 ? choice++ : choice;
 		        	break;
 
 		        case 13: //Enter
@@ -110,15 +112,19 @@ class View {
 		        			break;
 
 		        		case 4:
-			        		$("#rule-same").toggleClass("message__check--enabled");
+			        		$("#rule-war").toggleClass("message__check--enabled");
 		        			break;
 
 		        		case 5:
-			        		$("#rule-war").toggleClass("message__check--enabled");
+			        		$("#rule-same").toggleClass("message__check--enabled");
 		        			break;
 
 		        		case 6:
 			        		$("#rule-plus").toggleClass("message__check--enabled");
+		        			break;
+
+		        		case 7:
+			        		$("#rule-combo").toggleClass("message__check--enabled");
 		        			break;
 
 		        		default:
@@ -140,22 +146,28 @@ class View {
 		        				Settings.disableOpen();
 		        			}
 
-		        			if($("#rule-same").hasClass("message__check--enabled")) {
-		        				Settings.enableSame();
-		        			} else {
-		        				Settings.disableSame();
-		        			}
-
 	        				if($("#rule-war").hasClass("message__check--enabled")) {
 		        				Settings.enableWar();
 		        			} else {
 		        				Settings.disableWar();
 		        			}
 
+		        			if($("#rule-same").hasClass("message__check--enabled")) {
+		        				Settings.enableSame();
+		        			} else {
+		        				Settings.disableSame();
+		        			}
+
 	        				if($("#rule-plus").hasClass("message__check--enabled")) {
 		        				Settings.enablePlus();
 		        			} else {
 		        				Settings.disablePlus();
+		        			}
+
+	        				if($("#rule-combo").hasClass("message__check--enabled")) {
+		        				Settings.enableCombo();
+		        			} else {
+		        				Settings.disableCombo();
 		        			}
 
 		        			$(document).off("keydown");
@@ -433,7 +445,7 @@ class View {
 					var steps = 0, nbRulesDisplayed = 0, rules = {};
 					for(var i = 0; i < gameState.getBoard().getRows(); i++) {
 						for(var j = 0; j < gameState.getBoard().getCols(); j++) {
-							if(gameState.getBoard().getCardOnBoard(i, j) !== false && gameState.getBoard().getCardOnBoard(i, j).isFlipped()) {
+							if(gameState.getBoard().getCardOnBoard(i, j) !== undefined && gameState.getBoard().getCardOnBoard(i, j).isFlipped()) {
 								if(gameState.getBoard().getCardOnBoard(i, j).getFlippedStep() > steps) {
 									steps = gameState.getBoard().getCardOnBoard(i, j).getFlippedStep();
 								}
@@ -465,7 +477,7 @@ class View {
 
 							for(var i = 0; i < gameState.getBoard().getRows(); i++) {
 								for(var j = 0; j < gameState.getBoard().getCols(); j++) {
-									if(gameState.getBoard().getCardOnBoard(i, j) !== false && gameState.getBoard().getCardOnBoard(i, j).isFlipped() 
+									if(gameState.getBoard().getCardOnBoard(i, j) !== undefined && gameState.getBoard().getCardOnBoard(i, j).isFlipped() 
 										&& gameState.getBoard().getCardOnBoard(i, j).getFlippedStep() === step) {
 										var flippedCard = gameState.getBoard().getCardOnBoard(i, j);
 										//Color of the player

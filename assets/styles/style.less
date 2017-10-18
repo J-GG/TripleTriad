@@ -280,7 +280,7 @@ body {
 	/* Cursor in the settings (0...2) */
 	.LOOP-cursor--settings(@n, @i: 0) when (@i < @n) {
 		.cursor--settings-@{i} {
-			top: (7.5% + @i * 9%);
+			top: (7% + @i * 8%);
 		}
 
 		.LOOP-cursor--settings(@n, (@i + 1));
@@ -288,23 +288,27 @@ body {
 	.LOOP-cursor--settings(3);
 
 	.cursor--settings-3 {
-		top: 39%;
+		top: 35%;
 	}
 
 	.cursor--settings-4 {
-		top: 49%;
+		top: 44%;
 	}
 
 	.cursor--settings-5 {
-		top: 62%;
+		top: 55%;
 	}
 
 	.cursor--settings-6 {
-		top: 74%;
+		top: 66%;
+	}
+
+	.cursor--settings-7 {
+		top: 77.5%;
 	}
 	
-	.cursor--settings-7 {
-		top: 93%;
+	.cursor--settings-8 {
+		top: 94%;
     	left: 38%;
 	}
 
