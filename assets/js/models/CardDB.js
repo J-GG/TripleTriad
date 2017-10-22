@@ -1,4 +1,14 @@
+/**
+ * Simulate a database of cards.
+ * @author Jean-Gabriel Genest
+ * @since 17.10.22
+ * @version 17.10.22
+ */
 class CardDB {
+    /**
+     * Initialize all the available cards.
+     * @since 17.10.22
+     */
     static initDB() {
         this.cardList = [];
         this.cardList.push(new Card("Bite Bug", 1, 1, 3, 3, 5));
@@ -30,7 +40,16 @@ class CardDB {
         this.LEVEL_MAX = 10;
     }
 
+    /**
+     * Get an array of cards based on a weighted random selection. The weight if based on the level of the cards.
+     * @param number The number of returned cards.
+     * @returns {Array} An array of Card randomly selected
+     * @since 17.10.22
+     */
     static getRandomCards(number) {
+        if (number < 0) {
+            throw new TypeError("The number of cards should be greater than 0 but " + number + " found");
+        }
         if (this.cardList === undefined) {
             this.initDB();
         }

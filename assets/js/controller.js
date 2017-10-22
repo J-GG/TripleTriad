@@ -5,7 +5,7 @@ class Game {
     }
 
     initGame() {
-        this.gameState = new GameState();
+        this.gameState = new GameState(3, 3);
         var players = [new PlayerInGame(Settings.getPlayer1Name()), new PlayerInGame(Settings.getPlayer2Name())];
 
         logger.info(Settings.getPlayer1Name() + " and " + Settings.getPlayer2Name() + " are playing");

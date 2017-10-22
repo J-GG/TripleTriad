@@ -1,15 +1,15 @@
 /**
- * Represents the board where cards are played
+ * The board where cards are played.
  * @author Jean-Gabriel Genest
  * @since 17.10.22
+ * @version 17.10.22
  */
 class Board {
     /**
-     * Constructs an empty Board of the spicified size.
+     * Construct an empty Board of the specified size.
      * @param nbRows The number of rows on the board
      * @param nbCols The number of cols on the board
      * @since 17.10.22
-     * @version 17.10.22
      */
     constructor(nbRows, nbCols) {
         if (nbRows <= 0) {
@@ -32,6 +32,7 @@ class Board {
     /**
      * Get the number of rows on the board.
      * @returns {number} The number of rows on the board
+     * @since 17.10.22
      */
     getRows() {
         return this.rows;
@@ -40,6 +41,7 @@ class Board {
     /**
      * Get the number of columns on the board.
      * @returns {number} The number of columns on the board
+     * @since 17.10.22
      */
     getCols() {
         return this.cols;
@@ -51,13 +53,14 @@ class Board {
      * @param playerToPlay PlayerInGame playing the card
      * @param row Row where the card is played
      * @param col Column where the card is played
+     * @since 17.10.22
      */
     playCardOnBoard(card, playerToPlay, row, col) {
         if (typeof card !== "object" || !(card instanceof Card)) {
-            throw new TypeError("expected Card type but found " + card.constructor.name);
+            throw new TypeError("Expected Card type but " + card.constructor.name + " found");
         }
         if (typeof playerToPlay !== "object" || !(playerToPlay instanceof PlayerInGame)) {
-            throw new TypeError("expected PlayerInGame type but found " + playerToPlay.constructor.name);
+            throw new TypeError("Expected PlayerInGame type but " + playerToPlay.constructor.name + " found");
         }
         if (row < 0 || row > this.rows) {
             throw new RangeError("The row should be between 0 and " + this.rows);
@@ -77,6 +80,7 @@ class Board {
      * @param row The row of the case
      * @param col The column of the case
      * @returns {*} The CardOnBoard at the specified row and column. Returns undefined if there is no card
+     * @since 17.10.22
      */
     getCardOnBoard(row, col) {
         if (row < 0 || row > this.rows) {
@@ -94,6 +98,7 @@ class Board {
      * @param row The row of the case
      * @param col The column of the case
      * @returns {*} The CardOnBoard above the specified row and column. Returns undefined if there is no card or if it's outside the board
+     * @since 17.10.22
      */
     getCardAbove(row, col) {
         return (row - 1 >= 0) ? this.board[row - 1][col] : undefined;
@@ -104,6 +109,7 @@ class Board {
      * @param row The row of the case
      * @param col The column of the case
      * @returns {*} The CardOnBoard on the right the specified row and column. Returns undefined if there is no card or if it's outside the board
+     * @since 17.10.22
      */
     getCardOnTheRight(row, col) {
         return (col + 1 < this.cols) ? this.board[row][col + 1] : undefined;
@@ -114,6 +120,7 @@ class Board {
      * @param row The row of the case
      * @param col The column of the case
      * @returns {*} The CardOnBoard below the specified row and column. Returns undefined if there is no card or if it's outside the board
+     * @since 17.10.22
      */
     getCardBelow(row, col) {
         return (row + 1 < this.rows) ? this.board[row + 1][col] : undefined;
@@ -124,6 +131,7 @@ class Board {
      * @param row The row of the case
      * @param col The column of the case
      * @returns {*} The CardOnBoard on the left the specified row and column. Returns undefined if there is no card or if it's outside the board
+     * @since 17.10.22
      */
     getCardOnTheLeft(row, col) {
         return (col - 1 >= 0) ? this.board[row][col - 1] : undefined;
@@ -133,10 +141,11 @@ class Board {
      * Get the coordinate of the card.
      * @param card CardOnBoard to look for
      * @returns {*} A object {row: row, col: col} containing the position of the card or undefined if it couldn't be found
+     * @since 17.10.22
      */
     getCardCoordinate(card) {
         if (typeof card !== "object" || !(card instanceof CardOnBoard)) {
-            logger.warning("expected CardOnBoard type but found " + card.constructor.name);
+            logger.warning("Expected CardOnBoard type but " + card.constructor.name + " found");
         }
 
         for (let i = 0; i < this.rows; i++) {
@@ -155,13 +164,14 @@ class Board {
      * @param card1 The card the position is being looked for
      * @param card2 The card of reference
      * @returns {number} A value among the position enumeration
+     * @since 17.10.22
      */
     getRelativePositionOf(card1, card2) {
         if (typeof card1 !== "object" || !(card1 instanceof CardOnBoard)) {
-            logger.warning("expected CardOnBoard type but found " + card1.constructor.name);
+            logger.warning("Expected CardOnBoard type but " + card1.constructor.name + " found");
         }
         if (typeof card2 !== "object" || !(card1 instanceof CardOnBoard)) {
-            logger.warning("expected CardOnBoard type but found " + card2.constructor.name);
+            logger.warning("Expected CardOnBoard type but " + card2.constructor.name + " found");
         }
 
         let card1Pos, card2Pos;
@@ -206,10 +216,11 @@ class Board {
      * Get the number of cards on the board owned by the player.
      * @param player the PlayerInGame whose the score is wanted
      * @returns {number} Number of cards on the board owned by the player
+     * @since 17.10.22
      */
     getPlayerScore(player) {
         if (typeof player !== "object" || !(player instanceof PlayerInGame)) {
-            logger.warning("expected PlayerInGame type but found " + player.constructor.name);
+            logger.warning("Expected PlayerInGame type but " + player.constructor.name + " found");
         }
 
         let score = 0;
@@ -227,6 +238,7 @@ class Board {
     /**
      * Whether all the cases of the board contain a card.
      * @returns {boolean} True if all the cases contain a card
+     * @since 17.10.22
      */
     isComplete() {
         for (let i = 0; i < this.rows; i++) {
@@ -244,6 +256,7 @@ class Board {
 /**
  * Enumeration to indicate the position of a card relative to another one
  * @type {{TOP: number, TOP_RIGHT: number, RIGHT: number, BOTTOM_RIGHT: number, BOTTOM: number, BOTTOM_LEFT: number, LEFT: number, TOP_LEFT: number}}
+ * @since 17.10.22
  */
 Board.positions = {
     TOP: 1,
