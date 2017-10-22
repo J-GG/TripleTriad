@@ -1,4 +1,4 @@
-var Events = (function () {
+let Events = (function () {
     let subscribers = [];
 
     class Subscriber {

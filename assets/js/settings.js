@@ -1,7 +1,9 @@
-var Settings = (function () {
+let Settings = (function () {
+    //Set the default values
     let player1Name = "Player 1", player2Name = "Player 2";
     let audioEnabled = true, open = false, war = false, same = false, plus = false, combo = false;
 
+    //Get the values from the local storage if they exist
     if (typeof(Storage) !== "undefined") {
         player1Name = window.localStorage.getItem("player1Name") ? localStorage.getItem("player1Name").substring(0, 10) : player1Name;
         player2Name = window.localStorage.getItem("player2Name") ? localStorage.getItem("player2Name").substring(0, 10) : player2Name;
@@ -13,6 +15,7 @@ var Settings = (function () {
         combo = window.localStorage.getItem("combo") === 'true';
     }
 
+    //Return the setters and getters
     return {
         getPlayer1Name() {
             return player1Name;
@@ -28,14 +31,14 @@ var Settings = (function () {
             player2Name = name.substring(0, 10);
             window.localStorage.setItem("player2Name", name);
         },
-        isAudioEnabled: function () {
+        isAudioEnabled() {
             return audioEnabled;
         },
-        enableAudio: function () {
+        enableAudio() {
             audioEnabled = true;
             window.localStorage.setItem("audioEnabled", 'true');
         },
-        disableAudio: function () {
+        disableAudio() {
             audioEnabled = false;
             window.localStorage.setItem("audioEnabled", 'false');
         },

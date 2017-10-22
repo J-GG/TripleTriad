@@ -33,7 +33,7 @@ class View {
         }));
 
         if (Settings.isAudioEnabled()) {
-            var music = document.getElementById("music");
+            let music = document.getElementById("music");
             music.currentTime = 0;
             music.play();
         }
@@ -44,7 +44,7 @@ class View {
     drawCards(gameState) {
 
         //Show players' name
-        for (var i = 0; i < gameState.getPlayers().length; i++) {
+        for (let i = 0; i < gameState.getPlayers().length; i++) {
             $(".board__game-area").append($("<div>", {class: "player-name__box player-name__box--player-" + (i + 1)}));
             $(".player-name__box--player-" + (i + 1)).append($("<div>", {
                 class: "player-name__text",
@@ -53,10 +53,10 @@ class View {
         }
 
         /* Show player's cards */
-        for (var i = 0; i < gameState.getPlayers().length; i++) {
-            var deck = gameState.getPlayer(i).getDeck();
-            var color = i === 0 ? "blue" : "red";
-            for (var j = deck.length - 1; j >= 0; j--) {
+        for (let i = 0; i < gameState.getPlayers().length; i++) {
+            let deck = gameState.getPlayer(i).getDeck();
+            let color = i === 0 ? "blue" : "red";
+            for (let j = deck.length - 1; j >= 0; j--) {
                 $(".board__game-area").append($("<div>", {
                     class: "card card--out-board card--player-" + (i + 1) + " card--player-" + (i + 1) + "-appearance-deck-" + j,
                     style: "background-image:url('assets/img/cards/" + color + "/" + deck[j].getName().replace(/ /g, '').toLowerCase() + ".jpg');"
@@ -69,14 +69,14 @@ class View {
             }
         }
 
-        var self = this;
+        const self = this;
         setTimeout(function () {
-            for (var i = 0; i < gameState.getPlayers().length; i++) {
+            for (let i = 0; i < gameState.getPlayers().length; i++) {
                 /* Display scores */
                 $(".board__game-area").append($("<div>", {class: "score score--player-" + (i + 1)}));
                 $(".score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
 
-                for (var j = 0; j < 5; j++) {
+                for (let j = 0; j < 5; j++) {
                     /* Remove the classes for the animation and add the classes for the position */
                     $(".card--player-" + (i + 1) + "-appearance-deck-" + j).addClass("card--deck-" + j)
                         .removeClass("card--out-board card--player-" + (i + 1) + "-appearance-deck-" + j);
@@ -88,11 +88,11 @@ class View {
     }
 
     drawFirstPlayerToPlay(gameState) {
-        var playerToPlay = gameState.getIndexPlayerToPlay() + 1;
+        let playerToPlay = gameState.getIndexPlayerToPlay() + 1;
 
         $(".board__game-area").append($("<div>", {class: "player-selector player-selector--draw player-selector--draw-player-" + playerToPlay}));
 
-        var self = this;
+        let self = this;
         setTimeout(function () {
             $(".player-selector").removeClass("player-selector--draw player-selector--draw-player-" + playerToPlay)
             $(".board__game-area").append($("<div>", {class: "cursor"}));
@@ -102,9 +102,9 @@ class View {
     }
 
     newTurn(gameState) {
-        var playerToPlay = gameState.getIndexPlayerToPlay() + 1;
+        let playerToPlay = gameState.getIndexPlayerToPlay() + 1;
 
-        var self = this;
+        const self = this;
         if (!Settings.isOpenEnabled()) {
             $(".cursor").addClass("cursor--hide");
             $(".board__game-area").append($("<div>", {class: "text-title"}));
@@ -135,7 +135,7 @@ class View {
     }
 
     chooseCardToPlay(gameState, selectedCard) {
-        var playerToPlay = gameState.getIndexPlayerToPlay() + 1;
+        let playerToPlay = gameState.getIndexPlayerToPlay() + 1;
         if (selectedCard === undefined) {
             selectedCard = gameState.getPlayerToPlay().getDeck().length - 1;
         }
@@ -145,9 +145,9 @@ class View {
 
         this.updateSelectedCard(gameState, playerToPlay, selectedCard);
 
-        var self = this;
+        const self = this;
         $(document).keydown(function (e) {
-            var previousSelectedCard = selectedCard;
+            let previousSelectedCard = selectedCard;
             switch (e.which) {
                 case 38: //Up
                     selectedCard + 1 < gameState.getPlayerToPlay().getDeck().length ? selectedCard++ : selectedCard;
@@ -176,12 +176,12 @@ class View {
         $(".cursor").removeClass("cursor--card-" + previousSelectedCard).addClass("cursor--card-" + selectedCard);
 
         //Shift the cards
-        if (previousSelectedCard != undefined) {
-            var divpreviousSelectedCard = $(".card--player-" + playerToPlay + ".card--deck-" + previousSelectedCard);
+        if (previousSelectedCard !== undefined) {
+            let divpreviousSelectedCard = $(".card--player-" + playerToPlay + ".card--deck-" + previousSelectedCard);
             $(divpreviousSelectedCard).removeClass("card--selected-player-" + playerToPlay);
         }
 
-        var divselectedCard = $(".card--player-" + playerToPlay + ".card--deck-" + selectedCard);
+        let divselectedCard = $(".card--player-" + playerToPlay + ".card--deck-" + selectedCard);
         $(divselectedCard).addClass("card--selected-player-" + playerToPlay);
 
         //Show the name of the card
@@ -189,7 +189,7 @@ class View {
     }
 
     chooseCase(gameState, playerToPlay, selectedCard) {
-        var currentRow = 1, currentCol = 1;
+        let currentRow = 1, currentCol = 1;
 
         //Move the cursor to the board
         $(".cursor").addClass("cursor--row-" + currentRow + " cursor--col-" + currentCol);
@@ -201,10 +201,10 @@ class View {
             $("#card-name-message").addClass("message--hidden").text();
         }
 
-        var self = this;
+        const self = this;
         $(document).keydown(function (e) {
-            var previousRow = currentRow;
-            var previousCol = currentCol;
+            let previousRow = currentRow;
+            let previousCol = currentCol;
 
             switch (e.which) {
                 case 37: //Left
@@ -258,7 +258,7 @@ class View {
     }
 
     playCard(gameState, indexCardPlayed, row, col) {
-        var playerToPlay = gameState.getIndexPlayerToPlay() + 1;
+        let playerToPlay = gameState.getIndexPlayerToPlay() + 1;
 
         /* Move the card from the deck to the board */
         $(".card--selected-player-" + playerToPlay).addClass("card--disappearance-deck-" + indexCardPlayed);
@@ -267,7 +267,7 @@ class View {
         $(".cursor").addClass("cursor--hide");
 
         /* Lower the position of the cards above the one which has just been removed from the deck */
-        for (var i = indexCardPlayed + 1; i < gameState.getPlayerToPlay().getDeck().length + 1; i++) {
+        for (let i = indexCardPlayed + 1; i < gameState.getPlayerToPlay().getDeck().length + 1; i++) {
             $(".card--player-" + playerToPlay + ".card--deck-" + i).removeClass("card--deck-" + i).addClass("card--deck-lower-" + (i - 1));
 
             (function (playerToPlay, i) {
@@ -291,9 +291,9 @@ class View {
                     .addClass("card--row-" + row);
 
                 //Determine if cards have been flipped
-                var steps = 0, nbRulesDisplayed = 0, rules = {};
-                for (var i = 0; i < gameState.getBoard().getRows(); i++) {
-                    for (var j = 0; j < gameState.getBoard().getCols(); j++) {
+                let steps = 0, nbRulesDisplayed = 0, rules = {};
+                for (let i = 0; i < gameState.getBoard().getRows(); i++) {
+                    for (let j = 0; j < gameState.getBoard().getCols(); j++) {
                         if (gameState.getBoard().getCardOnBoard(i, j) !== undefined && gameState.getBoard().getCardOnBoard(i, j).isFlipped()) {
                             if (gameState.getBoard().getCardOnBoard(i, j).getFlippedStep() > steps) {
                                 steps = gameState.getBoard().getCardOnBoard(i, j).getFlippedStep();
@@ -311,7 +311,7 @@ class View {
                 //Flip the cards
                 function flipCard(step) {
                     //Show the rule applied
-                    var delayed = 0;
+                    let delayed = 0;
                     if (rules[step] !== "SIMPLE") {
                         delayed = 1200;
                         $(".board__game-area").append($("<div>", {
@@ -373,10 +373,10 @@ class View {
                     flipCard(1);
                 }
 
-                var timeOut = 200 + (steps * 500) + (nbRulesDisplayed * 1200);
+                let timeOut = 200 + (steps * 500) + (nbRulesDisplayed * 1200);
                 setTimeout(function () {
                     //Update scores
-                    for (var i = 0; i < gameState.getPlayers().length; i++) {
+                    for (let i = 0; i < gameState.getPlayers().length; i++) {
                         $(".score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
                     }
 
@@ -407,13 +407,13 @@ class View {
             if (Settings.isAudioEnabled()) {
                 document.getElementById("music").pause();
 
-                var victory = document.getElementById("victory");
+                let victory = document.getElementById("victory");
                 victory.currentTime = 0;
                 victory.play();
             }
         }
 
-        var self = this;
+        const self = this;
         $(document).keydown(function (e) {
             switch (e.which) {
                 case 13: //Enter
@@ -428,7 +428,7 @@ class View {
     }
 
     finalScreen(gameState) {
-        let self = this;
+        const self = this;
         $(".board__game-area").fadeOut(function () {
             $(this).html("").addClass("board__game-area--final-screen").fadeIn();
             $(".board__game-area").append($("<div>", {id: "play-again-message", class: "message message--info"}));
@@ -463,10 +463,10 @@ class View {
     }
 
     choiceDialog(messageChoice, defaultChoice, maxChoice, escChoice, callback, gameState) {
-        var choice = defaultChoice;
+        let choice = defaultChoice;
         $(messageChoice).append($("<div>", {class: "cursor cursor--choices cursor--choice-" + choice}));
         $(document).keydown(function (e) {
-            var previousChoice = choice;
+            let previousChoice = choice;
 
             switch (e.which) {
                 case 38: //Up
