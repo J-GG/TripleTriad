@@ -1,0 +1,22 @@
+.player-selector--draw {
+	top: 45%;
+	left: 45%;
+}
+
+	.player-selector--draw-player-1 {
+		animation: selectorPlayer1 1.5s ease-out forwards;
+	}
+
+	.player-selector--draw-player-2 {
+		animation: selectorPlayer2 1.5s ease-out forwards;
+	}
+
+	@keyframes selectorPlayer1 {
+		from { transform: rotateY(0) rotateZ(90deg); }
+		to { transform: rotateY(3060deg) rotateZ(90deg); }
+	}
+
+	@keyframes selectorPlayer2 {
+		from { transform: rotateY(0) rotateZ(90deg); }
+		to { transform: rotateY(2880deg) rotateZ(90deg); }
+	}

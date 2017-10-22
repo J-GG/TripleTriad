@@ -1,0 +1,91 @@
+/* Flip the card */
+.card--back {
+  background-image: url("../img/cards/back.png");
+}
+
+.LOOP-card--flip-i(@n, @i: 0, @perspectiveY: -1) when (@i < @n) {
+
+  .LOOP-card--flip-j(@m, @j: 0, @perspectiveX: -1) when (@j < @m) {
+
+    .card--front-Y-row-@{i}-col-@{j} {
+      animation: "flipCardFrontY@{i}@{j}" .5s ease-out backwards;
+    }
+
+    .card--back-Y-row-@{i}-col-@{j} {
+      animation: "flipCardBackY@{i}@{j}" .5s ease-out backwards;
+    }
+
+    .card--front-X-row-@{i}-col-@{j} {
+      animation: "flipCardFrontX@{i}@{j}" .5s ease-out backwards;
+    }
+
+    .card--back-X-row-@{i}-col-@{j} {
+      animation: "flipCardBackX@{i}@{j}" .5s ease-out backwards;
+    }
+
+    @keyframes "flipCardFrontY@{i}@{j}" {
+      from {
+        transform: rotateY(0deg);
+      }
+      50% {
+        margin-left: (1.5% * @perspectiveX);
+        margin-top: (2.5% * @perspectiveY);
+        transform: rotateY(180deg) scale(1.2);
+      }
+      to {
+        transform: rotateY(360deg);
+      }
+    }
+
+    @keyframes "flipCardBackY@{i}@{j}" {
+      from {
+        transform: rotateY(180deg);
+      }
+      50% {
+        margin-left: (1.5% * @perspectiveX);
+        margin-top: (2.5% * @perspectiveY);
+        transform: scale(1.2);
+        box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(88, 74, 51, 0.59);
+      }
+      to {
+        transform: rotateY(540deg);
+      }
+    }
+
+    @keyframes "flipCardFrontX@{i}@{j}" {
+      from {
+        transform: rotateX(0deg);
+      }
+      50% {
+        margin-left: (1.5% * @perspectiveX);
+        margin-top: (2.5% * @perspectiveY);
+        transform: rotateX(180deg) scale(1.2);
+      }
+      to {
+        transform: rotateX(360deg);
+      }
+    }
+
+    @keyframes "flipCardBackX@{i}@{j}" {
+      from {
+        transform: rotateX(180deg);
+      }
+      50% {
+        margin-left: (1.5% * @perspectiveX);
+        margin-top: (2.5% * @perspectiveY);
+        transform: scale(1.2);
+        box-shadow: unit(@perspectiveX * -1, vmin) unit(@perspectiveY * -1, vmin) rgba(88, 74, 51, 0.59);
+      }
+      to {
+        transform: rotateX(540deg);
+      }
+    }
+
+    .LOOP-card--flip-j(@n, (@j + 1), (@perspectiveX + 1));
+  }
+  .LOOP-card--flip-j(3);
+
+  .LOOP-card--flip-i(@n, (@i + 1), (@perspectiveY + 1));
+}
+
+.LOOP-card--flip-i(3);

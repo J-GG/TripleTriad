@@ -1,0 +1,45 @@
+/* Cards in the decks (0...4) */
+.LOOP-cardAppearance(@n, @i: 0, @j: (@n - @i - 1)) when (@i < @n) {
+	/* Animation when the cards are drawn */
+	.card--player-1-appearance-deck-@{j} {
+		animation: "cardAppearance@{j}" .25s (.05s + .05 * @i) forwards; 
+	}
+
+	.card--player-2-appearance-deck-@{j} {
+		animation: "cardAppearance@{j}" .25s (.3s + .05 * @i) forwards; 
+	}
+
+	@keyframes "cardAppearance@{j}"{
+		from { top: 100vh; }
+		to { top: (12% + @i * 13%); }
+	}
+
+	/* Position in the deck */
+	.card--deck-@{j} {
+		top: (12% + @i * 13%);
+	}
+
+	/* Animation when the cards lower in the deck */
+	.card--deck-lower-@{j} {
+		animation: "cardLower@{j}" .25s forwards;
+	}
+
+	@keyframes "cardLower@{j}"{
+		from { top: (12% + (@i - 1) * 13%); }
+		to { top: (12% + @i * 13%); }
+	}
+
+	/* Animation to make the card leave the deck when it's played */
+	.card--disappearance-deck-@{j} {
+		animation: "cardDisappearance@{j}" .75s;
+	}
+
+	@keyframes "cardDisappearance@{j}" {
+		from{ top: (12% + @i * 13%); }
+		50% { transform: scaleX(1.3); }
+		to{ top: -100vh; }
+	}
+
+	.LOOP-cardAppearance(@n, (@i + 1));
+}
+.LOOP-cardAppearance(5);

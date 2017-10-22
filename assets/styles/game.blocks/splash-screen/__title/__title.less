@@ -1,0 +1,21 @@
+.splash-screen__title {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  background: url('../img/title.png') center no-repeat;
+  background-size: contain;
+  width: 50%;
+  height: 50%;
+  transform: translate(-50%, -50%);
+  animation: splashScreenTitleAnimation 1.5s forwards;
+  z-index: 5;
+}
+
+@keyframes splashScreenTitleAnimation {
+  from {
+    top: -20vh;
+  }
+  to {
+    top: 25%;
+  }
+}

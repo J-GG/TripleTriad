@@ -1,0 +1,21 @@
+.player-selector--turn {
+	top: 6%;
+	left: auto;
+	right: auto;
+	transform: rotateZ(180deg);
+	animation: selectorPlayerTurn .5s linear infinite;
+}
+
+	.player-selector--turn-player-1 {
+		left: 7%;
+	}
+
+	.player-selector--turn-player-2 {
+		right: 7%;
+	}
+
+	@keyframes selectorPlayerTurn {
+		from { top: 6%; }
+		50% { top: 7%; }
+		to { top: 6%; }
+	}

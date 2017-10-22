@@ -1,0 +1,9 @@
+/* When selecting the card, cursor facing one card (0...4) */
+.LOOP-cursor--card(@n, @i: 0,  @j: (@n - @i - 1)) when (@i < @n) {
+	.cursor--card-@{j} {
+		top: (25% + @i * 13%);
+	}
+
+	.LOOP-cursor--card(@n, (@i + 1));
+}
+.LOOP-cursor--card(5);

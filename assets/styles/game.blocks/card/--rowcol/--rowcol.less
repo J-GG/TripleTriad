@@ -1,0 +1,25 @@
+/* Rows and columns of the card on the board (0...2) */
+.LOOP-card--rowcol(@n, @i: 0) when (@i < @n) {
+	.card--row-@{i} {
+		top: (10% + @i * 27%);
+	}
+
+	.card--col-@{i} {
+		left: (27% + @i * 17%);
+	}
+
+	/* Animation to make the card appear on the board when it's played */
+	.card--appearance-row-@{i} {
+		z-index: 1;
+		animation: "cardAppearanceOnBoard@{i}" .5s ease-out;
+	}
+
+	@keyframes "cardAppearanceOnBoard@{i}" {
+		from { top: -100vh; }
+		50% {transform: scaleX(1.3); }
+		to { top: (10% + @i * 27%); }
+	}
+
+	.LOOP-card--rowcol(@n, (@i + 1));
+}
+.LOOP-card--rowcol(3);

@@ -1,0 +1,39 @@
+.player-name__box--player-1 {
+  left: 0;
+  text-align: left;
+  animation: namePlayer1 .55s;
+}
+
+.player-name__box--player-1::after {
+  right: -15%;
+  transform: skewX(-20deg);
+}
+
+.player-name__box--player-2 {
+  right: 0;
+  text-align: right;
+  animation: namePlayer2 .55s;
+}
+
+.player-name__box--player-2::after {
+  left: -15%;
+  transform: skewX(20deg);
+}
+
+@keyframes namePlayer1 {
+  from {
+    left: -20vw;
+  }
+  to {
+    left: 0;
+  }
+}
+
+@keyframes namePlayer2 {
+  from {
+    right: -20vw;
+  }
+  to {
+    right: 0;
+  }
+}
