@@ -48,7 +48,7 @@ class CardDB {
      */
     static getRandomCards(number) {
         if (number < 0) {
-            throw new TypeError("The number of cards should be greater than 0 but " + number + " found");
+            logger.warning("The number of cards should be greater than 0 but " + number + " found");
         }
         if (this.cardList === undefined) {
             this.initDB();

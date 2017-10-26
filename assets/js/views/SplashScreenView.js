@@ -1,6 +1,9 @@
 class SplashScreenView {
     static show(view) {
-        $(".board__game-area").load("templates/splash-screen.html", function () {
+        $.get('templates/splash-screen/splash-screen.html', function (source) {
+            let template = Handlebars.compile(source);
+            $(".board__game-area").html(template);
+
             setTimeout(function () {
                 $(".splash-screen__menu").removeClass("splash-screen__menu--hidden");
                 view.choiceDialog($(".splash-screen__menu"), 1, 2, 2, function (gameState, choice) {

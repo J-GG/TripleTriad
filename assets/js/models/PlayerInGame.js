@@ -1,5 +1,3 @@
-require(["assets/js/models/Player.js"]);
-
 /**
  * A Player playing a game.
  * @author Jean-Gabriel Genest

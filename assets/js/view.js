@@ -44,13 +44,13 @@ class View {
     drawCards(gameState) {
 
         //Show players' name
-        for (let i = 0; i < gameState.getPlayers().length; i++) {
-            $(".board__game-area").append($("<div>", {class: "player-name__box player-name__box--player-" + (i + 1)}));
-            $(".player-name__box--player-" + (i + 1)).append($("<div>", {
-                class: "player-name__text",
-                text: gameState.getPlayer(i).getName()
+        $.get('templates/game/player-name.html', function (source) {
+            let template = Handlebars.compile(source);
+            $(".board__game-area").append(template({
+                player1: gameState.getPlayer(0).getName(),
+                player2: gameState.getPlayer(1).getName()
             }));
-        }
+        });
 
         /* Show player's cards */
         for (let i = 0; i < gameState.getPlayers().length; i++) {

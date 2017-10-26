@@ -1,30 +1,18 @@
 class SettingsView {
     static show(view) {
-        $(".board__game-area").html("").load("templates/settings.html", function () {
-            $("#setting-player-1 input").val(Settings.getPlayer1Name());
-            $("#setting-player-2 input").val(Settings.getPlayer2Name());
-
-            if (Settings.isAudioEnabled()) {
-                $("#setting-sound-on").addClass("message__check--enabled");
-            } else {
-                $("#setting-sound-off").addClass("message__check--enabled");
-            }
-
-            if (Settings.isOpenEnabled()) {
-                $("#rule-open").addClass("message__check--enabled");
-            }
-            if (Settings.isWarEnabled()) {
-                $("#rule-war").addClass("message__check--enabled");
-            }
-            if (Settings.isSameEnabled()) {
-                $("#rule-same").addClass("message__check--enabled");
-            }
-            if (Settings.isPlusEnabled()) {
-                $("#rule-plus").addClass("message__check--enabled");
-            }
-            if (Settings.isComboEnabled()) {
-                $("#rule-combo").addClass("message__check--enabled");
-            }
+        //Get and show settings template
+        $.get('templates/settings/settings.html', function (source) {
+            let template = Handlebars.compile(source);
+            $(".board__game-area").html(template({
+                player1: Settings.getPlayer1Name(),
+                player2: Settings.getPlayer2Name(),
+                audio: Settings.isAudioEnabled(),
+                open: Settings.isOpenEnabled(),
+                war: Settings.isWarEnabled(),
+                same: Settings.isSameEnabled(),
+                plus: Settings.isPlusEnabled(),
+                combo: Settings.isComboEnabled(),
+            }));
         });
 
         let choice = 0;
