@@ -1,0 +1,83 @@
+<div class="board">
+    <div class="board__game-area">
+        <div id="settings" class="message message--settings">
+            <div class="select-choices">
+
+                <!-- Name Player 1 -->
+                <p id="setting-player-1" class="select-choices__choice">
+                    <span class="message__label">Player 1</span>
+                    <input type='text' class='message__input' maxlength='10' size='17' spellcheck='false'
+                           autocomplete='false'
+                           value="{{player1}}"/>
+                </p>
+
+                <!-- Name Player 2 -->
+                <p id="setting-player-2" class="select-choices__choice">
+                    <span class="message__label">Player 2</span>
+                    <input type='text' class='message__input' maxlength='10' size='17' spellcheck='false'
+                           autocomplete='false'
+                           value="{{player2}}"/>
+                </p>
+
+                <!-- Audio -->
+                <p id="setting-audio" class="select-choices__choice">
+                    <span class="message__label">Sound</span>
+                    <span id="setting-audio-on"
+                          class='message__check {{#if audio}}message__check--enabled{{/if}}'>ON</span>
+                    <span id="setting-audio-off"
+                          class='message__check {{#unless audio}}message__check--enabled{{/unless}}'>OFF</span>
+                </p>
+
+                <!-- Rules -->
+                <p class="select-choices--remove-margin-left">Rules</p>
+
+                <div id="rule-open" class="message__check {{#if open}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label">
+                        Open
+                    </div>
+                    <div class="message--text-small message__sub-label">Each player can see the opponent's cards</div>
+                </div>
+
+                <div id="rule-war" class="message__check {{#if war}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label">
+                        War
+                    </div>
+                    <div class="message--text-small message__sub-label">When the number of an adjacent card matches, if
+                        the sum of all the numbers of the opponent's card is smaller, then it is flipped
+                    </div>
+                </div>
+
+                <div id="rule-same" class="message__check {{#if same}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label">
+                        Same
+                    </div>
+                    <div class="message--text-small message__sub-label">If the numbers of a card equal to the numbers of
+                        two or more adjacent cards of the opponent, they will be flipped
+                    </div>
+                </div>
+
+                <div id="rule-plus" class="message__check {{#if plus}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label">
+                        Plus
+                    </div>
+                    <div class="message--text-small message__sub-label">If a card is placed down that adds up to the
+                        same value on two or more adjacent cards of the opponent, those cards are flipped
+                    </div>
+                </div>
+
+                <div id="rule-combo" class="message__check {{#if combo}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label">
+                        Combo
+                    </div>
+                    <div class="message--text-small message__sub-label">All cards which were turned over by the Same or
+                        Plus rule can turn over surrounding opponent's cards if they have a greater value
+                    </div>
+                </div>
+
+                <p class="message__confirm">
+                    <span class="select-choices__choice">Menu</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

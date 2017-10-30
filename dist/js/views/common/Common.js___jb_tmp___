@@ -1,0 +1,66 @@
+'use strict';
+
+/**
+ * Common functions used in the views.
+ * @author Jean-Gabriel Genest
+ * @since 17.10.30
+ * @version 17.10.30
+ */
+define([], function () {
+    return {
+        linearChoice(container, options, callback) {
+            let choicesContainer = $("#" + cardGame.container + " " + container);
+
+            let choice = typeof options === "object" && options.defaultChoice !== undefined && Number.isInteger(options.defaultChoice) ? options.defaultChoice : 1;
+            let unbindOnEnter = typeof options === "object" && options.unbindOnEnter === false ? false : true;
+
+            //Determine the maximum value
+            let maxChoice = choicesContainer.find(".select-choices__choice").length;
+
+            //Add a cursor at the default position
+            let cursor = $("<div>", {class: "cursor select-choices--remove-margin-left"});
+            choicesContainer.find(".select-choices").append(cursor);
+            updateCursorPosition();
+
+            $(document).keydown(function (e) {
+                switch (e.which) {
+                    case 38: //Up
+                        choice - 1 > 0 ? choice-- : choice;
+                        break;
+
+                    case 40: //Down
+                        choice + 1 <= maxChoice ? choice++ : choice;
+                        break;
+
+                    case 13: //Enter
+                        if (unbindOnEnter) {
+                            $(document).off("keydown");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                callback({key: e.which, choice: choice});
+                updateCursorPosition();
+            });
+
+            //update the cursor at the correct position if the windows is resized
+            $(window).resize(function () {
+                updateCursorPosition();
+            });
+
+            function updateCursorPosition() {
+                let tag = $(choicesContainer.find(".select-choices__choice")[choice - 1]);
+                let tagHeight = tag.position().top
+                    + (tag.height() + parseInt(tag.css('marginTop'), 10)
+                    + parseInt(tag.css('paddingTop'), 10)
+                    + parseInt(tag.css('marginBottom'), 10)
+                    + parseInt(tag.css('paddingBottom'), 10)) / 2;
+                cursor.css({
+                    top: tagHeight - cursor.height() / 2,
+                    left: tag.position().left
+                });
+            }
+        }
+    }
+});
