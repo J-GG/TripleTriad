@@ -38,7 +38,7 @@ class View {
             music.play();
         }
 
-        this.game.initGame();
+        this.game.startGame();
     }
 
     drawCards(gameState) {
@@ -108,7 +108,7 @@ class View {
         if (!Settings.isOpenEnabled()) {
             $(".cursor").addClass("cursor--hide");
             $(".board__game-area").append($("<div>", {class: "text-title"}));
-            $(".text-title").text(gameState.getPlayerToPlay().getName() + "'s turn");
+            $(".text-title").text(gameState.getPlayerPlaying().getName() + "'s turn");
 
             $(document).keydown(function (e) {
                 switch (e.which) {
@@ -137,7 +137,7 @@ class View {
     chooseCardToPlay(gameState, selectedCard) {
         let playerToPlay = gameState.getIndexPlayerToPlay() + 1;
         if (selectedCard === undefined) {
-            selectedCard = gameState.getPlayerToPlay().getDeck().length - 1;
+            selectedCard = gameState.getPlayerPlaying().getDeck().length - 1;
         }
 
         $(".player-selector").removeClass().addClass("player-selector player-selector--turn player-selector--turn-player-" + playerToPlay);
@@ -150,7 +150,7 @@ class View {
             let previousSelectedCard = selectedCard;
             switch (e.which) {
                 case 38: //Up
-                    selectedCard + 1 < gameState.getPlayerToPlay().getDeck().length ? selectedCard++ : selectedCard;
+                    selectedCard + 1 < gameState.getPlayerPlaying().getDeck().length ? selectedCard++ : selectedCard;
                     self.updateSelectedCard(gameState, playerToPlay, selectedCard, previousSelectedCard);
                     break;
 
@@ -185,7 +185,7 @@ class View {
         $(divselectedCard).addClass("card--selected-player-" + playerToPlay);
 
         //Show the name of the card
-        this.showCardNameMessage(gameState, gameState.getPlayerToPlay().getCard(selectedCard));
+        this.showCardNameMessage(gameState, gameState.getPlayerPlaying().getCard(selectedCard));
     }
 
     chooseCase(gameState, playerToPlay, selectedCard) {
@@ -226,7 +226,7 @@ class View {
                 case 13: //Enter
                     if (!gameState.getBoard().getCardOnBoard(currentRow, currentCol)) {
                         $(document).off("keydown");
-                        self.game.playCard(gameState.getPlayerToPlay().getDeck()[selectedCard], currentRow, currentCol);
+                        self.game.playCard(gameState.getPlayerPlaying().getDeck()[selectedCard], currentRow, currentCol);
                     }
                     return;
                     break;
@@ -267,7 +267,7 @@ class View {
         $(".cursor").addClass("cursor--hide");
 
         /* Lower the position of the cards above the one which has just been removed from the deck */
-        for (let i = indexCardPlayed + 1; i < gameState.getPlayerToPlay().getDeck().length + 1; i++) {
+        for (let i = indexCardPlayed + 1; i < gameState.getPlayerPlaying().getDeck().length + 1; i++) {
             $(".card--player-" + playerToPlay + ".card--deck-" + i).removeClass("card--deck-" + i).addClass("card--deck-lower-" + (i - 1));
 
             (function (playerToPlay, i) {
@@ -334,7 +334,7 @@ class View {
                                     //X or Y rotation
                                     let position = gameState.getBoard().getRelativePositionOf(flippedCard, flippedCard.getFlippedByCard());
                                     let rotation = "Y";
-                                    if (position === Board.positions.BOTTOM || position === Board.positions.TOP) {
+                                    if (position === Board.getCardPositions().BOTTOM || position === Board.getCardPositions().TOP) {
                                         rotation = "X";
                                     }
 
@@ -446,7 +446,7 @@ class View {
 
                     $(".board__game-area").fadeOut(function () {
                         $(this).html("").removeClass("board__game-area--final-screen").fadeIn();
-                        self.game.initGame(gameState.getPlayers().map(player => player.getName()));
+                        self.game.startGame(gameState.getPlayers().map(player => player.getName()));
                     });
                 } else {
                     if (Settings.isAudioEnabled()) {

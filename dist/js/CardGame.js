@@ -4,18 +4,20 @@
  * Entry point of the card game.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.10.30
+ * @version 17.11.01
  */
-require(["../../node_modules/jquery/dist/jquery.min",
-        "../../node_modules/handlebars/dist/handlebars.min",
-        "../../node_modules/js-logging/js-logging.browser"],
-    function (jquery, handlebars, logging) {
-        window.logger = logging.colorConsole();
-        logger.setLevel("debug");
-        window.Handlebars = handlebars;
-    });
+define(["js/views/base/Base",
+    "../../node_modules/jquery/dist/jquery.min",
+    "../../node_modules/handlebars/dist/handlebars.min",
+    "../../node_modules/js-logging/js-logging.browser"], function (baseScript, jquery, handlebars, logging) {
 
-define(["./Routes"], function (Routes) {
+    /**
+     * URL of the template
+     * @type {string}
+     * @since 17.10.30
+     */
+    let TEMPLATE = 'js/views/base/base.html';
+
     return {
 
         /**
@@ -25,20 +27,38 @@ define(["./Routes"], function (Routes) {
          * @since 17.10.30
          */
         start(options) {
+            window.logger = logging.colorConsole();
+            logger.setLevel("debug");
+            window.Handlebars = handlebars;
+
             //Game options
             window.cardGame = {};
-            window.cardGame.container = 'card-game';
+            window.cardGame.$container = $("#card-game");
 
             if (options !== undefined) {
-                if (options.container !== undefined && $("#" + options.container).length === 1) {
-                    cardGame.container = options.container;
+                if (options.container !== undefined) {
+                    let $tmpContainer = $("#" + options.container);
+                    if ($tmpContainer.length > 0) {
+                        cardGame.$container = $tmpContainer;
+                    } else {
+                        throw "Container [options.container: " + cardGame.$container + "] can't be found";
+                    }
                 }
             }
 
-            logger.debug("Game launching in [container: " + cardGame.container + "]");
+            //Load the minimal view
+            $.get(TEMPLATE, function (source) {
+                let template = Handlebars.compile(source);
+                cardGame.$container.html(template);
+                baseScript.initViews();
+            });
 
-            //Start the game
-            Routes.get("default")();
+            //Launch the game
+            logger.debug("Game launching in [container: " + cardGame.$container + "]");
+            require(["js/Routes"], function (Routes) {
+                window.Routes = Routes;
+                Routes.get("default")()
+            });
         }
     };
 });

@@ -4,24 +4,17 @@
  * Controller for the splash screen.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.10.30
+ * @version 17.11.01
  */
-define([], function () {
+define(["js/views/splash-screen/SplashScreenScript"], function (splashScreenScript) {
     return (function () {
 
         /**
          * URL of the template
          * @type {string}
-         * @version 17.10.30
+         * @since 17.10.30
          */
         let TEMPLATE = 'js/views/splash-screen/splash-screen.html';
-
-        /**
-         * URL of the script
-         * @type {string}
-         * @version 17.10.30
-         */
-        let SCRIPT = 'js/views/splash-screen/splash-screen.js';
 
         return {
 
@@ -32,8 +25,8 @@ define([], function () {
             splashScreen() {
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
-                    $("#" + cardGame.container).html(template);
-                    $.getScript(SCRIPT);
+                    cardGame.$container.find(".board__game-area").html(template);
+                    splashScreenScript.showMenu();
                 });
             }
         }

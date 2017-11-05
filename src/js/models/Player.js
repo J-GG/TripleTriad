@@ -16,7 +16,7 @@ define([], function () {
          */
         constructor(name) {
             if (typeof name !== "string") {
-                throw new TypeError("Expected String type but " + name.constructor.name + " found");
+                throw new TypeError("Expected String type");
             }
             this.name = name;
             this.cards = [];

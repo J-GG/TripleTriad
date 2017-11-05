@@ -6,7 +6,7 @@
  * @since 17.10.22
  * @version 17.10.22
  */
-define(["./Player"], function (Player) {
+define(["./Player", "./Card"], function (Player, Card) {
     return class PlayerInGame extends Player {
 
         /**
@@ -85,7 +85,7 @@ define(["./Player"], function (Player) {
          */
         removeCard(cardToRemove) {
             if (typeof cardToRemove !== "object" || !(cardToRemove instanceof Card)) {
-                logger.warning("Expected Card type but " + cardToRemove.constructor.name + "found");
+                logger.warning("Expected Card type");
             }
             let indexToRemove = this.deck.indexOf(cardToRemove);
             this.deck.splice(indexToRemove, 1);

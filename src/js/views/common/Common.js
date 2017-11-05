@@ -4,9 +4,9 @@
  * Common functions used in the views.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.10.30
+ * @version 17.11.01
  */
-define([], function () {
+define(["js/toolbox/Key"], function (Key) {
     return {
 
         /**
@@ -16,18 +16,16 @@ define([], function () {
          * Options are:
          *  - defaultChoice: {@type Integer between 1 and the number of choices} set the option selected by default (default: 1)
          *  - unbindOnEnter: {@type boolean} whether the function should unbind the event when the enter key is pressed (default: true)
-         * @param container Selector for the container
          * @param options Options as a literal object
          * @param callback Function to call
          * @since 17.10.30
          */
-        linearChoice(container, options, callback) {
-            let choicesContainer = $("#" + cardGame.container + " " + container);
+        linearChoice(options, callback) {
             let choice = 1;
             let unbindOnEnter = true;
 
             //Find the maximum value
-            let maxChoice = choicesContainer.find(".select-choices__choice").length;
+            let maxChoice = cardGame.$container.find(".select-choices__choice").length;
 
             //Options
             if (typeof options === "object") {
@@ -40,31 +38,35 @@ define([], function () {
             }
 
             //Add a cursor at the default position
-            let cursor = $("<div>", {class: "cursor select-choices--remove-margin-left"});
-            choicesContainer.find(".select-choices").append(cursor);
+            let $cursor = $("<div>", {class: "cursor"});
+            cardGame.$container.find(".board__background").append($cursor);
+
             updateCursorPosition();
 
-            $(document).keydown(function (e) {
-                switch (e.which) {
-                    case 38: //Up
-                        choice - 1 > 0 ? choice-- : choice;
-                        break;
+            cardGame.$container.keydown(function (e) {
+                if (cardGame.$container.find($(document.activeElement)).length > 0) {
+                    switch (e.which) {
+                        case Key.UP:
+                            choice - 1 > 0 ? choice-- : choice;
+                            break;
 
-                    case 40: //Down
-                        choice + 1 <= maxChoice ? choice++ : choice;
-                        break;
+                        case Key.DOWN:
+                            choice + 1 <= maxChoice ? choice++ : choice;
+                            break;
 
-                    case 13: //Enter
-                        if (unbindOnEnter) {
-                            $(document).off("keydown");
-                        }
-                        break;
-                    default:
-                        break;
+                        case Key.ENTER:
+                            if (unbindOnEnter) {
+                                cardGame.$container.off("keydown");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    callback({key: e.which, choice: choice});
+                    updateCursorPosition();
                 }
-                callback({key: e.which, choice: choice});
-                updateCursorPosition();
             });
+
 
             //update the cursor at the correct position if the windows is resized
             $(window).resize(function () {
@@ -76,15 +78,16 @@ define([], function () {
              * @since 17.10.30
              */
             function updateCursorPosition() {
-                let tag = $(choicesContainer.find(".select-choices__choice")[choice - 1]);
-                let tagHeight = tag.position().top
-                    + (tag.height() + parseInt(tag.css('marginTop'), 10)
-                    + parseInt(tag.css('paddingTop'), 10)
-                    + parseInt(tag.css('marginBottom'), 10)
-                    + parseInt(tag.css('paddingBottom'), 10)) / 2;
-                cursor.css({
-                    top: tagHeight - cursor.height() / 2,
-                    left: tag.position().left
+                let $tag = $(cardGame.$container.find(".select-choices__choice")[choice - 1]);
+                let tagHeight = $tag.offset().top + $tag.height() / 2;
+
+                //Add a left margin to select choices corresponding to the size of the cursor
+                cardGame.$container.find(".select-choices__choice").css({marginLeft: ($cursor.width() * 1.2) + "px"});
+                $cursor.css({marginLeft: "-" + ($cursor.width() * 1.2) + "px"});
+                
+                cardGame.$container.find(".cursor").css({
+                    top: tagHeight - $cursor.height() / 2 - cardGame.$container.find(".board__game-area").offset().top,
+                    left: $tag.offset().left - cardGame.$container.find(".board__game-area").offset().left
                 });
             }
         }

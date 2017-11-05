@@ -1,13 +1,14 @@
 /* When selecting the case, position of the cursor (0...2) */
 .LOOP-cursor--rowcol(@n, @i: 0) when (@i < @n) {
-	.cursor--row-@{i} {
-		top: (22% + @i * 27%);
-	}
+  .cursor--row-@{i} {
+    top: (22% + @i * 27%);
+  }
 
-	.cursor--col-@{i} {
-		left: (27% + @i * 17%);
-	}
+  .cursor--col-@{i} {
+    left: (29% + @i * 17%);
+  }
 
-	.LOOP-cursor--rowcol(@n, (@i + 1));
+  .LOOP-cursor--rowcol(@n, (@i + 1));
 }
+
 .LOOP-cursor--rowcol(3);

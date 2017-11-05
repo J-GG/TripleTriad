@@ -4,24 +4,17 @@
  * Controller for the settings.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.10.30
+ * @version 17.11.02
  */
-define(["../models/Settings"], function (Settings) {
+define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings"], function (SettingsScreenScript, Settings) {
     return (function () {
 
         /**
          * URL of the template.
          * @type {string}
-         * @version 17.10.30
+         * @since 17.10.30
          */
         let TEMPLATE = 'js/views/settings-screen/settings-screen.html';
-
-        /**
-         * URL of the script.
-         * @type {string}
-         * @version 17.10.30
-         */
-        let SCRIPT = 'js/views/settings-screen/settings-screen.js';
 
         return {
 
@@ -43,8 +36,8 @@ define(["../models/Settings"], function (Settings) {
                         combo: Settings.isComboEnabled()
                     };
 
-                    $("#" + cardGame.container).html(template(data));
-                    $.getScript(SCRIPT);
+                    cardGame.$container.find(" .board__game-area").html(template(data));
+                    SettingsScreenScript.manageSettings();
                 });
             }
         }
