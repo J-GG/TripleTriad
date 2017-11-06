@@ -8,19 +8,19 @@
   .LOOP-card--flip-j(@m, @j: 0, @perspectiveX: -1) when (@j < @m) {
 
     .card--front-Y-row-@{i}-col-@{j} {
-      animation: "flipCardFrontY@{i}@{j}" .5s ease-out backwards;
+      animation: "flipCardFrontY@{i}@{j}" .5s ease-out forwards;
     }
 
     .card--back-Y-row-@{i}-col-@{j} {
-      animation: "flipCardBackY@{i}@{j}" .5s ease-out backwards;
+      animation: "flipCardBackY@{i}@{j}" .5s ease-out forwards;
     }
 
     .card--front-X-row-@{i}-col-@{j} {
-      animation: "flipCardFrontX@{i}@{j}" .5s ease-out backwards;
+      animation: "flipCardFrontX@{i}@{j}" .5s ease-out forwards;
     }
 
     .card--back-X-row-@{i}-col-@{j} {
-      animation: "flipCardBackX@{i}@{j}" .5s ease-out backwards;
+      animation: "flipCardBackX@{i}@{j}" .5s ease-out forwards;
     }
 
     @keyframes "flipCardFrontY@{i}@{j}" {

@@ -305,16 +305,16 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
         /* Lower the position of the cards above the one which has just been removed from the deck */
         for (let i = indexCardPlayed + 1; i < gameState.getPlayerPlaying().getDeck().length + 1; i++) {
             cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-" + i)
-                .removeClass("card--deck-" + i)
-                .addClass("card--deck-lower-" + (i - 1));
+                .addClass("card--deck-lower-" + (i - 1))
+                .removeClass("card--deck-" + i);
 
             let animationLowerDelay = parseFloat(cardGame.$container.find(".card--deck-lower-" + (i - 1)).css("animation-duration"));
 
             (function (playerPlaying, i) {
                 setTimeout(function () {
                     cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-lower-" + (i - 1))
-                        .removeClass("card--deck-lower-" + (i - 1))
-                        .addClass("card--deck-" + (i - 1));
+                        .addClass("card--deck-" + (i - 1))
+                        .removeClass("card--deck-lower-" + (i - 1));
                 }, animationLowerDelay * 1000);
             })(playerPlaying, i);
         }
@@ -334,18 +334,20 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
         let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
 
         //Move the card to the board
-        cardGame.$container.find(".card--selected-player-" + playerPlaying).removeClass("card--disappearance-deck-" + indexCardPlayed
-            + " card--player-" + playerPlaying
-            + " card--deck-" + indexCardPlayed
-            + " card--selected-player-" + playerPlaying)
-            .addClass("card--appearance-row-" + row + " card--col-" + col);
+        cardGame.$container.find(".card--selected-player-" + playerPlaying)
+            .addClass("card--appearance-row-" + row + " card--col-" + col)
+            .removeClass("card--disappearance-deck-" + indexCardPlayed
+                + " card--player-" + playerPlaying
+                + " card--deck-" + indexCardPlayed
+                + " card--selected-player-" + playerPlaying);
 
         let animationAppearanceDelay = parseFloat(cardGame.$container.find(".card--appearance-row-" + row).css("animation-duration"));
 
         setTimeout(function () {
             //Position the card on its case
-            cardGame.$container.find(".card--appearance-row-" + row).removeClass("card--appearance-row-" + row)
-                .addClass("card--row-" + row);
+            cardGame.$container.find(".card--appearance-row-" + row)
+                .addClass("card--row-" + row)
+                .removeClass("card--appearance-row-" + row);
 
             //Flip the nearby cards if necessary
             let animationFlipDelay = flipCards(gameState);
@@ -388,8 +390,8 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                     if (cardOnBoard.getFlippedStep() > steps) {
                         steps = cardOnBoard.getFlippedStep();
                     }
-                    //Count the number of rules applied without counting the simple one
-                    if (cardOnBoard.getFlippedByRule() !== Rules.getRules().SIMPLE) {
+                    //Count the number of rules applied without counting the simple one and by counting each step only once
+                    if (cardOnBoard.getFlippedByRule() !== Rules.getRules().SIMPLE && rules[cardOnBoard.getFlippedStep()] === undefined) {
                         nbRulesDisplayed++;
                     }
                     //Associate the step to the rule
@@ -420,6 +422,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                 for (let i = gameState.getBoard().getRows() - 1; i >= 0; i--) {
                     for (let j = gameState.getBoard().getCols() - 1; j >= 0; j--) {
                         let cardOnBoard = gameState.getBoard().getCardOnBoard(i, j);
+                        console.log(cardOnBoard);
                         if (cardOnBoard !== undefined && cardOnBoard.isFlipped() && cardOnBoard.getFlippedStep() === step) {
                             //Color of the player
                             let color = cardOnBoard.getOwner() === gameState.getPlayer(0) ? "blue" : "red";
@@ -451,11 +454,14 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                             (function (i, j) {
                                 //Remove the back
                                 setTimeout(function () {
-                                    cardGame.$container.find(".card.card--front.card--row-" + i + ".card--col-" + j).removeClass("card--front card--front-" + rotation + "-row-" + i + "-col-" + j);
+                                    cardGame.$container.find(".card.card--front.card--row-" + i + ".card--col-" + j)
+                                        .removeClass("card--front card--front-" + rotation + "-row-" + i + "-col-" + j);
                                     cardGame.$container.find(".card.card--back.card--row-" + i + ".card--col-" + j).remove();
+
                                     if (step < steps) {
                                         flipCard(step + 1);
                                     }
+
                                 }, animationFlipDelay * 1000);
                             })(i, j);
                         }
@@ -468,7 +474,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
             flipCard(1);
         }
 
-        return .2 + (steps * .5) + (nbRulesDisplayed * animationTextSlideDelay);
+        return (steps * .5) + (nbRulesDisplayed * animationTextSlideDelay);
     }
 
     /**

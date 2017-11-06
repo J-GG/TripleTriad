@@ -13,33 +13,33 @@ define(["js/models/Card"], function (Card) {
          */
         static initDB() {
             this.cardList = [];
-            this.cardList.push(new Card("Bite Bug", 1, 1, 3, 3, 5));
-            this.cardList.push(new Card("Funguar", 1, 5, 1, 1, 3));
-            this.cardList.push(new Card("Geezard", 1, 1, 4, 1, 5));
-            this.cardList.push(new Card("Redbat", 1, 6, 1, 1, 2));
-            this.cardList.push(new Card("Blobra", 1, 2, 3, 1, 5));
-            this.cardList.push(new Card("Gayla", 1, 2, 1, 4, 4));
-            this.cardList.push(new Card("Gesper", 1, 1, 5, 4, 1));
-            this.cardList.push(new Card("Fastitocalon-F", 1, 3, 5, 2, 1));
-            this.cardList.push(new Card("Blood Soul", 1, 2, 1, 6, 1));
-            this.cardList.push(new Card("Caterchipillar", 1, 4, 2, 4, 3));
-            this.cardList.push(new Card("Cockatrice", 1, 2, 1, 2, 6));
-
+            /* this.cardList.push(new Card("Bite Bug", 1, 1, 3, 3, 5));
+             this.cardList.push(new Card("Funguar", 1, 5, 1, 1, 3));
+             this.cardList.push(new Card("Geezard", 1, 1, 4, 1, 5));
+             this.cardList.push(new Card("Redbat", 1, 6, 1, 1, 2));
+             this.cardList.push(new Card("Blobra", 1, 2, 3, 1, 5));
+             this.cardList.push(new Card("Gayla", 1, 2, 1, 4, 4));
+             this.cardList.push(new Card("Gesper", 1, 1, 5, 4, 1));
+             this.cardList.push(new Card("Fastitocalon-F", 1, 3, 5, 2, 1));
+             this.cardList.push(new Card("Blood Soul", 1, 2, 1, 6, 1));
+             this.cardList.push(new Card("Caterchipillar", 1, 4, 2, 4, 3));
+             this.cardList.push(new Card("Cockatrice", 1, 2, 1, 2, 6));
+             */
             this.cardList.push(new Card("Dogememe", 1, 2, 2, 2, 2));
             this.cardList.push(new Card("Blogging Shiba", 1, 4, 2, 4, 10));
             this.cardList.push(new Card("Pandaminator", 1, 3, 3, 5, 2));
+            /*
+             this.cardList.push(new Card("Grat", 2, 7, 1, 3, 1));
 
-            this.cardList.push(new Card("Grat", 2, 7, 1, 3, 1));
+             this.cardList.push(new Card("Biggs, Wedge", 5, 6, 6, 2, 7));
 
-            this.cardList.push(new Card("Biggs, Wedge", 5, 6, 6, 2, 7));
-
-            this.cardList.push(new Card("Zell", 10, 8, 5, 10, 6));
-            this.cardList.push(new Card("Rinoa", 10, 4, 10, 2, 10));
-            this.cardList.push(new Card("Edea", 10, 10, 10, 3, 3));
-            this.cardList.push(new Card("Seifer", 10, 6, 9, 10, 4));
-            this.cardList.push(new Card("Squall", 10, 10, 4, 6, 9));
-
-            this.LEVEL_MAX = 10;
+             this.cardList.push(new Card("Zell", 10, 8, 5, 10, 6));
+             this.cardList.push(new Card("Rinoa", 10, 4, 10, 2, 10));
+             this.cardList.push(new Card("Edea", 10, 10, 10, 3, 3));
+             this.cardList.push(new Card("Seifer", 10, 6, 9, 10, 4));
+             this.cardList.push(new Card("Squall", 10, 10, 4, 6, 9));
+             */
+            this.LEVEL_MAX = 1;
         }
 
         /**
