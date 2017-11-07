@@ -10,10 +10,9 @@ define(["js/models/GameState",
     "js/models/PlayerInGame",
     "js/models/Settings",
     "js/models/CardDB",
-    "js/Rules"], function (GameState, PlayerInGame, Settings, CardDB, Rules) {
+    "js/models/Rules"], function (GameState, PlayerInGame, Settings, CardDB, Rules) {
     return class GameEngine {
-
-
+        
         /**
          * Initialize a new game with the players.
          * @returns {*} The GameState

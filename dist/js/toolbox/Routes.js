@@ -7,10 +7,10 @@
  * @since 17.10.30
  * @version 17.11.01
  */
-define(["./controllers/SplashScreenController",
-        "./controllers/SettingsController",
-        "./controllers/GameController",
-        "./controllers/FinalScreenController"],
+define(["../controllers/SplashScreenController",
+        "../controllers/SettingsController",
+        "../controllers/GameController",
+        "../controllers/FinalScreenController"],
     function (SplashScreenController, SettingsController, GameController, FinalScreenController) {
         return (function () {
 
