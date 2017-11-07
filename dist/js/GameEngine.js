@@ -14,6 +14,11 @@ define(["js/models/GameState",
     return class GameEngine {
 
 
+        /**
+         * Initialize a new game with the players.
+         * @returns {*} The GameState
+         * @since 17.11.07
+         */
         initGame() {
             this.gameState = new GameState(3, 3);
             let players = [new PlayerInGame(Settings.getPlayer1Name()), new PlayerInGame(Settings.getPlayer2Name())];
@@ -24,6 +29,11 @@ define(["js/models/GameState",
             return this.drawCards();
         }
 
+        /**
+         * Draw and assign 5 cards to each player.
+         * @returns {*} The GameState
+         * @since 17.11.07
+         */
         drawCards() {
             //Draw the players' cards
             for (let i = 0, nbPlayers = this.gameState.getPlayers().length; i < nbPlayers; i++) {
@@ -33,22 +43,33 @@ define(["js/models/GameState",
                 this.gameState.getPlayer(i).setDeck(deck);
             }
 
-            this.drawFirstPlayerToPlay();
+            this.drawFirstPlayerPlaying();
 
             return this.gameState;
         }
 
-        drawFirstPlayerToPlay() {
+        /**
+         * Choose randomly the player who is going to start the game.
+         * @since 17.11.07
+         */
+        drawFirstPlayerPlaying() {
             let nbPlayerToPlay = Math.floor(Math.random() * this.gameState.getPlayers().length);
             this.gameState.setPlayerPlaying(this.gameState.getPlayers()[nbPlayerToPlay]);
 
             logger.info(this.gameState.getPlayerPlaying().getName() + " starts");
         }
 
+        /**
+         * Play the card on the board and apply the rules.
+         * @param card Card played by the player
+         * @param args The coordinates on the board where the card is played
+         * @returns {[*,*,*]} The GameState, the index of player card and its coordinates
+         * @since 17.11.07
+         */
         playCard(card, ...args) {
             //Remove the card from the deck
             let indexCard = this.gameState.getPlayerPlaying().removeCard(card);
-            logger.debug(card.getName() + " (index " + indexCard + ")  removed from " + this.gameState.getPlayerPlaying().getName() + "'s deck");
+            logger.debug("[card: " + card.getName() + "; index:  " + indexCard + "]  removed from [player: " + this.gameState.getPlayerPlaying().getName() + "]'s deck");
 
             //Play the card on the board
             this.gameState.getBoard().playCardOnBoard(card, this.gameState.getPlayerPlaying(), ...args);
@@ -60,6 +81,13 @@ define(["js/models/GameState",
             return [this.gameState, indexCard, ...args];
         }
 
+        /**
+         * Reset the "flipping state" of all the cards on the board.
+         * Set the turn to the next player.
+         * Check whether the game is over.
+         * @returns {*} The GameState
+         * @since 17.11.07
+         */
         endTurn() {
             logger.info(this.gameState.getPlayerPlaying().getName() + " ended his turn");
 

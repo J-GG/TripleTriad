@@ -86,7 +86,7 @@ define(["js/models/Settings"], function (Settings) {
             let flipped = [];
             let rule = isCombo ? Rules.getRules().COMBO : Rules.getRules().SIMPLE;
 
-            logger.debug("Apply " + rule + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
+            logger.debug("Try " + rule + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
             if (this.cardUp && this.cardUp.getOwner() !== this.card.getOwner() && this.cardUp.getCard().getDown() < this.card.getCard().getUp()) {
                 flipped.push(this.cardUp);
@@ -120,7 +120,7 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.06
          */
         sameRule() {
-            logger.debug("Apply " + Rules.getRules().SAME + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
+            logger.debug("Try " + Rules.getRules().SAME + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
             let flipped = [];
             let cardsCouldBeFlipped = [];
@@ -169,7 +169,7 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.06
          */
         warRule() {
-            logger.debug("Apply " + Rules.getRules().WAR + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
+            logger.debug("Try " + Rules.getRules().WAR + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
             let flipped = [];
             let sum = this.card.getCard().getUp() + this.card.getCard().getRight() + this.card.getCard().getDown() + this.card.getCard().getLeft();
@@ -217,7 +217,7 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.06
          */
         plusRule() {
-            logger.debug("Apply " + Rules.getRules().PLUS + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
+            logger.debug("Try " + Rules.getRules().PLUS + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
             let flipped = [];
             let sums = [];

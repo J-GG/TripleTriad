@@ -52,6 +52,7 @@ define(["js/models/Board", "js/models/PlayerInGame"], function (Board, PlayerInG
         getPlayer(index) {
             if (this.players[index] === undefined) {
                 logger.warning("There is no player at the index " + index);
+                return;
             }
             return this.players[index];
         }

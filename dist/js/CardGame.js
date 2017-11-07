@@ -55,7 +55,7 @@ define(["js/views/base/Base",
 
             //Launch the game
             logger.debug("Game launching in [container: " + cardGame.$container + "]");
-            require(["js/Routes"], function (Routes) {
+            require(["js/toolbox/Routes"], function (Routes) {
                 window.Routes = Routes;
                 Routes.get("default")()
             });

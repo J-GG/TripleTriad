@@ -6,7 +6,7 @@
  * @since 17.10.30
  * @version 17.11.01
  */
-define(["js/views/game/GameScript", "js/models/Settings", "js/GameEngine"], function (GameScript, Settings, GameEngine) {
+define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"], function (GameScript, Settings, GameEngine) {
     return (function () {
 
         /**

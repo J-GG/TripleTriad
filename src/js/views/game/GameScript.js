@@ -6,7 +6,7 @@
  * @since 17.11.02
  * @version 17.11.02
  */
-define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], function (Key, Settings, Rules, Board) {
+define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Board"], function (Key, Settings, Rules, Board) {
 
     /**
      * Start the music.
@@ -399,7 +399,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                 }
             }
         }
-        
+
         //Flip the cards
         function flipCard(step) {
             //Show the rule applying
@@ -409,7 +409,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                     class: "text-title text-title--slide",
                     text: rules[step]
                 }));
-                delayed = parseFloat(cardGame.$container.find(".text-title--slide").css("animation-duration"));
+                delayed = 1.5;
             }
 
             setTimeout(function () {
@@ -470,7 +470,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
             flipCard(1);
         }
 
-        return (steps * .5) + (nbRulesDisplayed * 1.2);
+        return (steps * .5) + (nbRulesDisplayed * 1.5);
     }
 
     /**
