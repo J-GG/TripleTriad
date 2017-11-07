@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * The board where cards are played.
  * @author Jean-Gabriel Genest
@@ -38,14 +40,14 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
          */
         static getCardPositions() {
             return {
-                TOP: 1,
-                TOP_RIGHT: 2,
-                RIGHT: 3,
-                BOTTOM_RIGHT: 4,
-                BOTTOM: 5,
-                BOTTOM_LEFT: 6,
-                LEFT: 7,
-                TOP_LEFT: 8
+                TOP: 0,
+                TOP_RIGHT: 1,
+                RIGHT: 2,
+                BOTTOM_RIGHT: 3,
+                BOTTOM: 4,
+                BOTTOM_LEFT: 5,
+                LEFT: 6,
+                TOP_LEFT: 7
             };
         }
 
@@ -104,10 +106,12 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
          */
         getCardOnBoard(row, col) {
             if (row < 0 || row > this.rows) {
-                logger.warning("The row should be between 0 and " + this.rows + " but " + row + " found");
+                logger.warning("The row should be between 0 and " + this.rows + " but [row: " + row + "] found");
+                return;
             }
             if (col < 0 || col > this.cols) {
-                logger.warning("The column should be between 0 and " + this.cols + " but " + col + " found");
+                logger.warning("The column should be between 0 and " + this.cols + " but [col: " + col + "] found");
+                return;
             }
 
             return this.board[row][col];
@@ -194,19 +198,11 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
                 logger.warning("Expected CardOnBoard type but");
             }
 
-            let card1Pos, card2Pos;
-            for (let i = 0; i < this.rows; i++) {
-                for (let j = 0; j < this.cols; j++) {
-                    if (this.board[i][j] === card1) {
-                        card1Pos = {row: i, col: j};
-                    } else if (this.board[i][j] === card2) {
-                        card2Pos = {row: i, col: j};
-                    }
-                }
-            }
+            let card1Pos = this.getCardCoordinate(card1);
+            let card2Pos = this.getCardCoordinate(card2);
 
             if (card1Pos === undefined || card2Pos === undefined) {
-                logger.warning(card1.getCard().getName() + " and/or " + card2.getCard().getName() + " are not on the board");
+                logger.warning("[card1: " + card1.getCard().getName() + "] and/or [card2: " + card2.getCard().getName() + "] are not on the board");
                 return;
             }
 
@@ -227,7 +223,9 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
                 position = Board.getCardPositions().TOP_LEFT;
             }
 
-            logger.debug(card1.getCard().getName() + "'s relative position to " + card2.getCard().getName() + " is " + Object.keys(Board.getCardPositions())[position]);
+            logger.debug("[card1: " + card1.getCard().getName() + "; row: " + card1Pos.row + "; col: " + card1Pos.col + "]'s relative position to "
+                + "[card2: " + card2.getCard().getName() + "; row: " + card2Pos.row + "; col: " + card2Pos.col + "] is "
+                + Object.keys(Board.getCardPositions())[position]);
 
             return position;
         }

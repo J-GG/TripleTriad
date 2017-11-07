@@ -399,9 +399,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                 }
             }
         }
-
-        let animationTextSlideDelay = 0;
-
+        
         //Flip the cards
         function flipCard(step) {
             //Show the rule applying
@@ -411,8 +409,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                     class: "text-title text-title--slide",
                     text: rules[step]
                 }));
-                animationTextSlideDelay = parseFloat(cardGame.$container.find(".text-title--slide").css("animation-duration"));
-                delayed = animationTextSlideDelay;
+                delayed = parseFloat(cardGame.$container.find(".text-title--slide").css("animation-duration"));
             }
 
             setTimeout(function () {
@@ -422,7 +419,6 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
                 for (let i = gameState.getBoard().getRows() - 1; i >= 0; i--) {
                     for (let j = gameState.getBoard().getCols() - 1; j >= 0; j--) {
                         let cardOnBoard = gameState.getBoard().getCardOnBoard(i, j);
-                        console.log(cardOnBoard);
                         if (cardOnBoard !== undefined && cardOnBoard.isFlipped() && cardOnBoard.getFlippedStep() === step) {
                             //Color of the player
                             let color = cardOnBoard.getOwner() === gameState.getPlayer(0) ? "blue" : "red";
@@ -474,7 +470,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/Rules", "js/models/Board"], 
             flipCard(1);
         }
 
-        return (steps * .5) + (nbRulesDisplayed * animationTextSlideDelay);
+        return (steps * .5) + (nbRulesDisplayed * 1.2);
     }
 
     /**

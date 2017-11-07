@@ -1,3 +1,5 @@
+'uset strict';
+
 /**
  * Simulate a database of cards.
  * @author Jean-Gabriel Genest

@@ -1,11 +1,19 @@
 'use strict';
 
+/**
+ * The engine/business logic of the game.
+ * @author Jean-Gabriel Genest
+ * @since 17.11.06
+ * @version 17.11.06
+ */
 define(["js/models/GameState",
     "js/models/PlayerInGame",
     "js/models/Settings",
     "js/models/CardDB",
     "js/Rules"], function (GameState, PlayerInGame, Settings, CardDB, Rules) {
     return class GameEngine {
+
+
         initGame() {
             this.gameState = new GameState(3, 3);
             let players = [new PlayerInGame(Settings.getPlayer1Name()), new PlayerInGame(Settings.getPlayer2Name())];

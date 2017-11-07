@@ -1,10 +1,13 @@
 'use strict';
 
+/**
+ * The application of rules.
+ * @author Jean-Gabriel Genest
+ * @since 17.11.04
+ * @version 17.11.06
+ */
 define(["js/models/Settings"], function (Settings) {
     return class Rules {
-        constructor() {
-            this.step = 1;
-        }
 
         /**
          * Enumeration to list all the rules.
@@ -27,8 +30,10 @@ define(["js/models/Settings"], function (Settings) {
          * @param board Board where the card is played
          * @param row Row where the card is played on the board
          * @param col Column where the card is played on the board
+         * @since 17.11.04
          */
         apply(board, row, col) {
+            this.step = 1;
             this.board = board;
             this.row = row;
             this.col = col;
@@ -37,6 +42,11 @@ define(["js/models/Settings"], function (Settings) {
             this.cardRight = this.board.getCardOnTheRight(row, col);
             this.cardDown = this.board.getCardBelow(row, col);
             this.cardLeft = this.board.getCardOnTheLeft(row, col);
+
+            if (this.card === undefined) {
+                logger.warning("There is no card on the board at the coordinates [row: " + row + "; col: " + col + "]");
+                return;
+            }
 
             let flipped = [];
             this.simpleRule();
@@ -52,11 +62,10 @@ define(["js/models/Settings"], function (Settings) {
 
             if (Settings.isComboEnabled()) {
                 for (let i = 0; i < flipped.length; i++) {
-                    console.log(flipped[i]);
                     let coordinate = board.getCardCoordinate(flipped[i]);
                     this.card = flipped[i];
-                    this.row = coordinate["row"];
-                    this.col = coordinate["col"];
+                    this.row = coordinate.row;
+                    this.col = coordinate.col;
                     this.cardUp = this.board.getCardAbove(this.row, this.col);
                     this.cardRight = this.board.getCardOnTheRight(this.row, this.col);
                     this.cardDown = this.board.getCardBelow(this.row, this.col);
@@ -67,6 +76,12 @@ define(["js/models/Settings"], function (Settings) {
             }
         }
 
+        /**
+         * Apply the simple rule.
+         * @param isCombo Whether the rule is applied as a combo as a simple rule. True if it's a combo
+         * @returns {Array} The list of flipped cards
+         * @since 17.11.06
+         */
         simpleRule(isCombo) {
             let flipped = [];
             let rule = isCombo ? Rules.getRules().COMBO : Rules.getRules().SIMPLE;
@@ -99,6 +114,11 @@ define(["js/models/Settings"], function (Settings) {
             return flipped;
         }
 
+        /**
+         * Apply the same rule.
+         * @returns {Array} The list of flipped cards
+         * @since 17.11.06
+         */
         sameRule() {
             logger.debug("Apply " + Rules.getRules().SAME + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
@@ -143,6 +163,11 @@ define(["js/models/Settings"], function (Settings) {
             return flipped;
         }
 
+        /**
+         * Apply the war rule.
+         * @returns {Array} The list of flipped cards
+         * @since 17.11.06
+         */
         warRule() {
             logger.debug("Apply " + Rules.getRules().WAR + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
@@ -186,6 +211,11 @@ define(["js/models/Settings"], function (Settings) {
             return flipped;
         }
 
+        /**
+         * Apply the plus rule.
+         * @returns {Array} The list of flipped cards
+         * @since 17.11.06
+         */
         plusRule() {
             logger.debug("Apply " + Rules.getRules().PLUS + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
