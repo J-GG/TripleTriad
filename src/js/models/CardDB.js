@@ -15,10 +15,6 @@ define(["js/models/Card"], function (Card) {
          */
         static initDB() {
             this.cardList = [];
-            /* Non official */
-            this.cardList.push(new Card("Dogememe", 1, 2, 2, 2, 2));
-            this.cardList.push(new Card("Blogging Shiba", 1, 4, 2, 4, 10));
-            this.cardList.push(new Card("Pandaminator", 1, 3, 3, 5, 2));
 
             /* Level 1 */
             this.cardList.push(new Card("Bite Bug", 1, 1, 3, 3, 5));
@@ -84,8 +80,66 @@ define(["js/models/Card"], function (Card) {
             this.cardList.push(new Card("Elnoyle", 5, 5, 3, 7, 6));
             this.cardList.push(new Card("Tonberry King", 5, 4, 6, 7, 4));
             this.cardList.push(new Card("Biggs, Wedge", 5, 6, 6, 2, 7));
-            
+
+            /* Level 6 */
+            this.cardList.push(new Card("Fujin, Raijin", 6, 2, 8, 8, 4));
+            this.cardList.push(new Card("Elvoret", 6, 7, 8, 3, 4));
+            this.cardList.push(new Card("X-ATM092", 6, 4, 8, 7, 3));
+            this.cardList.push(new Card("Granaldo", 6, 7, 2, 8, 5));
+            this.cardList.push(new Card("Gerogero", 6, 1, 8, 8, 3));
+            this.cardList.push(new Card("Iguion", 6, 8, 2, 8, 2));
+            this.cardList.push(new Card("Abadon", 6, 6, 8, 4, 5));
+            this.cardList.push(new Card("Trauma", 6, 4, 8, 5, 6));
+            this.cardList.push(new Card("Oilboyle", 6, 1, 8, 4, 8));
+            this.cardList.push(new Card("Shumi Tribe", 6, 6, 5, 8, 4));
+            this.cardList.push(new Card("Krysta", 6, 7, 5, 8, 1));
+
+            /* Level 7 */
+            this.cardList.push(new Card("Propagator", 7, 8, 4, 4, 8));
+            this.cardList.push(new Card("Jumbo Cactuar", 7, 8, 8, 4, 4));
+            this.cardList.push(new Card("Tri-Point", 7, 8, 5, 2, 8));
+            this.cardList.push(new Card("Gargantua", 7, 5, 6, 6, 8));
+            this.cardList.push(new Card("Mobile Type 8", 7, 8, 6, 7, 3));
+            this.cardList.push(new Card("Sphinxara", 7, 8, 3, 5, 8));
+            this.cardList.push(new Card("Tiamat", 7, 8, 8, 5, 4));
+            this.cardList.push(new Card("BGH251F2", 7, 5, 7, 8, 5));
+            this.cardList.push(new Card("Red Giant", 7, 6, 8, 4, 7));
+            this.cardList.push(new Card("Catoblepas", 7, 1, 8, 7, 7));
+            this.cardList.push(new Card("Ultima Weapon", 7, 7, 7, 2, 8));
+
+            /* Level 8 */
+            this.cardList.push(new Card("Chubby Chocobo", 8, 4, 4, 8, 9));
+            this.cardList.push(new Card("Angelo", 8, 9, 6, 7, 3));
+            this.cardList.push(new Card("Gilgamesh", 8, 3, 7, 9, 6));
+            this.cardList.push(new Card("Mini Mog", 8, 9, 3, 9, 2));
+            this.cardList.push(new Card("Chicobo", 8, 9, 4, 8, 4));
+            this.cardList.push(new Card("Quezacotl", 8, 2, 9, 9, 4));
+            this.cardList.push(new Card("Shiva", 8, 6, 7, 4, 9));
+            this.cardList.push(new Card("Ifrit", 8, 9, 6, 2, 8));
+            this.cardList.push(new Card("Siren", 8, 8, 9, 6, 2));
+            this.cardList.push(new Card("Sacred", 8, 5, 1, 9, 9));
+            this.cardList.push(new Card("Minotaur", 8, 9, 5, 2, 9));
+
+            /* Level 9 */
+            this.cardList.push(new Card("Carbuncle", 9, 8, 4, 10, 4));
+            this.cardList.push(new Card("Diablos", 9, 5, 10, 8, 3));
+            this.cardList.push(new Card("Leviathan", 9, 7, 10, 1, 7));
+            this.cardList.push(new Card("Odin", 9, 8, 10, 3, 5));
+            this.cardList.push(new Card("Pandemona", 9, 10, 1, 7, 7));
+            this.cardList.push(new Card("Cerberus", 9, 7, 4, 6, 10));
+            this.cardList.push(new Card("Alexander", 9, 9, 10, 4, 2));
+            this.cardList.push(new Card("Phoenix", 9, 7, 2, 7, 10));
+            this.cardList.push(new Card("Bahamut", 9, 10, 8, 2, 6));
+            this.cardList.push(new Card("Doomtrain", 9, 3, 1, 10, 10));
+            this.cardList.push(new Card("Eden", 9, 4, 4, 9, 10));
+
             /* Level 10 */
+            this.cardList.push(new Card("Ward", 10, 10, 7, 2, 8));
+            this.cardList.push(new Card("Kiros", 10, 6, 7, 6, 10));
+            this.cardList.push(new Card("Laguna", 10, 5, 10, 3, 9));
+            this.cardList.push(new Card("Selphie", 10, 10, 8, 6, 4));
+            this.cardList.push(new Card("Quistis", 10, 9, 6, 10, 2));
+            this.cardList.push(new Card("Irvine", 10, 2, 6, 9, 10));
             this.cardList.push(new Card("Zell", 10, 8, 5, 10, 6));
             this.cardList.push(new Card("Rinoa", 10, 4, 10, 2, 10));
             this.cardList.push(new Card("Edea", 10, 10, 10, 3, 3));

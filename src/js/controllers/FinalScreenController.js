@@ -6,7 +6,7 @@
  * @since 17.11.04
  * @version 17.11.04
  */
-define(["js/views/final-screen/finalScreenScript"], function (finalScreenScript) {
+define(["js/views/final-screen/FinalScreenScript"], function (FinalScreenScript) {
     return (function () {
 
         /**
@@ -26,7 +26,7 @@ define(["js/views/final-screen/finalScreenScript"], function (finalScreenScript)
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
                     cardGame.$container.find(".board__game-area").html(template);
-                    finalScreenScript.showFinalScreen();
+                    FinalScreenScript.showFinalScreen();
                 });
             }
         }
