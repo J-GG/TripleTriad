@@ -15,11 +15,7 @@
     "gulp-clean-css": "^3.9.0",
     "gulp-concat": "^2.6.1",
     "gulp-less": "^3.3.2",
-    "gulp-rename": "^1.2.2",
-    "handlebars": "^4.0.11",
-    "jquery": "^3.2.1",
-    "js-logging": "^0.1.0",
-    "requirejs": "^2.3.5"
+    "gulp-rename": "^1.2.2"
   },
   "scripts": {
     "dev": "gulp dev",
