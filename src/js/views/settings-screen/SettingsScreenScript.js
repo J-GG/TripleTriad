@@ -4,9 +4,9 @@
  * Update the settings.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.02
+ * @version 17.11.10
  */
-define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key"], function (Common, Settings, Key) {
+define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/models/Rules"], function (Common, Settings, Key, Rules) {
     return {
         manageSettings() {
             Common.linearChoice({unbindOnEnter: false}, function (e) {
@@ -46,45 +46,47 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key"], funct
 
                                 //Rules
                                 if (cardGame.$container.find("#rule-open").hasClass("message__check--enabled")) {
-                                    Settings.enableOpen();
+                                    Settings.enableRule(Rules.getRules().OPEN);
                                 } else {
-                                    Settings.disableOpen();
+                                    Settings.disableRule(Rules.getRules().OPEN);
                                 }
 
                                 if (cardGame.$container.find("#rule-war").hasClass("message__check--enabled")) {
-                                    Settings.enableWar();
+                                    Settings.enableRule(Rules.getRules().WAR);
                                 } else {
-                                    Settings.disableWar();
+                                    Settings.disableRule(Rules.getRules().WAR);
                                 }
 
                                 if (cardGame.$container.find("#rule-same").hasClass("message__check--enabled")) {
-                                    Settings.enableSame();
+                                    Settings.enableRule(Rules.getRules().SAME);
                                 } else {
-                                    Settings.disableSame();
+                                    Settings.disableRule(Rules.getRules().SAME);
                                 }
 
                                 if (cardGame.$container.find("#rule-plus").hasClass("message__check--enabled")) {
-                                    Settings.enablePlus();
+                                    Settings.enableRule(Rules.getRules().PLUS);
                                 } else {
-                                    Settings.disablePlus();
+                                    Settings.disableRule(Rules.getRules().PLUS);
                                 }
 
                                 if (cardGame.$container.find("#rule-combo").hasClass("message__check--enabled")) {
-                                    Settings.enableCombo();
+                                    Settings.enableRule(Rules.getRules().COMBO);
                                 } else {
-                                    Settings.disableCombo();
+                                    Settings.disableRule(Rules.getRules().COMBO);
                                 }
+
+                                Settings.save();
 
                                 cardGame.$container.off("keydown");
                                 logger.info("Settings updated");
-                                Routes.get("default")();
+                                Routes.get(Routes.getKeys().DEFAULT)();
                                 break;
                         }
                         break;
 
                     case Key.ESCAPE:
                         cardGame.$container.off("keydown");
-                        Routes.get("default")();
+                        Routes.get(Routes.getKeys().DEFAULT)();
                         break;
 
                     case Key.UP:

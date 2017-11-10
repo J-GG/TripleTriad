@@ -38,7 +38,7 @@ define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
                     cardGame.$container.find(".board__game-area").html(template(data));
-                    Routes.get("startGame")()
+                    Routes.get(Routes.getKeys().START_GAME)();
                 });
             },
 

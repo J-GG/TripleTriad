@@ -6,7 +6,7 @@
  * @since 17.10.30
  * @version 17.11.02
  */
-define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings"], function (SettingsScreenScript, Settings) {
+define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings", "js/models/Rules"], function (SettingsScreenScript, Settings, Rules) {
     return (function () {
 
         /**
@@ -29,11 +29,11 @@ define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings"], 
                         player1: Settings.getPlayer1Name(),
                         player2: Settings.getPlayer2Name(),
                         audio: Settings.isAudioEnabled(),
-                        open: Settings.isOpenEnabled(),
-                        war: Settings.isWarEnabled(),
-                        same: Settings.isSameEnabled(),
-                        plus: Settings.isPlusEnabled(),
-                        combo: Settings.isComboEnabled()
+                        open: Settings.isRuleEnabled(Rules.getRules().OPEN),
+                        war: Settings.isRuleEnabled(Rules.getRules().WAR),
+                        same: Settings.isRuleEnabled(Rules.getRules().SAME),
+                        plus: Settings.isRuleEnabled(Rules.getRules().PLUS),
+                        combo: Settings.isRuleEnabled(Rules.getRules().COMBO)
                     };
 
                     cardGame.$container.find(" .board__game-area").html(template(data));

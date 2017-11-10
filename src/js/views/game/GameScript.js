@@ -4,7 +4,7 @@
  * Show and manage the game.
  * @author Jean-Gabriel Genest
  * @since 17.11.02
- * @version 17.11.02
+ * @version 17.11.10
  */
 define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Board"], function (Key, Settings, Rules, Board) {
 
@@ -41,7 +41,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             }
 
             /* Hide the card and show the back if open is disabled */
-            if (!Settings.isOpenEnabled()) {
+            if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
                 cardGame.$container.find(".card.card--player-" + (i + 1)).attr("hiddenBackground", function () {
                     return $(this).css("background-image");
                 }).css("background-image", "").addClass("card--back");
@@ -99,7 +99,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             .addClass("player-selector player-selector--turn player-selector--turn-player-" + playerPlaying);
 
         /* If cards are hidden, show a message to indicate the player's turn until the enter key is pressed */
-        if (!Settings.isOpenEnabled()) {
+        if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
             cardGame.$container.find(".cursor").addClass("cursor--hide");
             cardGame.$container.find(".board__background").append($("<div>", {
                 class: "text-title",
@@ -245,7 +245,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 case Key.ENTER:
                     if (!gameState.getBoard().getCardOnBoard(currentRow, currentCol)) {
                         cardGame.$container.off("keydown");
-                        Routes.get("playCard")(gameState.getPlayerPlaying().getDeck()[selectedCard], currentRow, currentCol);
+                        Routes.get(Routes.getKeys().PLAY_CARD)(gameState.getPlayerPlaying().getDeck()[selectedCard], currentRow, currentCol);
                     }
                     return;
                     break;
@@ -295,7 +295,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
         let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
 
         //Remove the card from the deck
-        cardGame.$container.find(".card--selected-player-" + playerPlaying).addClass("card--disappearance-deck-" + indexCardPlayed);
+        cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-" + indexCardPlayed).addClass("card--disappearance-deck-" + indexCardPlayed);
 
         //Remove the classes positioning the cursor on the board
         cardGame.$container.find(".cursor").addClass("cursor--hide");
@@ -334,7 +334,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
         let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
 
         //Move the card to the board
-        cardGame.$container.find(".card--selected-player-" + playerPlaying)
+        cardGame.$container.find(".card--player-" + playerPlaying + ".card--disappearance-deck-" + indexCardPlayed)
             .addClass("card--appearance-row-" + row + " card--col-" + col)
             .removeClass("card--disappearance-deck-" + indexCardPlayed
                 + " card--player-" + playerPlaying
@@ -359,7 +359,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 }
 
                 //Hide cards
-                if (!Settings.isOpenEnabled()) {
+                if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
                     cardGame.$container.find(".card.card--player-" + playerPlaying).attr("hiddenBackground", function () {
                         return $(this).css("background-image");
                     }).css("background-image", "").addClass("card--back");
@@ -367,7 +367,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 }
 
                 //End the turn
-                Routes.get("endTurn")();
+                Routes.get(Routes.getKeys().END_TURN)();
             }, animationFlipDelay * 1000);
 
         }, animationAppearanceDelay * 1000);
@@ -500,7 +500,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             switch (e.which) {
                 case Key.ENTER:
                     cardGame.$container.off("keydown");
-                    cardGame.$container.find(".board__background").fadeOut("slow", () => Routes.get("finalScreen")());
+                    cardGame.$container.find(".board__background").fadeOut("slow", () => Routes.get(Routes.getKeys().FINAL_SCREEN)());
 
                     break;
 

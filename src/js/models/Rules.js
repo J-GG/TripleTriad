@@ -4,7 +4,7 @@
  * The application of rules.
  * @author Jean-Gabriel Genest
  * @since 17.11.04
- * @version 17.11.06
+ * @version 17.11.10
  */
 define(["js/models/Settings"], function (Settings) {
     return class Rules {
@@ -50,17 +50,17 @@ define(["js/models/Settings"], function (Settings) {
 
             let flipped = [];
             this.simpleRule();
-            if (Settings.isWarEnabled()) {
+            if (Settings.isRuleEnabled(Rules.getRules().WAR)) {
                 this.warRule();
             }
-            if (Settings.isSameEnabled()) {
+            if (Settings.isRuleEnabled(Rules.getRules().SAME)) {
                 flipped = flipped.concat(this.sameRule());
             }
-            if (Settings.isPlusEnabled()) {
+            if (Settings.isRuleEnabled(Rules.getRules().PLUS)) {
                 flipped = flipped.concat(this.plusRule());
             }
 
-            if (Settings.isComboEnabled()) {
+            if (Settings.isRuleEnabled(Rules.getRules().COMBO)) {
                 for (let i = 0; i < flipped.length; i++) {
                     let coordinate = board.getCardCoordinate(flipped[i]);
                     this.card = flipped[i];

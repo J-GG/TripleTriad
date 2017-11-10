@@ -4,7 +4,7 @@
  * Show and manage the main menu.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.10.30
+ * @version 17.11.10
  */
 define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
     return {
@@ -16,10 +16,10 @@ define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
                         case Key.ENTER:
                             switch (e.choice) {
                                 case 1:
-                                    Routes.get("play")();
+                                    Routes.get(Routes.getKeys().PLAY)();
                                     break;
                                 default:
-                                    Routes.get("settings")();
+                                    Routes.get(Routes.getKeys().SETTINGS)();
                                     break;
                             }
                             break;

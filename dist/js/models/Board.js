@@ -4,7 +4,7 @@
  * The board where cards are played.
  * @author Jean-Gabriel Genest
  * @since 17.10.22
- * @version 17.10.22
+ * @version 17.11.10
  */
 define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], function (PlayerInGame, Card, CardOnBoard) {
     return class Board {
@@ -268,6 +268,23 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
             }
 
             return true;
+        }
+
+        /**
+         * Get the list of cases where there is no card.
+         * @returns {Array} The list of empty cases
+         */
+        getEmptyCases() {
+            let emptyCases = [];
+            for (let i = this.rows - 1; i >= 0; i--) {
+                for (let j = this.cols - 1; j >= 0; j--) {
+                    if (this.board[i][j] === undefined) {
+                        emptyCases.push({row: i, col: j});
+                    }
+                }
+            }
+
+            return emptyCases;
         }
     };
 });

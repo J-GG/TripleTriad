@@ -4,7 +4,7 @@
  * Entry point of the card game.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.01
+ * @version 17.11.10
  */
 define(["js/views/base/Base",
     "../../node_modules/jquery/dist/jquery.min",
@@ -57,7 +57,7 @@ define(["js/views/base/Base",
             logger.debug("Game launching in [container: " + cardGame.$container + "]");
             require(["js/toolbox/Routes"], function (Routes) {
                 window.Routes = Routes;
-                Routes.get("default")()
+                Routes.get(Routes.getKeys().DEFAULT)()
             });
         }
     };

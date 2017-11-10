@@ -12,7 +12,7 @@ This version of the game uses the same graphics as the original one to which I c
 
 The game can only be played with a keyboard.
 
-* <kbd>↑</kbd> , <kbd>↓</kbd>, <kbd>←</kbd> , <kbd>→</kbd> - Move the cursor
+* <kbd>↑</kbd> , <kbd>↓</kbd> , <kbd>←</kbd> , <kbd>→</kbd> - Move the cursor
 * <kbd>Enter</kbd> - Validate
 * <kbd>Esc</kbd> - Cancel
 

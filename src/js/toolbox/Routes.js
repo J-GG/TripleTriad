@@ -5,7 +5,7 @@
  * When a route is invoked, the corresponding method to the key is returned.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.01
+ * @version 17.11.10
  */
 define(["../controllers/SplashScreenController",
         "../controllers/SettingsController",
@@ -15,21 +15,46 @@ define(["../controllers/SplashScreenController",
         return (function () {
 
             /**
+             * The list of keys.
+             * @since 17.11.10
+             */
+            let keys = {
+                DEFAULT: 0,
+                SPLASH_SCREEN: 1,
+                SETTINGS: 2,
+                PLAY: 3,
+                START_GAME: 4,
+                PLAY_CARD: 5,
+                END_TURN: 6,
+                FINAL_SCREEN: 7
+            };
+
+            /**
              * The list of routes.
              * @since 17.10.30
              */
             let routes = {
-                default: SplashScreenController.splashScreen,
-                splashScreen: SplashScreenController.splashScreen,
-                settings: SettingsController.settings,
-                play: GameController.play,
-                startGame: GameController.startGame,
-                playCard: GameController.playCard,
-                endTurn: GameController.endTurn,
-                finalScreen: FinalScreenController.finalScreen
-            };
-
+                    [keys.DEFAULT]: SplashScreenController.splashScreen,
+                    [keys.SPLASH_SCREEN]: SplashScreenController.splashScreen,
+                    [keys.SETTINGS]: SettingsController.settings,
+                    [keys.PLAY]: GameController.play,
+                    [keys.START_GAME]: GameController.startGame,
+                    [keys.PLAY_CARD]: GameController.playCard,
+                    [keys.END_TURN]: GameController.endTurn,
+                    [keys.FINAL_SCREEN]: FinalScreenController.finalScreen
+                }
+            ;
             return {
+
+                /**
+                 * Return the list of keys.
+                 * @returns {*} The method corresponding to the key
+                 * @since 17.11.10
+                 */
+                getKeys() {
+                    return keys;
+                },
+
                 /**
                  * Return the method corresponding to the given key.
                  * @param key The key of the route
@@ -37,7 +62,7 @@ define(["../controllers/SplashScreenController",
                  * @since 17.10.30
                  */
                 get(key) {
-                    let method = routes[key] ? routes[key] : routes["default"];
+                    let method = routes[key] ? routes[key] : routes[keys.DEFAULT];
                     logger.debug("Routing [key: " + key + "] to [method: " + method.name + "]");
 
                     return method;
