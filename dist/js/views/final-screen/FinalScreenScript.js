@@ -8,7 +8,7 @@
  */
 define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
     return {
-        showFinalScreen() {
+        showFinalScreen(onePlayer) {
             cardGame.$container.find(".board__background").hide().fadeIn();
             Common.linearChoice({}, function (e) {
                 switch (e.key) {
@@ -16,7 +16,7 @@ define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
                         cardGame.$container.find(".board__background").fadeOut("slow", function () {
                             switch (e.choice) {
                                 case 1:
-                                    Routes.get(Routes.getKeys().PLAY)();
+                                    Routes.get(Routes.getKeys().PLAY)(onePlayer);
                                     break;
 
                                 default:

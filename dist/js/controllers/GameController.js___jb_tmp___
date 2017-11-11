@@ -55,22 +55,22 @@ define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"
             },
 
             /**
-             * A player plays the card at the coordinates on the board.
+             * A player playe the card at the coordinates on the board.
              * @param card The card played
              * @param coordinates The coordinate of the card
              * @version 17.11.04
              */
-            playerPlaysCard(card, ...coordinates) {
-                let params = gameEngine.playerPlaysCard(card, ...coordinates);
+            playCard(card, ...coordinates) {
+                let params = gameEngine.playCard(card, ...coordinates);
                 GameScript.playCard(...params);
             },
 
             /**
-             * Make the AI play a card.
+             * Select
              * @version 17.11.11
              */
-            AIPlaysCard() {
-                let params = gameEngine.AIPlaysCard();
+            AIPlayCard() {
+                let params = gameEngine.playCard(card, ...coordinates);
                 GameScript.playCard(...params);
             },
 

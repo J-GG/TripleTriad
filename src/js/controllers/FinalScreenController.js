@@ -22,11 +22,11 @@ define(["js/views/final-screen/FinalScreenScript"], function (FinalScreenScript)
              * Load and display the template and the script.
              * @since 17.11.04
              */
-            finalScreen() {
+            finalScreen(onePlayer) {
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
                     cardGame.$container.find(".board__game-area").html(template);
-                    FinalScreenScript.showFinalScreen();
+                    FinalScreenScript.showFinalScreen(onePlayer);
                 });
             }
         }

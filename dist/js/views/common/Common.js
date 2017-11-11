@@ -4,7 +4,7 @@
  * Common functions used in the views.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.01
+ * @version 17.11.11
  */
 define(["js/toolbox/Key"], function (Key) {
     return {
@@ -56,22 +56,20 @@ define(["js/toolbox/Key"], function (Key) {
 
                         case Key.ENTER:
                             if (unbindOnEnter) {
-                                cardGame.$container.off("keydown");
+                                unbind();
                             }
                             break;
                         default:
                             break;
                     }
-                    callback({key: e.which, choice: choice});
+                    callback({unbind: unbind, key: e.which, choice: choice});
                     updateCursorPosition();
                 }
             });
 
 
             //update the cursor at the correct position if the windows is resized
-            $(window).resize(function () {
-                updateCursorPosition();
-            });
+            $(window).resize(updateCursorPosition);
 
             /**
              * Update the position of the cursor based on the selected choice.
@@ -84,11 +82,20 @@ define(["js/toolbox/Key"], function (Key) {
                 //Add a left margin to select choices corresponding to the size of the cursor
                 cardGame.$container.find(".select-choices__choice").css({marginLeft: ($cursor.width() * 1.2) + "px"});
                 $cursor.css({marginLeft: "-" + ($cursor.width() * 1.2) + "px"});
-                
+
                 cardGame.$container.find(".cursor").css({
                     top: tagHeight - $cursor.height() / 2 - cardGame.$container.find(".board__game-area").offset().top,
                     left: $tag.offset().left - cardGame.$container.find(".board__game-area").offset().left
                 });
+            }
+
+            /**
+             * Unbind the events linked to this function
+             * @since 17.11.11
+             */
+            function unbind() {
+                cardGame.$container.off("keydown");
+                $(window).off("resize", updateCursorPosition);
             }
         }
     }

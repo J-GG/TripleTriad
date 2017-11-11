@@ -2,18 +2,20 @@
  * The state of the game.
  * @author Jean-Gabriel Genest
  * @since 17.10.22
- * @version 17.10.22
+ * @version 17.11.11
  */
 define(["js/models/Board", "js/models/PlayerInGame"], function (Board, PlayerInGame) {
     return class GameState {
 
         /**
          * Construct a GameState.
+         * @param onePlayer Whether one (against an AI) or two players play
          * @param nbRows The number of rows on the board
          * @param nbCols The number of cols on the board
          * @since 17.10.22
          */
-        constructor(nbRows, nbCols) {
+        constructor(onePlayer, nbRows, nbCols) {
+            this.onePlayer = onePlayer === true;
             this.board = new Board(nbRows, nbCols);
         }
 
@@ -32,6 +34,10 @@ define(["js/models/Board", "js/models/PlayerInGame"], function (Board, PlayerInG
                 }
             }
             this.players = players;
+        }
+
+        isOnePlayerGame() {
+            return this.onePlayer;
         }
 
         /**

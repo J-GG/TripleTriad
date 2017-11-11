@@ -3,10 +3,12 @@
         <div class="player-name__text">{{player1}}</div>
     </div>
 
+    {{#unless onePlayer}}
     <div class="player-name__box player-name__box--player-2">
         <div class="player-name__text">{{player2}}</div>
     </div>
-
+    {{/unless}}
+    
     <div class="card card--out-board card--player-1 card--player-1-appearance-deck-4"></div>
     <div class="card card--out-board card--player-1 card--player-1-appearance-deck-3"></div>
     <div class="card card--out-board card--player-1 card--player-1-appearance-deck-2"></div>

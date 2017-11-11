@@ -98,6 +98,12 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             .removeClass()
             .addClass("player-selector player-selector--turn player-selector--turn-player-" + playerPlaying);
 
+        /* If the second player is an AI, a card is chosen for it */
+        if (gameState.isOnePlayerGame() && playerPlaying === 2) {
+            Routes.get(Routes.getKeys().AI_PLAYS_CARD)();
+            return;
+        }
+
         /* If cards are hidden, show a message to indicate the player's turn until the enter key is pressed */
         if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
             cardGame.$container.find(".cursor").addClass("cursor--hide");
@@ -245,7 +251,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 case Key.ENTER:
                     if (!gameState.getBoard().getCardOnBoard(currentRow, currentCol)) {
                         cardGame.$container.off("keydown");
-                        Routes.get(Routes.getKeys().PLAY_CARD)(gameState.getPlayerPlaying().getDeck()[selectedCard], currentRow, currentCol);
+                        Routes.get(Routes.getKeys().PLAYER_PLAYS_CARD)(gameState.getPlayerPlaying().getDeck()[selectedCard], currentRow, currentCol);
                     }
                     return;
                     break;
@@ -482,10 +488,20 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
     function gameIsOver(gameState) {
         cardGame.$container.find(".board__background").append($("<div>", {class: "text-title"}));
 
+        let text = "";
         if (gameState.getWinner().length > 1) {
-            cardGame.$container.find(".text-title").text("Draw!");
+            text = "Draw!";
         } else {
-            cardGame.$container.find(".text-title").text(gameState.getWinner()[0].getName() + " Wins!");
+            if (gameState.isOnePlayerGame()) {
+                if (gameState.getWinner()[0] === gameState.getPlayers()[0]) {
+                    text = "You Win!";
+                } else {
+                    text = "You Lose...";
+                }
+            }
+            else {
+                text = gameState.getWinner()[0].getName() + " Wins!";
+            }
 
             if (Settings.isAudioEnabled()) {
                 document.getElementById("cardGameGameMusic").pause();
@@ -495,12 +511,14 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 victory.play();
             }
         }
+        cardGame.$container.find(".text-title").text(text);
+
 
         cardGame.$container.keydown(function (e) {
             switch (e.which) {
                 case Key.ENTER:
                     cardGame.$container.off("keydown");
-                    cardGame.$container.find(".board__background").fadeOut("slow", () => Routes.get(Routes.getKeys().FINAL_SCREEN)());
+                    cardGame.$container.find(".board__background").fadeOut("slow", () => Routes.get(Routes.getKeys().FINAL_SCREEN)(gameState.isOnePlayerGame()));
 
                     break;
 

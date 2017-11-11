@@ -4,22 +4,24 @@
  * The engine/business logic of the game.
  * @author Jean-Gabriel Genest
  * @since 17.11.06
- * @version 17.11.06
+ * @version 17.11.11
  */
 define(["js/models/GameState",
     "js/models/PlayerInGame",
     "js/models/Settings",
     "js/models/CardDB",
-    "js/models/Rules"], function (GameState, PlayerInGame, Settings, CardDB, Rules) {
+    "js/models/Rules",
+    "js/models/AI"], function (GameState, PlayerInGame, Settings, CardDB, Rules, AI) {
     return class GameEngine {
-        
+
         /**
-         * Initialize a new game with the players.
+         * Initialize a new game with the player(s).
+         * @param onePlayer Whether one (against an AI) or two players play
          * @returns {*} The GameState
          * @since 17.11.07
          */
-        initGame() {
-            this.gameState = new GameState(3, 3);
+        initGame(onePlayer) {
+            this.gameState = new GameState(onePlayer, 3, 3);
             let players = [new PlayerInGame(Settings.getPlayer1Name()), new PlayerInGame(Settings.getPlayer2Name())];
 
             logger.info(Settings.getPlayer1Name() + " and " + Settings.getPlayer2Name() + " are playing");
@@ -62,7 +64,7 @@ define(["js/models/GameState",
          * Play the card on the board and apply the rules.
          * @param card Card played by the player
          * @param args The coordinates on the board where the card is played
-         * @returns {[*,*,*]} The GameState, the index of player card and its coordinates
+         * @returns {[*,*,*]} The GameState, the index of the played card and its coordinates
          * @since 17.11.07
          */
         playCard(card, ...args) {
@@ -78,6 +80,27 @@ define(["js/models/GameState",
             new Rules().apply(this.gameState.getBoard(), ...args);
 
             return [this.gameState, indexCard, ...args];
+        }
+
+        /**
+         * Play the card on the board and apply the rules.
+         * @param card Card played by the player
+         * @param args The coordinates on the board where the card is played
+         * @returns {[*,*,*]} The GameState, the index of the played card and its coordinates
+         * @since 17.11.11
+         */
+        playerPlaysCard(card, ...args) {
+            return this.playCard(card, ...args);
+        }
+
+        /**
+         * Select a card, a case and play the card.
+         * @returns {[*,*,*]} The GameState, the index of the played card and its coordinates
+         * @since 17.11.11
+         */
+        AIPlaysCard() {
+            let cardAndCoordinates = new AI().chooseCardAndCase(this.gameState);
+            return this.playCard(cardAndCoordinates.card, ...cardAndCoordinates.coordinates);
         }
 
         /**

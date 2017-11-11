@@ -77,15 +77,15 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
 
                                 Settings.save();
 
-                                cardGame.$container.off("keydown");
                                 logger.info("Settings updated");
+                                e.unbind();
                                 Routes.get(Routes.getKeys().DEFAULT)();
                                 break;
                         }
                         break;
 
                     case Key.ESCAPE:
-                        cardGame.$container.off("keydown");
+                        e.unbind();
                         Routes.get(Routes.getKeys().DEFAULT)();
                         break;
 

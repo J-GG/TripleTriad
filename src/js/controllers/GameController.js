@@ -29,16 +29,18 @@ define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"
              * Load and display the template and the script.
              * @since 17.10.30
              */
-            play() {
+            play(onePlayer) {
+
                 let data = {
                     player1: Settings.getPlayer1Name(),
-                    player2: Settings.getPlayer2Name()
+                    player2: onePlayer === true ? undefined : Settings.getPlayer2Name(),
+                    onePlayer: onePlayer === true
                 };
 
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
                     cardGame.$container.find(".board__game-area").html(template(data));
-                    Routes.get(Routes.getKeys().START_GAME)();
+                    Routes.get(Routes.getKeys().START_GAME)(onePlayer);
                 });
             },
 
@@ -46,20 +48,29 @@ define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"
              * Initialize and start the game.
              * @since 17.11.04
              */
-            startGame() {
+            startGame(onePlayer) {
                 gameEngine = new GameEngine();
-                let gameState = gameEngine.initGame();
+                let gameState = gameEngine.initGame(onePlayer);
                 GameScript.startGame(gameState);
             },
 
             /**
-             * Play the card at the coordinates on the board.
+             * A player plays the card at the coordinates on the board.
              * @param card The card played
              * @param coordinates The coordinate of the card
              * @version 17.11.04
              */
-            playCard(card, ...coordinates) {
-                let params = gameEngine.playCard(card, ...coordinates);
+            playerPlaysCard(card, ...coordinates) {
+                let params = gameEngine.playerPlaysCard(card, ...coordinates);
+                GameScript.playCard(...params);
+            },
+
+            /**
+             * Make the AI play a card.
+             * @version 17.11.11
+             */
+            AIPlaysCard() {
+                let params = gameEngine.AIPlaysCard();
                 GameScript.playCard(...params);
             },
 

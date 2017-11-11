@@ -100,7 +100,9 @@ define(["js/models/GameState",
          */
         AIPlaysCard() {
             let cardAndCoordinates = new AI().chooseCardAndCase(this.gameState);
-            return this.playCard(cardAndCoordinates.card, ...cardAndCoordinates.coordinates);
+            console.log(cardAndCoordinates);
+            console.log(cardAndCoordinates.coordinates);
+            return this.playCard(cardAndCoordinates.card, ..cardAndCoordinates.coordinates);
         }
 
         /**

@@ -16,6 +16,9 @@ define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
                         case Key.ENTER:
                             switch (e.choice) {
                                 case 1:
+                                    Routes.get(Routes.getKeys().PLAY)(true);
+                                    break;
+                                case 2:
                                     Routes.get(Routes.getKeys().PLAY)();
                                     break;
                                 default:

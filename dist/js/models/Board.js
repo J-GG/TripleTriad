@@ -72,16 +72,16 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
         /**
          * Add the card on the board at the specified position.
          * @param card CardOnBoard played and added on the board
-         * @param playerToPlay PlayerInGame playing the card
+         * @param playerPlaying PlayerInGame playing the card
          * @param row Row where the card is played
          * @param col Column where the card is played
          * @since 17.10.22
          */
-        playCardOnBoard(card, playerToPlay, row, col) {
+        playCardOnBoard(card, playerPlaying, row, col) {
             if (typeof card !== "object" || !(card instanceof Card)) {
                 throw new TypeError("Expected Card type");
             }
-            if (typeof playerToPlay !== "object" || !(playerToPlay instanceof PlayerInGame)) {
+            if (typeof playerPlaying !== "object" || !(playerPlaying instanceof PlayerInGame)) {
                 throw new TypeError("Expected PlayerInGame type");
             }
             if (row < 0 || row > this.rows) {
@@ -94,7 +94,7 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
             if (this.board[row][col] !== undefined) {
                 logger.warning("There is already a card on the board at this position");
             }
-            this.board[row][col] = new CardOnBoard(card, playerToPlay);
+            this.board[row][col] = new CardOnBoard(card, playerPlaying);
         }
 
         /**
@@ -272,14 +272,15 @@ define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], fu
 
         /**
          * Get the list of cases where there is no card.
-         * @returns {Array} The list of empty cases
+         * @returns {Array} The list of empty cases (array [row, column] format)
+         * @since 17.11.11
          */
         getEmptyCases() {
             let emptyCases = [];
             for (let i = this.rows - 1; i >= 0; i--) {
                 for (let j = this.cols - 1; j >= 0; j--) {
                     if (this.board[i][j] === undefined) {
-                        emptyCases.push({row: i, col: j});
+                        emptyCases.push([i, j]);
                     }
                 }
             }

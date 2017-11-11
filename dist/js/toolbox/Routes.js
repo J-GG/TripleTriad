@@ -24,9 +24,10 @@ define(["../controllers/SplashScreenController",
                 SETTINGS: 2,
                 PLAY: 3,
                 START_GAME: 4,
-                PLAY_CARD: 5,
+                PLAYER_PLAYS_CARD: 5,
                 END_TURN: 6,
-                FINAL_SCREEN: 7
+                FINAL_SCREEN: 7,
+                AI_PLAYS_CARD: 8
             };
 
             /**
@@ -39,7 +40,8 @@ define(["../controllers/SplashScreenController",
                     [keys.SETTINGS]: SettingsController.settings,
                     [keys.PLAY]: GameController.play,
                     [keys.START_GAME]: GameController.startGame,
-                    [keys.PLAY_CARD]: GameController.playCard,
+                    [keys.PLAYER_PLAYS_CARD]: GameController.playerPlaysCard,
+                    [keys.AI_PLAYS_CARD]: GameController.AIPlaysCard,
                     [keys.END_TURN]: GameController.endTurn,
                     [keys.FINAL_SCREEN]: FinalScreenController.finalScreen
                 }
