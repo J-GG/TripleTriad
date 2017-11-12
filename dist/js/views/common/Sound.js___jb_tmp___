@@ -1,0 +1,52 @@
+'use strict';
+
+/**
+ * Manage the sounds of the game.
+ * @author Jean-Gabriel Genest
+ * @since 17.11.12
+ * @version 17.11.12
+ */
+define(["js/models/Settings"], function (Settings) {
+    return (function () {
+
+        /**
+         * The association of the key with the id of the sound in the view.
+         * @since 17.11.12
+         */
+        let sounds = {
+            GAME: "cardGameGameMusic",
+            VICTORY: "cardGameVictoryMusic"
+        };
+
+        return {
+            /**
+             * Return the list of keys.
+             * @returns {*} The method corresponding to the key
+             * @since 17.11.12
+             */
+            getKeys() {
+                return sounds;
+            },
+
+            stopAllAndPlay(sound){
+                for (let i = 0; i < sounds.length; i++) {
+                    sounds[i].pause();
+                }
+                this.play(sound);
+            },
+
+            play(sound){
+                if (Object.values(sounds).includes(sound)) {
+                    logger.warning("The sound for " + sound + " could not be found");
+                    return;
+                }
+
+                if (Settings.isAudioEnabled()) {
+                    let soundElement = document.getElementById("cardGameVictoryMusic");
+                    soundElement.currentTime = 0;
+                    soundElement.play();
+                }
+            }
+        }
+    })();
+});

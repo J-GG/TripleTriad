@@ -6,7 +6,7 @@
  * @since 17.10.30
  * @version 17.11.11
  */
-define(["js/toolbox/Key"], function (Key) {
+define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
     return {
 
         /**
@@ -47,11 +47,17 @@ define(["js/toolbox/Key"], function (Key) {
                 if (cardGame.$container.find($(document.activeElement)).length > 0) {
                     switch (e.which) {
                         case Key.UP:
-                            choice - 1 > 0 ? choice-- : choice;
+                            if (choice - 1 > 0) {
+                                choice--;
+                                Sound.play(Sound.getKeys().SELECT);
+                            }
                             break;
 
                         case Key.DOWN:
-                            choice + 1 <= maxChoice ? choice++ : choice;
+                            if (choice + 1 <= maxChoice) {
+                                choice++;
+                                Sound.play(Sound.getKeys().SELECT);
+                            }
                             break;
 
                         case Key.ENTER:

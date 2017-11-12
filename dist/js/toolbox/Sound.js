@@ -5,7 +5,7 @@
  * When a route is invoked, the corresponding method to the key is returned.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.12
+ * @version 17.11.10
  */
 define(["../controllers/SplashScreenController",
         "../controllers/SettingsController",
@@ -35,22 +35,22 @@ define(["../controllers/SplashScreenController",
              * @since 17.10.30
              */
             let routes = {
-                [keys.DEFAULT]: SplashScreenController.splashScreen,
-                [keys.SPLASH_SCREEN]: SplashScreenController.splashScreen,
-                [keys.SETTINGS]: SettingsController.settings,
-                [keys.PLAY]: GameController.play,
-                [keys.START_GAME]: GameController.startGame,
-                [keys.PLAYER_PLAYS_CARD]: GameController.playerPlaysCard,
-                [keys.AI_PLAYS_CARD]: GameController.AIPlaysCard,
-                [keys.END_TURN]: GameController.endTurn,
-                [keys.FINAL_SCREEN]: FinalScreenController.finalScreen
-            };
-
+                    [keys.DEFAULT]: SplashScreenController.splashScreen,
+                    [keys.SPLASH_SCREEN]: SplashScreenController.splashScreen,
+                    [keys.SETTINGS]: SettingsController.settings,
+                    [keys.PLAY]: GameController.play,
+                    [keys.START_GAME]: GameController.startGame,
+                    [keys.PLAYER_PLAYS_CARD]: GameController.playerPlaysCard,
+                    [keys.AI_PLAYS_CARD]: GameController.AIPlaysCard,
+                    [keys.END_TURN]: GameController.endTurn,
+                    [keys.FINAL_SCREEN]: FinalScreenController.finalScreen
+                }
+            ;
             return {
 
                 /**
                  * Return the list of keys.
-                 * @returns {*} The list of keys
+                 * @returns {*} The method corresponding to the key
                  * @since 17.11.10
                  */
                 getKeys() {

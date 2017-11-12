@@ -4,9 +4,9 @@
  * Manage the player's choice whether he wants to keep playing or not.
  * @author Jean-Gabriel Genest
  * @since 17.11.04
- * @version 17.11.10
+ * @version 17.11.12
  */
-define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
+define(["js/views/common/Common", "js/toolbox/Key", "js/views/common/Sound"], function (Common, Key, Sound) {
     return {
         showFinalScreen(onePlayer) {
             cardGame.$container.find(".board__background").hide().fadeIn();
@@ -24,6 +24,7 @@ define(["js/views/common/Common", "js/toolbox/Key"], function (Common, Key) {
                                     break;
                             }
                         });
+                        Sound.stopAll();
                         break;
                 }
             });

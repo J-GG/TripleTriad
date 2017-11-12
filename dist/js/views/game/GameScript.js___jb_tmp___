@@ -15,7 +15,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
          * @since 17.11.05
          */
         function initGame(gameState) {
-            Sound.play(Sound.getKeys().GAME);
+            Sound.stopAllAndPlay(Sound.getKeys().GAME);
 
             drawCards(gameState);
         }
@@ -150,18 +150,12 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             cardGame.$container.keydown(function (e) {
                 switch (e.which) {
                     case Key.UP:
-                        if (selectedCard + 1 < gameState.getPlayerPlaying().getDeck().length) {
-                            selectedCard++;
-                            Sound.play(Sound.getKeys().SELECT);
-                        }
+                        selectedCard + 1 < gameState.getPlayerPlaying().getDeck().length ? selectedCard++ : selectedCard;
                         updateSelectedCard(gameState, selectedCard);
                         break;
 
                     case Key.DOWN:
-                        if (selectedCard - 1 >= 0) {
-                            selectedCard--;
-                            Sound.play(Sound.getKeys().SELECT);
-                        }
+                        selectedCard - 1 >= 0 ? selectedCard-- : selectedCard;
                         updateSelectedCard(gameState, selectedCard);
                         break;
 
@@ -199,6 +193,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
             cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-" + selectedCard)
                 .addClass("card--selected-player-" + playerPlaying);
+
+            //Play the sound
+            Sound.play(Sound.getKeys().SELECT);
 
             //Show the name of the card
             showCardNameMessage(gameState.getPlayerPlaying().getCard(selectedCard));
