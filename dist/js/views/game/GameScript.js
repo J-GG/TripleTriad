@@ -45,8 +45,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
                     cardGame.$container.find(".card.card--deck-player-" + (i + 1)).attr("hiddenBackground", function () {
                         return $(this).css("background-image");
-                    }).css("background-image", "").addClass("card--back");
-
+                    }).css("background-image", "")
+                        .addClass("card--back")
+                        .removeClass("card--player-" + (i + 1));
                 }
             }
 
@@ -120,7 +121,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                             //Show the player's cards
                             cardGame.$container.find(".card.card--deck-player-" + playerPlaying).css("background-image", function () {
                                 return $(this).attr("hiddenBackground");
-                            }).attr("hiddenBackground", "").removeClass("card--back");
+                            }).attr("hiddenBackground", "")
+                                .addClass("card--player-" + playerPlaying)
+                                .removeClass("card--back");
 
                             cardGame.$container.find(".text-title").remove();
                             cardGame.$container.find(".cursor").removeClass("cursor--hide");
@@ -358,7 +361,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             if (gameState.isOnePlayerGame() && playerPlaying === 2) {
                 cardGame.$container.find(".card.card--disappearance-deck-" + indexCardPlayed).css("background-image", function () {
                     return $(this).attr("hiddenBackground");
-                }).attr("hiddenBackground", "").removeClass("card--back");
+                }).attr("hiddenBackground", "")
+                    .addClass("card--player-" + playerPlaying)
+                    .removeClass("card--back");
             }
 
             //Move the card to the board
@@ -390,7 +395,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                     if (!gameState.isOnePlayerGame() && !Settings.isRuleEnabled(Rules.getRules().OPEN)) {
                         cardGame.$container.find(".card.card--deck-player-" + playerPlaying).attr("hiddenBackground", function () {
                             return $(this).css("background-image");
-                        }).css("background-image", "").addClass("card--back");
+                        }).css("background-image", "")
+                            .addClass("card--back")
+                            .removeClass("card--player-" + playerPlaying);
 
                     }
 
