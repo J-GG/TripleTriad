@@ -38,9 +38,15 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
                 /* Hide the card and show the back if open is disabled */
                 if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
-                    cardGame.$container.find(".card.card--player-" + (i + 1)).attr("hiddenBackground", function () {
+                    /* If the player plays against the AI, do not hide the player's cards */
+                    if (gameState.isOnePlayerGame() && i === 0) {
+                        continue;
+                    }
+
+                    cardGame.$container.find(".card.card--deck-player-" + (i + 1)).attr("hiddenBackground", function () {
                         return $(this).css("background-image");
                     }).css("background-image", "").addClass("card--back");
+
                 }
             }
 
@@ -101,7 +107,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             }
 
             /* If cards are hidden, show a message to indicate the player's turn until the enter key is pressed */
-            if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
+            if (!gameState.isOnePlayerGame() && !Settings.isRuleEnabled(Rules.getRules().OPEN)) {
                 cardGame.$container.find(".cursor").addClass("cursor--hide");
                 cardGame.$container.find(".board__background").append($("<div>", {
                     class: "text-title",
@@ -112,7 +118,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                     switch (e.which) {
                         case Key.ENTER:
                             //Show the player's cards
-                            cardGame.$container.find(".card.card--player-" + playerPlaying).css("background-image", function () {
+                            cardGame.$container.find(".card.card--deck-player-" + playerPlaying).css("background-image", function () {
                                 return $(this).attr("hiddenBackground");
                             }).attr("hiddenBackground", "").removeClass("card--back");
 
@@ -197,7 +203,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             cardGame.$container.find(".card--selected-player-" + playerPlaying)
                 .removeClass("card--selected-player-" + playerPlaying);
 
-            cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-" + selectedCard)
+            cardGame.$container.find(".card--deck-player-" + playerPlaying + ".card--deck-" + selectedCard)
                 .addClass("card--selected-player-" + playerPlaying);
 
             //Show the name of the card
@@ -309,7 +315,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
 
             //Remove the card from the deck
-            cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-" + indexCardPlayed).addClass("card--disappearance-deck-" + indexCardPlayed);
+            cardGame.$container.find(".card--deck-player-" + playerPlaying + ".card--deck-" + indexCardPlayed).addClass("card--disappearance-deck-" + indexCardPlayed);
             Sound.play(Sound.getKeys().MOVE_CARD);
 
             //Remove the classes positioning the cursor on the board
@@ -319,7 +325,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
             /* Lower the position of the cards above the one which has just been removed from the deck */
             for (let i = indexCardPlayed + 1; i < gameState.getPlayerPlaying().getDeck().length + 1; i++) {
-                cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-" + i)
+                cardGame.$container.find(".card--deck-player-" + playerPlaying + ".card--deck-" + i)
                     .addClass("card--deck-lower-" + (i - 1))
                     .removeClass("card--deck-" + i);
 
@@ -327,7 +333,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
                 (function (playerPlaying, i) {
                     setTimeout(function () {
-                        cardGame.$container.find(".card--player-" + playerPlaying + ".card--deck-lower-" + (i - 1))
+                        cardGame.$container.find(".card--deck-player-" + playerPlaying + ".card--deck-lower-" + (i - 1))
                             .addClass("card--deck-" + (i - 1))
                             .removeClass("card--deck-lower-" + (i - 1));
                     }, animationLowerDelay * 1000);
@@ -348,8 +354,15 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
         function placeCardOnBoard(gameState, indexCardPlayed, row, col) {
             let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
 
+            //If the player plays against the AI, it's time to reveal the card
+            if (gameState.isOnePlayerGame() && playerPlaying === 2) {
+                cardGame.$container.find(".card.card--disappearance-deck-" + indexCardPlayed).css("background-image", function () {
+                    return $(this).attr("hiddenBackground");
+                }).attr("hiddenBackground", "").removeClass("card--back");
+            }
+
             //Move the card to the board
-            cardGame.$container.find(".card--player-" + playerPlaying + ".card--disappearance-deck-" + indexCardPlayed)
+            cardGame.$container.find(".card--deck-player-" + playerPlaying + ".card--disappearance-deck-" + indexCardPlayed)
                 .addClass("card--appearance-row-" + row + " card--col-" + col)
                 .removeClass("card--disappearance-deck-" + indexCardPlayed
                     + " card--deck-player-" + playerPlaying
@@ -374,8 +387,8 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                     }
 
                     //Hide cards
-                    if (!Settings.isRuleEnabled(Rules.getRules().OPEN)) {
-                        cardGame.$container.find(".card.card--player-" + playerPlaying).attr("hiddenBackground", function () {
+                    if (!gameState.isOnePlayerGame() && !Settings.isRuleEnabled(Rules.getRules().OPEN)) {
+                        cardGame.$container.find(".card.card--deck-player-" + playerPlaying).attr("hiddenBackground", function () {
                             return $(this).css("background-image");
                         }).css("background-image", "").addClass("card--back");
 
@@ -510,7 +523,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                     }
                 }
                 else {
-                    text = gameState.getWinner()[0].getName() + cardGame.i18n.WINS;
+                    text = gameState.getWinner()[0].getName() + " " + cardGame.i18n.WINS;
                 }
 
                 Sound.stopAllAndPlay(Sound.getKeys().VICTORY);
