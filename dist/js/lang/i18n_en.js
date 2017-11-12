@@ -14,6 +14,7 @@ define([], function () {
         PLAYER_1: "Player 1",
         PLAYER_2: "Player 2",
         SOUND: "Sound",
+        LANGUAGE: "Language",
         ON: "ON",
         OFF: "OFF",
         RULES: "Rules",

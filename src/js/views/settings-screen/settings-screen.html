@@ -27,6 +27,15 @@
                       class='message__check {{#unless audio}}message__check--enabled{{/unless}}'>{{i18n.OFF}}</span>
             </p>
 
+            <!-- Language -->
+            <p id="setting-language" class="select-choices__choice">
+                <span class="message__label">{{i18n.LANGUAGE}}</span>
+                <span class='message__check message__check--spacing {{#ifEquals lang "en"}}message__check--enabled{{/ifEquals}}'
+                      data-lang-code='en'>English</span>
+                <span class='message__check {{#ifEquals lang "fr"}}message__check--enabled{{/ifEquals}}'
+                      data-lang-code='fr'>Français</span>
+            </p>
+
             <!-- Rules -->
             <p>{{i18n.RULES}}</p>
 

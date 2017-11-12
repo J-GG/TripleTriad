@@ -28,10 +28,17 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                     break;
 
                                 case 4:
+                                    Sound.play(Sound.getKeys().SELECT);
+                                    cardGame.$container.find("#setting-language .message__check").each(function () {
+                                        $(this).toggleClass("message__check--enabled");
+                                    });
+                                    break;
+
                                 case 5:
                                 case 6:
                                 case 7:
                                 case 8:
+                                case 9:
                                     Sound.play(Sound.getKeys().SELECT);
                                     $(cardGame.$container.find(".select-choices__choice")[e.choice - 1]).parent().toggleClass("message__check--enabled");
                                     break;
@@ -47,6 +54,9 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                     } else {
                                         Settings.disableAudio();
                                     }
+
+                                    //Language
+                                    Settings.setLanguage(cardGame.$container.find("#setting-language .message__check--enabled").data("langCode"));
 
                                     //Rules
                                     if (cardGame.$container.find("#rule-open").hasClass("message__check--enabled")) {
@@ -84,7 +94,10 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                     logger.info("Settings updated");
                                     e.unbind();
                                     Sound.play(Sound.getKeys().SPECIAL);
-                                    Routes.get(Routes.getKeys().DEFAULT)();
+                                    require(["js/lang/i18n_" + Settings.getLanguage()], function (i18n) {
+                                        window.cardGame.i18n = i18n;
+                                        Routes.get(Routes.getKeys().DEFAULT)();
+                                    });
                                     break;
                             }
                             break;

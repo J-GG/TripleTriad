@@ -30,6 +30,7 @@ define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings", "
                         player1: Settings.getPlayer1Name(),
                         player2: Settings.getPlayer2Name(),
                         audio: Settings.isAudioEnabled(),
+                        lang: Settings.getLanguage(),
                         open: Settings.isRuleEnabled(Rules.getRules().OPEN),
                         war: Settings.isRuleEnabled(Rules.getRules().WAR),
                         same: Settings.isRuleEnabled(Rules.getRules().SAME),

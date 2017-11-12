@@ -30,6 +30,9 @@ define(["js/views/base/Base",
             window.logger = logging.colorConsole();
             logger.setLevel("debug");
             window.Handlebars = handlebars;
+            Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+                return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
+            });
 
             //Game options
             window.cardGame = {};

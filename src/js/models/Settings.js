@@ -73,9 +73,12 @@ define([], function () {
                 settings.audio = false;
             },
             setLanguage(lang){
-                if (!availableLangs.includes(lang)) {
+                if (availableLangs.includes(lang)) {
                     settings.lang = lang;
                 }
+            },
+            getLanguage() {
+                return settings.lang;
             }
         }
 

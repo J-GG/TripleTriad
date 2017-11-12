@@ -14,6 +14,7 @@ define(["./i18n_en"], function (i18nDefault) {
         PLAYER_1: "Joueur 1",
         PLAYER_2: "Joueur 2",
         SOUND: "Son",
+        LANGUAGE: "Langue",
         ON: "Activé",
         OFF: "Désactivé",
         RULES: "Règles",
