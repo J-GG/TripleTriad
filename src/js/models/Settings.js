@@ -8,22 +8,35 @@
  */
 define([], function () {
     return (function () {
+        //List the available languages
+        let availableLangs = ["en", "fr"];
+
         //Set the default values
         let settings = {
             player1Name: "Player 1",
             player2Name: "Player 2",
-            audio: true
+            audio: true,
+            lang: window.navigator.userLanguage || window.navigator.language
         };
         logger.debug("Settings initialization");
+
 
         //Get the values from the local storage if they exist
         if (typeof(Storage) !== "undefined") {
             let storedSettings = window.localStorage.getItem("settings");
             if (storedSettings !== null) {
-                settings = JSON.parse(storedSettings);
+                Object.assign(settings, JSON.parse(storedSettings));
             }
             logger.debug("Settings loaded from local storage");
         }
+
+        if (!availableLangs.includes(settings.lang)) {
+            settings.lang = availableLangs[0];
+        }
+        require(["js/lang/i18n_" + settings.lang], function (i18n) {
+            window.cardGame.i18n = i18n;
+        });
+
 
         //Return the setters and getters
         return {
@@ -59,6 +72,11 @@ define([], function () {
             },
             disableAudio() {
                 settings.audio = false;
+            },
+            setLanguage(lang){
+                if (!availableLangs.includes(lang)) {
+                    settings.lang = lang;
+                }
             }
         }
 

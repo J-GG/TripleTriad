@@ -4,7 +4,7 @@
 
             <!-- Name Player 1 -->
             <p id="setting-player-1" class="select-choices__choice">
-                <span class="message__label">Player 1</span>
+                <span class="message__label">{{i18n.PLAYER_1}}</span>
                 <input type='text' class='message__input' maxlength='10' spellcheck='false'
                        autocomplete='false'
                        value="{{player1}}"/>
@@ -12,7 +12,7 @@
 
             <!-- Name Player 2 -->
             <p id="setting-player-2" class="select-choices__choice">
-                <span class="message__label">Player 2</span>
+                <span class="message__label">{{i18n.PLAYER_2}}</span>
                 <input type='text' class='message__input' maxlength='10' spellcheck='false'
                        autocomplete='false'
                        value="{{player2}}"/>
@@ -20,61 +20,53 @@
 
             <!-- Audio -->
             <p id="setting-audio" class="select-choices__choice">
-                <span class="message__label">Sound</span>
+                <span class="message__label">{{i18n.SOUND}}</span>
                 <span id="setting-audio-on"
-                      class='message__check message__check--spacing {{#if audio}}message__check--enabled{{/if}}'>ON</span>
+                      class='message__check message__check--spacing {{#if audio}}message__check--enabled{{/if}}'>{{i18n.ON}}</span>
                 <span id="setting-audio-off"
-                      class='message__check {{#unless audio}}message__check--enabled{{/unless}}'>OFF</span>
+                      class='message__check {{#unless audio}}message__check--enabled{{/unless}}'>{{i18n.OFF}}</span>
             </p>
 
             <!-- Rules -->
-            <p>Rules</p>
+            <p>{{i18n.RULES}}</p>
 
             <div id="rule-open" class="message__check {{#if open}}message__check--enabled{{/if}}">
                 <div class="select-choices__choice message__label">
-                    Open
+                    {{i18n.OPEN}}
                 </div>
-                <div class="message--text-small message__sub-label">Each player can see the opponent's cards</div>
+                <div class="message--text-small message__sub-label">{{i18n.OPEN_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-war" class="message__check {{#if war}}message__check--enabled{{/if}}">
                 <div class="select-choices__choice message__label">
-                    War
+                    {{i18n.WAR}}
                 </div>
-                <div class="message--text-small message__sub-label">When the number of an adjacent card matches, if
-                    the sum of all the numbers of the opponent's card is smaller, then it is flipped
-                </div>
+                <div class="message--text-small message__sub-label">{{i18n.WAR_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-same" class="message__check {{#if same}}message__check--enabled{{/if}}">
                 <div class="select-choices__choice message__label">
-                    Same
+                    {{i18n.SAME}}
                 </div>
-                <div class="message--text-small message__sub-label">If the numbers of a card equal to the numbers of
-                    two or more adjacent cards of the opponent, they will be flipped
-                </div>
+                <div class="message--text-small message__sub-label">{{i18n.SAME_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-plus" class="message__check {{#if plus}}message__check--enabled{{/if}}">
                 <div class="select-choices__choice message__label">
-                    Plus
+                    {{i18n.PLUS}}
                 </div>
-                <div class="message--text-small message__sub-label">If a card is placed down that adds up to the
-                    same value on two or more adjacent cards of the opponent, those cards are flipped
-                </div>
+                <div class="message--text-small message__sub-label">{{i18n.PLUS_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-combo" class="message__check {{#if combo}}message__check--enabled{{/if}}">
                 <div class="select-choices__choice message__label">
-                    Combo
+                    {{i18n.COMBO}}
                 </div>
-                <div class="message--text-small message__sub-label">All cards which were turned over by the Same or
-                    Plus rule can turn over surrounding opponent's cards if the former have a greater value
-                </div>
+                <div class="message--text-small message__sub-label">{{i18n.COMBO_DESCRIPTION}}</div>
             </div>
 
             <p class="message__confirm">
-                <span class="select-choices__choice">Menu</span>
+                <span class="select-choices__choice">{{i18n.MENU}}</span>
             </p>
         </div>
     </div>

@@ -490,17 +490,17 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
         let text = "";
         if (gameState.getWinner().length > 1) {
-            text = "Draw!";
+            text = cardGame.i18n.DRAW;
         } else {
             if (gameState.isOnePlayerGame()) {
                 if (gameState.getWinner()[0] === gameState.getPlayers()[0]) {
-                    text = "You Win!";
+                    text = cardGame.i18n.WIN;
                 } else {
-                    text = "You Lose...";
+                    text = cardGame.i18n.LOSE;
                 }
             }
             else {
-                text = gameState.getWinner()[0].getName() + " Wins!";
+                text = gameState.getWinner()[0].getName() + cardGame.i18n.WINS;
             }
 
             if (Settings.isAudioEnabled()) {

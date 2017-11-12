@@ -26,6 +26,7 @@ define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings", "
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
                     let data = {
+                        i18n: cardGame.i18n,
                         player1: Settings.getPlayer1Name(),
                         player2: Settings.getPlayer2Name(),
                         audio: Settings.isAudioEnabled(),

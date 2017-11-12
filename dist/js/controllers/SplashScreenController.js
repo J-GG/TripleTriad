@@ -23,9 +23,13 @@ define(["js/views/splash-screen/SplashScreenScript"], function (splashScreenScri
              * @since 17.10.30
              */
             splashScreen() {
+                let data = {
+                    i18n: cardGame.i18n
+                };
+
                 $.get(TEMPLATE, function (source) {
                     let template = Handlebars.compile(source);
-                    cardGame.$container.find(".board__game-area").html(template);
+                    cardGame.$container.find(".board__game-area").html(template(data));
                     splashScreenScript.showMenu();
                 });
             }

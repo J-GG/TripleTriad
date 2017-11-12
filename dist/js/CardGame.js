@@ -4,7 +4,7 @@
  * Entry point of the card game.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.10
+ * @version 17.11.12
  */
 define(["js/views/base/Base",
     "../../node_modules/jquery/dist/jquery.min",
@@ -55,7 +55,7 @@ define(["js/views/base/Base",
 
             //Launch the game
             logger.debug("Game launching in [container: " + cardGame.$container[0].id + "]");
-            require(["js/toolbox/Routes"], function (Routes) {
+            require(["js/toolbox/Routes", "js/models/Settings"], function (Routes, Settings) {
                 window.Routes = Routes;
                 Routes.get(Routes.getKeys().DEFAULT)()
             });
