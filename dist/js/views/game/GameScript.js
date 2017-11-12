@@ -16,7 +16,6 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
          */
         function initGame(gameState) {
             Sound.play(Sound.getKeys().GAME);
-
             drawCards(gameState);
         }
 
@@ -65,10 +64,11 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
          * @since 17.11.05
          */
         function drawFirstPlayerPlaying(gameState) {
+            let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
             for (let i = gameState.getPlayers().length - 1; i >= 0; i--) {
+
                 //Show scores
                 cardGame.$container.find(".score--player-" + (i + 1)).text(gameState.getPlayer(i).getScore());
-
                 /* Remove the classes for the animation and add the classes for the position */
                 for (let j = gameState.getPlayer(i).getDeck().length; j >= 0; j--) {
                     cardGame.$container.find(".card--player-" + (i + 1) + "-appearance-deck-" + j).addClass("card--deck-" + j)
@@ -77,7 +77,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             }
 
             /* Show the player selector */
-            let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
+            Sound.play(Sound.getKeys().SELECTOR);
             cardGame.$container.find(".player-selector")
                 .removeClass("player-selector--hide")
                 .addClass("player-selector--draw-player-" + playerPlaying);
@@ -104,7 +104,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
             /* If the second player is an AI, a card is chosen for it */
             if (gameState.isOnePlayerGame() && playerPlaying === 2) {
-                Routes.get(Routes.getKeys().AI_PLAYS_CARD)();
+                setTimeout(Routes.get(Routes.getKeys().AI_PLAYS_CARD), 100 * Math.floor(Math.random() * 15));
                 return;
             }
 

@@ -16,11 +16,11 @@ define(["js/views/common/Common", "js/toolbox/Key", "js/views/common/Sound"], fu
                         case Key.ENTER:
                             switch (e.choice) {
                                 case 1:
-                                    Sound.play(Sound.getKeys().SPECIAL);
+                                    Sound.play(Sound.getKeys().SELECT);
                                     Routes.get(Routes.getKeys().PLAY)(true);
                                     break;
                                 case 2:
-                                    Sound.play(Sound.getKeys().SPECIAL);
+                                    Sound.play(Sound.getKeys().SELECT);
                                     Routes.get(Routes.getKeys().PLAY)();
                                     break;
                                 default:

@@ -20,7 +20,8 @@ define(["js/models/Settings"], function (Settings) {
             FLIP_CARD: "flipCardSound",
             SELECT: "selectSound",
             CANCEL: "cancelSound",
-            SPECIAL: "specialSound"
+            SPECIAL: "specialSound",
+            SELECTOR: "selectorSound"
         };
 
         return {
