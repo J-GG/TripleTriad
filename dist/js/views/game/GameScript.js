@@ -32,12 +32,11 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
         /* Show player's cards */
         for (let i = gameState.getPlayers().length - 1; i >= 0; i--) {
             let deck = gameState.getPlayer(i).getDeck();
-            let color = i === 0 ? "blue" : "red";
 
             for (let j = deck.length - 1; j >= 0; j--) {
                 cardGame.$container.find(".card--player-" + (i + 1) + "-appearance-deck-" + j)
                     .addClass("card--player-" + (i + 1) + "-appearance-deck-" + j)
-                    .css({"background-image": "url('assets/img/cards/" + color + "/" + deck[j].getName().replace(/ /g, '').toLowerCase() + ".jpg')"});
+                    .css({"background-image": "url('assets/img/cards/" + deck[j].getName().replace(/ /g, '').toLowerCase() + ".jpg')"});
             }
 
             /* Hide the card and show the back if open is disabled */
@@ -343,7 +342,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
         cardGame.$container.find(".card--player-" + playerPlaying + ".card--disappearance-deck-" + indexCardPlayed)
             .addClass("card--appearance-row-" + row + " card--col-" + col)
             .removeClass("card--disappearance-deck-" + indexCardPlayed
-                + " card--player-" + playerPlaying
+                + " card--deck-player-" + playerPlaying
                 + " card--deck-" + indexCardPlayed
                 + " card--selected-player-" + playerPlaying);
 
@@ -448,8 +447,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                             (function (i, j, cardOnBoard) {
                                 setTimeout(function () {
                                     cardGame.$container.find(".card.card--front.card--row-" + i + ".card--col-" + j)
-                                        .attr("style", "background-image:url('assets/img/cards/" + color + "/"
-                                            + cardOnBoard.getCard().getName().replace(/ /g, '').toLowerCase() + ".jpg');");
+                                        .toggleClass("card--player-1").toggleClass("card--player-2");
                                 }, animationFlipDelay / 2 * 1000);
                             })(i, j, cardOnBoard);
 

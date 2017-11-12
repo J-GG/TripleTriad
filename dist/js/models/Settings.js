@@ -37,7 +37,6 @@ define([], function () {
             window.cardGame.i18n = i18n;
         });
 
-
         //Return the setters and getters
         return {
             save() {
