@@ -59,8 +59,11 @@ define(["js/views/base/Base",
             //Launch the game
             logger.debug("Game launching in [container: " + cardGame.$container[0].id + "]");
             require(["js/toolbox/Routes", "js/models/Settings"], function (Routes, Settings) {
-                window.Routes = Routes;
-                Routes.get(Routes.getKeys().DEFAULT)()
+                require(["js/lang/i18n_" + Settings.getLanguage()], function (i18n) {
+                    window.cardGame.i18n = i18n;
+                    window.Routes = Routes;
+                    Routes.get(Routes.getKeys().DEFAULT)()
+                });
             });
         }
     };

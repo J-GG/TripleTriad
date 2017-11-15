@@ -4,38 +4,47 @@
  * Singleton storing and retrieving the settings defined by the user (players' name, audio and rules).
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.10
+ * @version 17.11.15
  */
 define([], function () {
     return (function () {
-        //List the available languages
-        let availableLangs = ["en", "fr"];
-
-        //Set the default values
-        let settings = {
-            player1Name: "Player 1",
-            player2Name: "Player 2",
-            audio: true,
-            lang: window.navigator.userLanguage || window.navigator.language
-        };
         logger.debug("Settings initialization");
 
+        let settings = {};
+
+        //List the available languages and difficulties
+        let availableLangs = ["en", "fr"];
+        let difficulties = {
+            EASY: 0,
+            NORMAL: 1,
+            HARD: 2
+        };
+
+        let defaultLang = window.navigator.userLanguage || window.navigator.language;
+        if (!availableLangs.includes(defaultLang)) {
+            defaultLang = availableLangs[0];
+        }
 
         //Get the values from the local storage if they exist
         if (typeof(Storage) !== "undefined") {
             let storedSettings = window.localStorage.getItem("settings");
             if (storedSettings !== null) {
-                Object.assign(settings, JSON.parse(storedSettings));
+                try {
+                    storedSettings = JSON.parse(storedSettings);
+                    Object.assign(settings, storedSettings);
+                } catch (e) {
+                    console.log(e)
+                }
             }
             logger.debug("Settings loaded from local storage");
         }
 
-        if (!availableLangs.includes(settings.lang)) {
-            settings.lang = availableLangs[0];
-        }
-        require(["js/lang/i18n_" + settings.lang], function (i18n) {
-            window.cardGame.i18n = i18n;
-        });
+        //Check the stored settings and assign the default value if necessary
+        settings.player1Name = settings.player1Name ? settings.player1Name.substr(0, 10) : "Player 1";
+        settings.player2Name = settings.player2Name ? settings.player2Name.substr(0, 10) : "Player 2";
+        settings.audio = settings.audio === true;
+        settings.lang = availableLangs.includes(settings.lang) ? settings.lang : defaultLang;
+        settings.difficulty = availableLangs.includes(settings.difficulty) ? settings.difficulty : difficulties.NORMAL;
 
         //Return the setters and getters
         return {
@@ -49,7 +58,7 @@ define([], function () {
                 settings[rule] = false;
             },
             isRuleEnabled(rule) {
-                return settings[rule] ? settings[rule] : false;
+                return settings[rule] === true;
             },
             getPlayer1Name() {
                 return settings.player1Name;
@@ -79,8 +88,18 @@ define([], function () {
             },
             getLanguage() {
                 return settings.lang;
+            },
+            getDifficulties() {
+                return difficulties;
+            },
+            setDifficulty(difficulty){
+                if (difficulties.keys().includes(difficulty)) {
+                    settings.difficulty = difficulty;
+                }
+            },
+            getDifficulty() {
+                return settings.difficulty;
             }
         }
-
     })();
 });

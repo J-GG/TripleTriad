@@ -25,6 +25,15 @@ define(["js/models/Settings"], function (Settings) {
             };
         }
 
+        initContext(row, col) {
+            this.row = row;
+            this.col = col;
+            this.cardUp = this.board.getCardAbove(row, col);
+            this.cardRight = this.board.getCardOnTheRight(row, col);
+            this.cardDown = this.board.getCardBelow(row, col);
+            this.cardLeft = this.board.getCardOnTheLeft(row, col);
+        }
+
         /**
          * Apply the rules according to the selected rules defined in the Settings.
          * @param board Board where the card is played
@@ -33,15 +42,10 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.04
          */
         apply(board, row, col) {
-            this.step = 1;
+            this.step = 0;
             this.board = board;
-            this.row = row;
-            this.col = col;
             this.card = board.getCardOnBoard(row, col);
-            this.cardUp = this.board.getCardAbove(row, col);
-            this.cardRight = this.board.getCardOnTheRight(row, col);
-            this.cardDown = this.board.getCardBelow(row, col);
-            this.cardLeft = this.board.getCardOnTheLeft(row, col);
+            this.initContext(row, col);
 
             if (this.card === undefined) {
                 logger.warning("There is no card on the board at the coordinates [row: " + row + "; col: " + col + "]");
@@ -49,62 +53,138 @@ define(["js/models/Settings"], function (Settings) {
             }
 
             let flipped = [];
-            this.simpleRule();
-            if (Settings.isRuleEnabled(Rules.getRules().WAR)) {
-                this.warRule();
-            }
+
             if (Settings.isRuleEnabled(Rules.getRules().SAME)) {
-                flipped = flipped.concat(this.sameRule());
+                flipped = this.sameRule();
+                this.flip(flipped, Rules.getRules().SAME);
             }
+
             if (Settings.isRuleEnabled(Rules.getRules().PLUS)) {
-                flipped = flipped.concat(this.plusRule());
+                let flippedPlus = this.plusRule();
+                this.flip(flippedPlus, Rules.getRules().PLUS);
+                flipped = flipped.concat(flippedPlus);
+            }
+
+            this.flip(this.simpleRule(), Rules.getRules().SIMPLE);
+
+            if (Settings.isRuleEnabled(Rules.getRules().WAR)) {
+                this.flip(this.warRule(), Rules.getRules().WAR);
             }
 
             if (Settings.isRuleEnabled(Rules.getRules().COMBO)) {
                 for (let i = 0; i < flipped.length; i++) {
                     let coordinate = board.getCardCoordinate(flipped[i]);
                     this.card = flipped[i];
-                    this.row = coordinate.row;
-                    this.col = coordinate.col;
-                    this.cardUp = this.board.getCardAbove(this.row, this.col);
-                    this.cardRight = this.board.getCardOnTheRight(this.row, this.col);
-                    this.cardDown = this.board.getCardBelow(this.row, this.col);
-                    this.cardLeft = this.board.getCardOnTheLeft(this.row, this.col);
+                    this.initContext(coordinate.row, coordinate.col);
 
-                    flipped = flipped.concat(this.simpleRule(true));
+                    let flippedCombo = this.simpleRule();
+                    flipped = flipped.concat(flippedCombo);
+                    this.flip(flippedCombo, Rules.getRules().COMBO);
                 }
             }
         }
 
         /**
+         * Flip the list of cards.
+         * @param flippedCards Cards to flip
+         * @param rule Rule which flipped the card.
+         * @since 17.11.12
+         */
+        flip(flippedCards, rule) {
+            logger.debug("Apply " + rule + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
+
+            for (let i = flippedCards.length - 1; i >= 0; i--) {
+                flippedCards[i].flip(this.card.getOwner(), this.card, rule, this.step);
+                logger.info("Rule " + rule + " : (step " + this.step + ") " + this.card.getCard().getName() + " flips " + flippedCards[i].getCard().getName());
+            }
+        }
+
+        /**
+         * Returns the cards which could be flipped by the card if it was played on the board at the coordinates.
+         * It's only based on the simple rule.
+         * @param board Board where the card is played
+         * @param card Card which should be tested
+         * @param row Row where the card is played on the board
+         * @param col Column where the card is played on the board
+         * @since 17.11.14
+         * @returns {Array}
+         */
+        testSimpleRule(board, card, row, col) {
+            this.step = 0;
+            this.board = board;
+            this.card = card;
+            this.initContext(row, col);
+
+            return this.simpleRule();
+        }
+
+        /**
+         * Returns the cards which could be flipped by the card if it was played on the board at the coordinates.
+         * It's based on all the rules which are enabled.
+         * @param board Board where the card is played
+         * @param card Card which should be tested
+         * @param row Row where the card is played on the board
+         * @param col Column where the card is played on the board
+         * @since 17.11.14
+         * @returns {Array}
+         */
+        testAllRules(board, card, row, col) {
+            this.step = 0;
+            this.board = board;
+            this.card = card;
+            this.initContext(row, col);
+
+            let flipped = [];
+            let flippedComboApplied = [];
+
+            if (Settings.isRuleEnabled(Rules.getRules().SAME)) {
+                flippedComboApplied = flippedComboApplied.concat(this.sameRule());
+            }
+
+            if (Settings.isRuleEnabled(Rules.getRules().PLUS)) {
+                flippedComboApplied = flippedComboApplied.concat(this.plusRule());
+            }
+
+            flipped = flipped.concat(this.simpleRule());
+
+            if (Settings.isRuleEnabled(Rules.getRules().WAR)) {
+                flipped = flipped.concat(this.warRule());
+            }
+
+            if (Settings.isRuleEnabled(Rules.getRules().COMBO)) {
+                for (let i = 0; i < flippedComboApplied.length; i++) {
+                    let coordinate = board.getCardCoordinate(flippedComboApplied[i]);
+                    this.card = flippedComboApplied[i];
+                    this.initContext(coordinate.row, coordinate.col)
+
+                    let flippedCombo = this.simpleRule();
+                    flippedComboApplied = flippedComboApplied.concat(flippedCombo);
+                }
+            }
+
+            flipped = flipped.concat(flippedComboApplied);
+            return flipped;
+        }
+
+        /**
          * Apply the simple rule.
-         * @param isCombo Whether the rule is applied as a combo as a simple rule. True if it's a combo
          * @returns {Array} The list of flipped cards
          * @since 17.11.06
          */
-        simpleRule(isCombo) {
+        simpleRule() {
             let flipped = [];
-            let rule = isCombo ? Rules.getRules().COMBO : Rules.getRules().SIMPLE;
-
-            logger.debug("Try " + rule + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
 
             if (this.cardUp && this.cardUp.getOwner() !== this.card.getOwner() && this.cardUp.getCard().getDown() < this.card.getCard().getUp()) {
                 flipped.push(this.cardUp);
             }
             if (this.cardDown && this.cardDown.getOwner() !== this.card.getOwner() && this.cardDown.getCard().getUp() < this.card.getCard().getDown()) {
                 flipped.push(this.cardDown);
-                this.cardDown.flip(this.card.getOwner(), this.card, rule, this.step);
             }
             if (this.cardLeft && this.cardLeft.getOwner() !== this.card.getOwner() && this.cardLeft.getCard().getRight() < this.card.getCard().getLeft()) {
                 flipped.push(this.cardLeft);
             }
             if (this.cardRight && this.cardRight.getOwner() !== this.card.getOwner() && this.cardRight.getCard().getLeft() < this.card.getCard().getRight()) {
                 flipped.push(this.cardRight);
-            }
-
-            for (let i = flipped.length - 1; i >= 0; i--) {
-                flipped[i].flip(this.card.getOwner(), this.card, rule, this.step);
-                logger.info("Rule " + rule + " : (step " + this.step + ") " + this.card.getCard().getName() + " flips " + flipped[i].getCard().getName());
             }
 
             if (flipped.length > 0) {
@@ -120,8 +200,6 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.06
          */
         sameRule() {
-            logger.debug("Try " + Rules.getRules().SAME + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
-
             let flipped = [];
             let cardsCouldBeFlipped = [];
             let sameCards = 0;
@@ -154,8 +232,6 @@ define(["js/models/Settings"], function (Settings) {
             if (sameCards >= 2 && cardsCouldBeFlipped.length >= 1) {
                 for (let i = cardsCouldBeFlipped.length - 1; i >= 0; i--) {
                     flipped.push(cardsCouldBeFlipped[i]);
-                    cardsCouldBeFlipped[i].flip(this.card.getOwner(), this.card, Rules.getRules().SAME, this.step);
-                    logger.info("Rule " + Rules.getRules().SAME + " : (step " + this.step + ") " + this.card.getCard().getName() + " flips " + cardsCouldBeFlipped[i].getCard().getName());
                 }
                 this.step++;
             }
@@ -169,8 +245,6 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.06
          */
         warRule() {
-            logger.debug("Try " + Rules.getRules().WAR + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
-
             let flipped = [];
             let sum = this.card.getCard().getUp() + this.card.getCard().getRight() + this.card.getCard().getDown() + this.card.getCard().getLeft();
 
@@ -199,11 +273,6 @@ define(["js/models/Settings"], function (Settings) {
                 }
             }
 
-            for (let i = flipped.length - 1; i >= 0; i--) {
-                flipped[i].flip(this.card.getOwner(), this.card, Rules.getRules().WAR, this.step);
-                logger.info("Rule " + Rules.getRules().WAR + " : (step " + this.step + ") " + this.card.getCard().getName() + " flips " + flipped[i].getCard().getName());
-            }
-
             if (flipped.length > 0) {
                 this.step++;
             }
@@ -217,8 +286,6 @@ define(["js/models/Settings"], function (Settings) {
          * @since 17.11.06
          */
         plusRule() {
-            logger.debug("Try " + Rules.getRules().PLUS + " rule [card: " + this.card.getCard().getName() + "; row: " + this.row + "; col:" + this.col + "]");
-
             let flipped = [];
             let sums = [];
 
@@ -249,11 +316,6 @@ define(["js/models/Settings"], function (Settings) {
                         let card = sums[sum][i];
                         if (card.getOwner() !== this.card.getOwner()) {
                             flipped.push(card);
-                            card.flip(this.card.getOwner(), this.card, Rules.getRules().PLUS, this.step);
-                            logger.info("Rule " + Rules.getRules().PLUS + " : (step " + this.step + ") "
-                                + this.card.getCard().getName() + " flips " + card.getCard().getName()
-                                + " (sum : " + sum + " with " + sums[sum].map(card => card.getCard().getName()).join(', ') + ")");
-
                         }
                     }
                 }

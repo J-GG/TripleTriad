@@ -99,7 +99,7 @@ define(["js/models/GameState",
          * @since 17.11.11
          */
         AIPlaysCard() {
-            let cardAndCoordinates = new AI().chooseCardAndCase(this.gameState);
+            let cardAndCoordinates = new AI().chooseCardAndCase(this.gameState, Settings.getDifficulty());
             return this.playCard(cardAndCoordinates.card, ...cardAndCoordinates.coordinates);
         }
 
@@ -125,7 +125,6 @@ define(["js/models/GameState",
             //End of the game or next player
             if (this.gameState.isGameOver()) {
                 logger.info("The game is over. Winner(s) : " + this.gameState.getWinner().map(player => player.getName()).join(","));
-
                 return this.gameState;
             } else {
                 let nextPlayerToPlay;

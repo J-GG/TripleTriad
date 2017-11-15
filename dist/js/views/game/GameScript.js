@@ -457,8 +457,6 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                         for (let j = gameState.getBoard().getCols() - 1; j >= 0; j--) {
                             let cardOnBoard = gameState.getBoard().getCardOnBoard(i, j);
                             if (cardOnBoard !== undefined && cardOnBoard.isFlipped() && cardOnBoard.getFlippedStep() === step) {
-                                //Color of the player
-                                let color = cardOnBoard.getOwner() === gameState.getPlayer(0) ? "blue" : "red";
                                 //X or Y rotation
                                 let position = gameState.getBoard().getRelativePositionOf(cardOnBoard, cardOnBoard.getFlippedByCard());
                                 let rotation = "Y";
@@ -476,12 +474,13 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                                 let animationFlipDelay = parseFloat(cardGame.$container.find(".card--back-" + rotation + "-row-" + i + "-col-" + j).css("animation-duration"));
 
                                 //Change the color of the card
-                                (function (i, j, cardOnBoard) {
+                                (function (i, j, cardOnBoard, gameState) {
                                     setTimeout(function () {
                                         cardGame.$container.find(".card.card--front.card--row-" + i + ".card--col-" + j)
-                                            .toggleClass("card--player-1").toggleClass("card--player-2");
+                                            .removeClass("card--player-1 card--player-2")
+                                            .addClass("card--player-" + (gameState.getIndexPlayerPlaying() + 1));
                                     }, animationFlipDelay / 2 * 1000);
-                                })(i, j, cardOnBoard);
+                                })(i, j, cardOnBoard, gameState);
 
                                 (function (i, j) {
                                     //Remove the back
