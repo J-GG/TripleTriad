@@ -4,7 +4,7 @@
  * Update the settings.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.12
+ * @version 17.11.16
  */
 define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/models/Rules", "js/views/common/Sound"],
     function (Common, Settings, Key, Rules, Sound) {
@@ -35,10 +35,21 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                     break;
 
                                 case 5:
+                                    Sound.play(Sound.getKeys().SELECT);
+                                    let $difficulties = cardGame.$container.find("#setting-difficulty .message__check");
+                                    let $selectedDifficulty = $difficulties.filter(".message__check--enabled");
+                                    let $nextSelectedDifficulty = $selectedDifficulty.next().length !== 0 ?
+                                        $selectedDifficulty.next() : $difficulties.first();
+
+                                    $difficulties.removeClass("message__check--enabled");
+                                    $nextSelectedDifficulty.addClass("message__check--enabled");
+                                    break;
+
                                 case 6:
                                 case 7:
                                 case 8:
                                 case 9:
+                                case 10:
                                     Sound.play(Sound.getKeys().SELECT);
                                     $(cardGame.$container.find(".select-choices__choice")[e.choice - 1]).parent().toggleClass("message__check--enabled");
                                     break;
@@ -57,6 +68,9 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
 
                                     //Language
                                     Settings.setLanguage(cardGame.$container.find("#setting-language .message__check--enabled").data("langCode"));
+
+                                    //Difficulty
+                                    Settings.setDifficulty(cardGame.$container.find("#setting-difficulty .message__check--enabled").data("difficulty"));
 
                                     //Rules
                                     if (cardGame.$container.find("#rule-open").hasClass("message__check--enabled")) {

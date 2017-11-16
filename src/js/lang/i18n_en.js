@@ -4,7 +4,7 @@
  * The english (and default) wording of the game.
  * @author Jean-Gabriel Genest
  * @since 17.11.12
- * @version 17.11.12
+ * @version 17.11.16
  */
 define([], function () {
     return {
@@ -15,6 +15,10 @@ define([], function () {
         PLAYER_2: "Player 2",
         SOUND: "Sound",
         LANGUAGE: "Language",
+        DIFFICULTY: "AI difficulty",
+        EASY: "Easy",
+        NORMAL: "Normal",
+        HARD: "Hard",
         ON: "ON",
         OFF: "OFF",
         RULES: "Rules",
@@ -31,8 +35,8 @@ define([], function () {
         MENU: "Menu",
         WINS: "Wins",
         DRAW: "Draw",
-        WIN: "Win",
-        LOSE: "Lose",
+        WIN: "You Win",
+        LOSE: "You Lose",
         PLAY_AGAIN: "Do you want to play again?",
         YES: "Yes",
         NO: "No"

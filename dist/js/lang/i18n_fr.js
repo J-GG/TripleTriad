@@ -4,7 +4,7 @@
  * The french wording of the game. Overwrite default values.
  * @author Jean-Gabriel Genest
  * @since 17.11.12
- * @version 17.11.12
+ * @version 17.11.16
  */
 define(["./i18n_en"], function (i18nDefault) {
     let i18nFR = {
@@ -15,6 +15,10 @@ define(["./i18n_en"], function (i18nDefault) {
         PLAYER_2: "Joueur 2",
         SOUND: "Son",
         LANGUAGE: "Langue",
+        DIFFICULTY: "Difficulté IA",
+        EASY: "Facile",
+        NORMAL: "Normal",
+        HARD: "Difficile",
         ON: "Activé",
         OFF: "Désactivé",
         RULES: "Règles",

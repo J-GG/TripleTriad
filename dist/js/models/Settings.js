@@ -15,9 +15,9 @@ define([], function () {
         //List the available languages and difficulties
         let availableLangs = ["en", "fr"];
         let difficulties = {
-            EASY: 0,
-            NORMAL: 1,
-            HARD: 2
+            EASY: "EASY",
+            NORMAL: "NORMAL",
+            HARD: "HARD"
         };
 
         let defaultLang = window.navigator.userLanguage || window.navigator.language;
@@ -44,7 +44,7 @@ define([], function () {
         settings.player2Name = settings.player2Name ? settings.player2Name.substr(0, 10) : "Player 2";
         settings.audio = settings.audio === true;
         settings.lang = availableLangs.includes(settings.lang) ? settings.lang : defaultLang;
-        settings.difficulty = availableLangs.includes(settings.difficulty) ? settings.difficulty : difficulties.NORMAL;
+        settings.difficulty = Object.values(difficulties).includes(settings.difficulty) ? settings.difficulty : difficulties.NORMAL;
 
         //Return the setters and getters
         return {
@@ -93,7 +93,7 @@ define([], function () {
                 return difficulties;
             },
             setDifficulty(difficulty){
-                if (difficulties.keys().includes(difficulty)) {
+                if (Object.values(difficulties).includes(difficulty)) {
                     settings.difficulty = difficulty;
                 }
             },
