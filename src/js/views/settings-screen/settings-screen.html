@@ -54,37 +54,32 @@
                 <div class="select-choices__choice message__label">
                     {{i18n.OPEN}}
                 </div>
-                <div class="message--text-small message__sub-label">{{i18n.OPEN_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-war" class="message__check {{#if war}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label">
+                <div class="select-choices__choice message__label" data-description="{{i18n.WAR_DESCRIPTION}}">
                     {{i18n.WAR}}
                 </div>
-                <div class="message--text-small message__sub-label">{{i18n.WAR_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-same" class="message__check {{#if same}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label">
+                <div class="select-choices__choice message__label" data-description="{{i18n.SAME_DESCRIPTION}}">
                     {{i18n.SAME}}
                 </div>
-                <div class="message--text-small message__sub-label">{{i18n.SAME_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-plus" class="message__check {{#if plus}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label">
+                <div class="select-choices__choice message__label" data-description="{{i18n.PLUS_DESCRIPTION}}">
                     {{i18n.PLUS}}
                 </div>
-                <div class="message--text-small message__sub-label">{{i18n.PLUS_DESCRIPTION}}</div>
             </div>
 
             <div id="rule-combo" class="message__check {{#if combo}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label">
+                <div class="select-choices__choice message__label" data-description="{{i18n.COMBO_DESCRIPTION}}">
                     {{i18n.COMBO}}
                 </div>
-                <div class="message--text-small message__sub-label">{{i18n.COMBO_DESCRIPTION}}</div>
             </div>
-
+            
             <p class="message__confirm">
                 <span class="select-choices__choice">{{i18n.MENU}}</span>
             </p>

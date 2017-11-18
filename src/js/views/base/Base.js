@@ -4,7 +4,7 @@
  * The minimal code for all views.
  * @author Jean-Gabriel Genest
  * @since 17.11.01
- * @version 17.11.04
+ * @version 17.11.18
  */
 define(["js/toolbox/Key"], function (Key) {
     return {
@@ -57,6 +57,7 @@ define(["js/toolbox/Key"], function (Key) {
              * Disable/enable scroll with up and down keys when the game has the focus/loses focus
              */
             $(cardGame.$container).find(".board").focus(function () {
+                $gameArea.siblings(".message__focus").addClass("message--hidden");
                 document.onkeydown = function (e) {
                     if (e.keyCode === Key.UP || e.keyCode === Key.DOWN || e.keyCode === Key.RIGHT || e.keyCode === Key.LEFT) {
                         e.preventDefault();
@@ -65,6 +66,7 @@ define(["js/toolbox/Key"], function (Key) {
             });
             $(cardGame.$container).find(".board").blur(function () {
                 document.onkeydown = null;
+                $gameArea.siblings(".message__focus").removeClass("message--hidden");
             });
         }
     }
