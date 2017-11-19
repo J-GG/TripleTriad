@@ -1,85 +1,101 @@
 <div class="board__background board__background--game">
     <div class="message message--settings">
-        <div class="select-choices">
+        <div class="select-choices ">
 
             <!-- Name Player 1 -->
-            <p id="setting-player-1" class="select-choices__choice">
-                <span class="message__label">{{i18n.PLAYER_1}}</span>
-                <input type='text' class='message__input' maxlength='10' spellcheck='false'
-                       autocomplete='false'
-                       value="{{player1}}"/>
+            <p id="setting-player-1" class="select-choices__choice message__setting">
+                {{i18n.PLAYER_1}}
+                <span class="message__value message__value--col-4">
+                    <input type='text' class='message__input' maxlength='10'
+                           spellcheck='false'
+                           autocomplete='false'
+                           value="{{player1}}"/>
+                </span>
             </p>
 
             <!-- Name Player 2 -->
-            <p id="setting-player-2" class="select-choices__choice">
-                <span class="message__label">{{i18n.PLAYER_2}}</span>
-                <input type='text' class='message__input' maxlength='10' spellcheck='false'
-                       autocomplete='false'
-                       value="{{player2}}"/>
+            <p id="setting-player-2" class="select-choices__choice message__setting">
+                {{i18n.PLAYER_2}}
+                <span class="message__value message__value--col-4">
+                    <input type='text' class='message__input' maxlength='10'
+                           spellcheck='false'
+                           autocomplete='false'
+                           value="{{player2}}"/>
+                </span>
             </p>
 
             <!-- Audio -->
-            <p id="setting-audio" class="select-choices__choice">
-                <span class="message__label">{{i18n.SOUND}}</span>
-                <span id="setting-audio-on"
-                      class='message__check message__check--spacing {{#if audio}}message__check--enabled{{/if}}'>{{i18n.ON}}</span>
-                <span id="setting-audio-off"
-                      class='message__check {{#unless audio}}message__check--enabled{{/unless}}'>{{i18n.OFF}}</span>
+            <p id="setting-audio" class="select-choices__choice message__setting">
+                {{i18n.SOUND}}
+                <span class="message__value message__value--col-4">
+                    <span id="setting-audio-on"
+                          class='message__check {{#if audio}}message__check--enabled{{/if}}'>{{i18n.ON}}</span>
+                    <span id="setting-audio-off"
+                          class='message__check {{#unless audio}}message__check--enabled{{/unless}}'>{{i18n.OFF}}</span>
+                </span>
             </p>
 
             <!-- Language -->
-            <p id="setting-language" class="select-choices__choice">
-                <span class="message__label">{{i18n.LANGUAGE}}</span>
-                <span class='message__check message__check--spacing {{#ifEquals lang "en"}}message__check--enabled{{/ifEquals}}'
-                      data-lang-code='en'>English</span>
-                <span class='message__check {{#ifEquals lang "fr"}}message__check--enabled{{/ifEquals}}'
-                      data-lang-code='fr'>Français</span>
+            <p id="setting-language" class="select-choices__choice message__setting">
+                {{i18n.LANGUAGE}}
+                <span class="message__value message__value--col-4">
+                    <span class='message__check {{#ifEquals lang "en"}}message__check--enabled{{/ifEquals}}'
+                          data-lang-code='en'>English</span>
+                    <span class='message__check {{#ifEquals lang "fr"}}message__check--enabled{{/ifEquals}}'
+                          data-lang-code='fr'>Français</span>
+                </span>
             </p>
 
             <!-- Difficulty -->
-            <p id="setting-difficulty" class="select-choices__choice">
-                <span class="message__label">{{i18n.DIFFICULTY}}</span>
-                <span class='message__check message__check--spacing {{#ifEquals difficulty "EASY"}}message__check--enabled{{/ifEquals}}'
-                      data-difficulty='EASY'>{{i18n.EASY}}</span>
-                <span class='message__check message__check--spacing {{#ifEquals difficulty "NORMAL"}}message__check--enabled{{/ifEquals}}'
-                      data-difficulty='NORMAL'>{{i18n.NORMAL}}</span>
-                <span class='message__check {{#ifEquals difficulty "HARD"}}message__check--enabled{{/ifEquals}}'
-                      data-difficulty='HARD'>{{i18n.HARD}}</span>
+            <p id="setting-difficulty" class="select-choices__choice message__setting">
+                {{i18n.DIFFICULTY}}
+                <span class="message__value message__value--col-4">
+                    <span class='message__check message__check--spacing {{#ifEquals difficulty "EASY"}}message__check--enabled{{/ifEquals}}'
+                          data-difficulty='EASY'>{{i18n.EASY}}</span>
+                    <span class='message__check message__check--spacing {{#ifEquals difficulty "NORMAL"}}message__check--enabled{{/ifEquals}}'
+                          data-difficulty='NORMAL'>{{i18n.NORMAL}}</span>
+                    <span class='message__check {{#ifEquals difficulty "HARD"}}message__check--enabled{{/ifEquals}}'
+                          data-difficulty='HARD'>{{i18n.HARD}}</span>
+                </span>
             </p>
 
             <!-- Rules -->
             <p>{{i18n.RULES}}</p>
+            <div class="message__setting">
+                <div id="rule-open" class="message__check {{#if open}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label" data-description="{{i18n.OPEN_DESCRIPTION}}">
+                        {{i18n.OPEN}}
+                    </div>
+                </div>
 
-            <div id="rule-open" class="message__check {{#if open}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label">
-                    {{i18n.OPEN}}
+                <div id="rule-war" class="message__check {{#if war}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label" data-description="{{i18n.WAR_DESCRIPTION}}">
+                        {{i18n.WAR}}
+                    </div>
+                </div>
+
+                <div id="rule-same" class="message__check {{#if same}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label" data-description="{{i18n.SAME_DESCRIPTION}}">
+                        {{i18n.SAME}}
+                    </div>
+                </div>
+
+                <div id="rule-plus" class="message__check {{#if plus}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label" data-description="{{i18n.PLUS_DESCRIPTION}}">
+                        {{i18n.PLUS}}
+                    </div>
+                </div>
+
+                <div id="rule-combo" class="message__check {{#if combo}}message__check--enabled{{/if}}">
+                    <div class="select-choices__choice message__label" data-description="{{i18n.COMBO_DESCRIPTION}}">
+                        {{i18n.COMBO}}
+                    </div>
+                </div>
+
+                <div id="rule-description" class="message__value message__value--from-r1-to-r5">
                 </div>
             </div>
 
-            <div id="rule-war" class="message__check {{#if war}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label" data-description="{{i18n.WAR_DESCRIPTION}}">
-                    {{i18n.WAR}}
-                </div>
-            </div>
-
-            <div id="rule-same" class="message__check {{#if same}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label" data-description="{{i18n.SAME_DESCRIPTION}}">
-                    {{i18n.SAME}}
-                </div>
-            </div>
-
-            <div id="rule-plus" class="message__check {{#if plus}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label" data-description="{{i18n.PLUS_DESCRIPTION}}">
-                    {{i18n.PLUS}}
-                </div>
-            </div>
-
-            <div id="rule-combo" class="message__check {{#if combo}}message__check--enabled{{/if}}">
-                <div class="select-choices__choice message__label" data-description="{{i18n.COMBO_DESCRIPTION}}">
-                    {{i18n.COMBO}}
-                </div>
-            </div>
-            
             <p class="message__confirm">
                 <span class="select-choices__choice">{{i18n.MENU}}</span>
             </p>

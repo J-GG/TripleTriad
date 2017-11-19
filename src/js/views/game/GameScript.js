@@ -4,7 +4,7 @@
  * Show and manage the game.
  * @author Jean-Gabriel Genest
  * @since 17.11.02
- * @version 17.11.12
+ * @version 17.11.19
  */
 define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Board", "js/views/common/Sound"],
     function (Key, Settings, Rules, Board, Sound) {
@@ -524,18 +524,17 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 if (gameState.isOnePlayerGame()) {
                     if (gameState.getWinner()[0] === gameState.getPlayers()[0]) {
                         text = cardGame.i18n.WIN;
+                        Sound.stopAllAndPlay(Sound.getKeys().VICTORY);
                     } else {
                         text = cardGame.i18n.LOSE;
                     }
                 }
                 else {
                     text = gameState.getWinner()[0].getName() + " " + cardGame.i18n.WINS;
+                    Sound.stopAllAndPlay(Sound.getKeys().VICTORY);
                 }
-
-                Sound.stopAllAndPlay(Sound.getKeys().VICTORY);
             }
             cardGame.$container.find(".text-title").text(text);
-
 
             cardGame.$container.keydown(function (e) {
                 switch (e.which) {

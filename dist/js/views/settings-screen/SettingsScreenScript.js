@@ -126,6 +126,22 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                         case Key.DOWN:
                             $("input").blur();
                             cardGame.$container.find(".board").focus();
+
+                            let $description = cardGame.$container.find("#rule-description");
+                            switch (e.choice) {
+                                case 6:
+                                case 7:
+                                case 8:
+                                case 9:
+                                case 10:
+                                    let description = $(cardGame.$container.find(".select-choices__choice")[e.choice - 1]).data("description");
+                                    $description.html(description);
+                                    break;
+                                default:
+                                    $description.text("");
+                                    break;
+                            }
+
                             break;
 
                         default:
