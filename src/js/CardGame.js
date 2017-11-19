@@ -6,17 +6,23 @@
  * @since 17.10.30
  * @version 17.11.12
  */
-define(["js/views/base/Base",
-    "../../node_modules/jquery/dist/jquery.min",
+define(["../../node_modules/jquery/dist/jquery.min",
     "../../node_modules/handlebars/dist/handlebars.min",
-    "../../node_modules/js-logging/js-logging.browser"], function (baseScript, jquery, handlebars, logging) {
+    "../../node_modules/js-logging/js-logging.browser"], function (jquery, handlebars, logging) {
 
     /**
-     * URL of the template
+     * URL of the base template
      * @type {string}
      * @since 17.10.30
      */
     let TEMPLATE = 'js/views/base/base.html';
+
+    /**
+     * URL of the loading template
+     * @type {string}
+     * @since 17.11.19
+     */
+    let TEMPLATE_LOADER = 'js/views/base/loading.html';
 
     return {
 
@@ -49,20 +55,31 @@ define(["js/views/base/Base",
                 }
             }
 
-            //Load the minimal view
-            $.get(TEMPLATE, function (source) {
+            //Loader
+            $.get(TEMPLATE_LOADER, function (source) {
                 let template = Handlebars.compile(source);
                 cardGame.$container.html(template);
-                baseScript.initViews();
             });
 
             //Launch the game
             logger.debug("Game launching in [container: " + cardGame.$container[0].id + "]");
-            require(["js/toolbox/Routes", "js/models/Settings"], function (Routes, Settings) {
+            require(["js/views/base/Base", "js/toolbox/Routes", "js/models/Settings"], function (baseScript, Routes, Settings) {
                 require(["js/lang/i18n_" + Settings.getLanguage()], function (i18n) {
                     window.cardGame.i18n = i18n;
                     window.Routes = Routes;
-                    Routes.get(Routes.getKeys().DEFAULT)()
+
+                    //Load the minimal view
+                    $.get(TEMPLATE, function (source) {
+                        let template = Handlebars.compile(source);
+                        let data = {
+                            i18n: cardGame.i18n
+                        };
+
+                        cardGame.$container.html(template(data));
+                        baseScript.initViews();
+
+                        Routes.get(Routes.getKeys().DEFAULT)()
+                    });
                 });
             });
         }

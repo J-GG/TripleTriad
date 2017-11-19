@@ -4,7 +4,7 @@
  * The english (and default) wording of the game.
  * @author Jean-Gabriel Genest
  * @since 17.11.12
- * @version 17.11.16
+ * @version 17.11.19
  */
 define([], function () {
     return {
@@ -39,6 +39,13 @@ define([], function () {
         LOSE: "You Lose",
         PLAY_AGAIN: "Do you want to play again?",
         YES: "Yes",
-        NO: "No"
+        NO: "No",
+        FOCUS_MESSAGE: "Click on the game area to play",
+        CONTROLS: "Controls",
+        MOVE_CURSOR: "Move the cursor",
+        KEY_ENTER: "Enter",
+        VALIDATE: "Validate",
+        KEY_ESC: "Esc",
+        CANCEL: "Cancel"
     };
 });

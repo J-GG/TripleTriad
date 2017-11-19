@@ -4,7 +4,7 @@
  * The french wording of the game. Overwrite default values.
  * @author Jean-Gabriel Genest
  * @since 17.11.12
- * @version 17.11.16
+ * @version 17.11.19
  */
 define(["./i18n_en"], function (i18nDefault) {
     let i18nFR = {
@@ -40,7 +40,14 @@ define(["./i18n_en"], function (i18nDefault) {
         LOSE: "Perdu...",
         PLAY_AGAIN: "Voulez vous jouer une autre partie ?",
         YES: "Oui",
-        NO: "Non"
+        NO: "Non",
+        FOCUS_MESSAGE: "Cliquez sur la zone de jeu pour jouer",
+        CONTROLS: "Commandes",
+        MOVE_CURSOR: "Déplacer le curseur",
+        KEY_ENTER: "Entrée",
+        VALIDATE: "Valider",
+        KEY_ESC: "Echap",
+        CANCEL: "Annuler",
     };
 
     return Object.assign({}, i18nDefault, i18nFR);
