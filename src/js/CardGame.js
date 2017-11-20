@@ -4,7 +4,7 @@
  * Entry point of the card game.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.12
+ * @version 17.11.19
  */
 define(["../../node_modules/jquery/dist/jquery.min",
     "../../node_modules/handlebars/dist/handlebars.min",
@@ -18,11 +18,11 @@ define(["../../node_modules/jquery/dist/jquery.min",
     let TEMPLATE = 'js/views/base/base.html';
 
     /**
-     * URL of the loading template
+     * URL of the loader template
      * @type {string}
      * @since 17.11.19
      */
-    let TEMPLATE_LOADER = 'js/views/base/loading.html';
+    let TEMPLATE_LOADER = 'js/views/base/loader.html';
 
     return {
 
@@ -78,7 +78,7 @@ define(["../../node_modules/jquery/dist/jquery.min",
                         cardGame.$container.html(template(data));
                         baseScript.initViews();
 
-                        Routes.get(Routes.getKeys().DEFAULT)()
+                        Routes.get(Routes.getKeys().SPLASH_SCREEN)()
                     });
                 });
             });

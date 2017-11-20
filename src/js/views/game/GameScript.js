@@ -112,33 +112,53 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             if (!gameState.isOnePlayerGame() && !Settings.isRuleEnabled(Rules.getRules().OPEN)) {
                 cardGame.$container.find(".cursor").addClass("cursor--hide");
                 cardGame.$container.find(".board__background").append($("<div>", {
-                    class: "text-title",
-                    text: gameState.getPlayerPlaying().getName() + "'s turn"
-                }));
+                        class: "text-title",
+                        text: gameState.getPlayerPlaying().getName() + "'s turn"
+                    })
+                );
 
                 cardGame.$container.keydown(function (e) {
                     switch (e.which) {
                         case Key.ENTER:
-                            //Show the player's cards
-                            cardGame.$container.find(".card.card--deck-player-" + playerPlaying).each(function () {
-                                $(this).css("background-image", $(this).data("background"))
-                                    .addClass("card--player-" + playerPlaying)
-                                    .removeClass("card--back");
-                            });
-
-                            cardGame.$container.find(".text-title").remove();
-                            cardGame.$container.find(".cursor").removeClass("cursor--hide");
-                            cardGame.$container.off("keydown");
-                            chooseCardToPlay(gameState);
+                            showPlayersCards(gameState);
                             break;
 
                         default:
                             return;
                     }
                 });
+
+                cardGame.$container.find(".board__background").addClass("board__background--pointer");
+                cardGame.$container.find(".board__background").on("click", function () {
+                    showPlayersCards(gameState);
+                })
+
             } else {
                 chooseCardToPlay(gameState);
             }
+        }
+
+        /**
+         * Show the player's cards whose it's the turn.
+         * @since 17.11.20
+         */
+        function showPlayersCards(gameState) {
+            let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
+
+            //Show the player's cards
+            cardGame.$container.find(".card.card--deck-player-" + playerPlaying).each(function () {
+                $(this).css("background-image", $(this).data("background"))
+                    .addClass("card--player-" + playerPlaying)
+                    .removeClass("card--back");
+            });
+
+            cardGame.$container.find(".text-title").remove();
+            cardGame.$container.find(".cursor").removeClass("cursor--hide");
+            cardGame.$container.off("keydown");
+            cardGame.$container.find(".board__background").removeClass("board__background--pointer");
+            cardGame.$container.find(".board__background").off("click");
+
+            chooseCardToPlay(gameState);
         }
 
         /**
@@ -154,6 +174,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
             if (selectedCard === undefined) {
                 selectedCard = gameState.getPlayerPlaying().getDeck().length - 1;
             }
+
+            //Specify the cards in the deck of the playing player
+            cardGame.$container.find(".card--deck-player-" + playerPlaying).addClass("card--deck-player-playing");
 
             updateSelectedCard(gameState, selectedCard);
 
@@ -186,6 +209,24 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                     default:
                         return;
                 }
+            });
+
+            cardGame.$container.find(".card--deck-player-" + playerPlaying).on("click", function () {
+                let $selectedCard = $(this);
+                cardGame.$container.find(".card--deck-player-" + playerPlaying).each(function (index) {
+                    if ($selectedCard.get(0) === $(this).get(0)) {
+                        let selectedCard = cardGame.$container.find(".card--deck-player-" + playerPlaying).length - 1 - index;
+
+                        cardGame.$container.find(".cursor")
+                            .removeClass("cursor--player-" + playerPlaying + " cursor--card-" + selectedCard);
+
+                        updateSelectedCard(gameState, selectedCard);
+                        cardGame.$container.off("keydown");
+
+                        Sound.play(Sound.getKeys().SELECT);
+                        chooseCase(gameState, selectedCard);
+                    }
+                })
             });
         }
 
@@ -230,11 +271,13 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
          * @since 17.11.05
          */
         function chooseCase(gameState, selectedCard) {
+            let playerPlaying = gameState.getIndexPlayerPlaying() + 1;
             let currentRow = 1, currentCol = 1;
             let $cursor = cardGame.$container.find(".cursor");
 
             //Move the cursor to the board
             $cursor.addClass("cursor--row-" + currentRow + " cursor--col-" + currentCol);
+            $cursor.removeClass("cursor--player-" + playerPlaying);
 
             /* Show the name of the card under the cursor or hide it */
             showCardNameUnderCursor(gameState, currentRow, currentCol);
@@ -263,13 +306,24 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
                     case Key.ENTER:
                         if (!gameState.getBoard().getCardOnBoard(currentRow, currentCol)) {
+                            //Unbind the click on the deck
+                            cardGame.$container.find(".card").removeClass("card--deck-player-playing");
+                            cardGame.$container.find(".card--deck-player-" + playerPlaying).off("click");
+
+                            //Unbind events on the cases
+                            cardGame.$container.find(".board__grid").removeClass("board__grid--pointer");
+                            $board__grid.off("click");
                             cardGame.$container.off("keydown");
+
+                            Sound.play(Sound.getKeys().SELECT);
                             Routes.get(Routes.getKeys().PLAYER_PLAYS_CARD)(gameState.getPlayerPlaying().getDeck()[selectedCard], currentRow, currentCol);
                         }
                         return;
                         break;
 
                     case Key.ESCAPE:
+                        cardGame.$container.find(".board__grid").removeClass("board__grid--pointer");
+                        $board__grid.off("click");
                         cardGame.$container.off("keydown");
                         Sound.play(Sound.getKeys().CANCEL);
                         chooseCardToPlay(gameState, selectedCard);
@@ -290,6 +344,42 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
                 showCardNameUnderCursor(gameState, currentRow, currentCol);
             });
+
+            let $board__grid = $(".board__grid");
+            $board__grid.addClass("board__grid--pointer");
+            $board__grid.on("click", function (e) {
+                let x = e.clientX - $board__grid.offset().left;
+                let y = e.clientY - $board__grid.offset().top;
+                let row = 0;
+                let col = 0;
+                if (y > 1 / 3 * $board__grid.height() && y <= 2 / 3 * $board__grid.height()) {
+                    row = 1;
+                }
+                else if (y > 2 / 3 * $board__grid.height()) {
+                    row = 2;
+                }
+
+                if (x > 1 / 3 * $board__grid.width() && x <= 2 / 3 * $board__grid.width()) {
+                    col = 1;
+                }
+                else if (x > 2 / 3 * $board__grid.width()) {
+                    col = 2;
+                }
+
+                if (!gameState.getBoard().getCardOnBoard(row, col)) {
+                    //Unbind the click on the deck
+                    cardGame.$container.find(".card").removeClass("card--deck-player-playing");
+                    cardGame.$container.find(".card--deck-player-" + playerPlaying).off("click");
+
+                    //Unbind events on the cases
+                    cardGame.$container.find(".board__grid").removeClass("board__grid--pointer");
+                    $board__grid.off("click");
+                    cardGame.$container.off("keydown");
+
+                    Sound.play(Sound.getKeys().SELECT);
+                    Routes.get(Routes.getKeys().PLAYER_PLAYS_CARD)(gameState.getPlayerPlaying().getDeck()[selectedCard], row, col);
+                }
+            })
         }
 
         /**
@@ -324,6 +414,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
             //Remove the classes positioning the cursor on the board
             cardGame.$container.find(".cursor").addClass("cursor--hide");
+
+            //Remove the name of the card under the cursor if there is any
+            cardGame.$container.find("#card-name-message").addClass("message--hidden");
 
             let animationDisappearanceDelay = parseFloat(cardGame.$container.find(".card--disappearance-deck-" + indexCardPlayed).css("animation-duration"));
 
@@ -515,7 +608,6 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
          * @since 17.11.05
          */
         function gameIsOver(gameState) {
-            cardGame.$container.find(".board__background").append($("<div>", {class: "text-title"}));
 
             let text = "";
             if (gameState.getWinner().length > 1) {
@@ -534,20 +626,38 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                     Sound.stopAllAndPlay(Sound.getKeys().VICTORY);
                 }
             }
-            cardGame.$container.find(".text-title").text(text);
+            cardGame.$container.find(".board__background").append($("<div>", {
+                class: "text-title",
+                text: text
+            }));
 
             cardGame.$container.keydown(function (e) {
                 switch (e.which) {
                     case Key.ENTER:
-                        cardGame.$container.off("keydown");
-                        cardGame.$container.find(".board__background").fadeOut("slow", () => Routes.get(Routes.getKeys().FINAL_SCREEN)(gameState.isOnePlayerGame()));
-
+                        gameDisappear(gameState);
                         break;
 
                     default:
                         return;
                 }
             });
+
+            cardGame.$container.find(".board__background").addClass("board__background--pointer");
+            cardGame.$container.find(".board__background").on("click", function () {
+                gameDisappear(gameState);
+            })
+        }
+
+        /**
+         * Make the game view disappear to show the final screen.
+         * @since 17.11.20
+         */
+        function gameDisappear(gameState) {
+            cardGame.$container.off("click");
+            cardGame.$container.find(".board__background").removeClass("board__background--pointer");
+            cardGame.$container.off("keydown");
+
+            cardGame.$container.find(".board__background").fadeOut("slow", () => Routes.get(Routes.getKeys().FINAL_SCREEN)(gameState.isOnePlayerGame()));
         }
 
         return {

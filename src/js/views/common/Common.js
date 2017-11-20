@@ -4,7 +4,7 @@
  * Common functions used in the views.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.16
+ * @version 17.11.19
  */
 define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
     return {
@@ -76,6 +76,20 @@ define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
                 }
             });
 
+            cardGame.$container.find(".select-choices__choice").on("click", function () {
+                let $clickedChoice = $(this);
+                cardGame.$container.find(".select-choices__choice").each(function (index) {
+                    if ($clickedChoice.get(0) === $(this).get(0)) {
+                        choice = index + 1;
+                        if (unbindOnEnter) {
+                            unbind();
+                        }
+                        updateCursorPosition();
+                        callback({unbind: unbind, key: Key.ENTER, choice: choice});
+                    }
+                })
+            });
+
 
             //update the cursor at the correct position if the windows is resized
             $(window).resize(updateCursorPosition);
@@ -104,6 +118,7 @@ define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
              */
             function unbind() {
                 cardGame.$container.off("keydown");
+                cardGame.$container.find(".select-choices__choice").on("click");
                 $(window).off("resize", updateCursorPosition);
             }
 

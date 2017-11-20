@@ -6,11 +6,11 @@ Triple Triad is a mini card game released along Final Fantasy VIII where two pla
 
 This version of the game uses the same graphics as the original one to which I changed the gameplay to make it more suitable to a standalone game.
 
-**Demo** - http://cardgame.hebergratuit.net/dist/
+**Demo** - https://triple-triad.000webhostapp.com
 
 ### Controls
 
-The game can only be played with a keyboard.
+The game can only be played with the mouse or with the keyboard.
 
 * <kbd>↑</kbd> , <kbd>↓</kbd> , <kbd>←</kbd> , <kbd>→</kbd> - Move the cursor
 * <kbd>Enter</kbd> - Validate
