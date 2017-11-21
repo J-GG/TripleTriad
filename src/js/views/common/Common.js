@@ -4,7 +4,7 @@
  * Common functions used in the views.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.19
+ * @version 17.11.21
  */
 define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
     return {
@@ -58,9 +58,6 @@ define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
                                 choice++;
                                 Sound.play(Sound.getKeys().SELECT);
                             }
-                            break;
-                        case Key.RETURN:
-                            toggleHelp(choice);
                             break;
 
                         case Key.ENTER:
@@ -120,29 +117,6 @@ define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
                 cardGame.$container.off("keydown");
                 cardGame.$container.find(".select-choices__choice").on("click");
                 $(window).off("resize", updateCursorPosition);
-            }
-
-            /**
-             * Toggle the help if there is any associated with the choice.
-             * @param choice The current choice
-             */
-            function toggleHelp(choice) {
-                let description = $(cardGame.$container.find(".select-choices__choice")[choice - 1]).data("description");
-                if (description === undefined) {
-                    return;
-                }
-
-                let $description = cardGame.$container.find("#description-" + choice);
-                let $message = cardGame.$container.find(".select-choices__choice").parents(".message");
-
-                if ($description.length === 1) {
-                    $description.remove();
-                    $message.removeClass("message--blurred");
-                } else {
-                    $message.addClass("message--blurred");
-                    $description = $("<div>", {id: "description-" + choice, class: "message", text: description});
-                    cardGame.$container.find(".board__background").append($description);
-                }
             }
         }
     }

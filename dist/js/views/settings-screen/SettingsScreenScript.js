@@ -4,13 +4,15 @@
  * Update the settings.
  * @author Jean-Gabriel Genest
  * @since 17.10.30
- * @version 17.11.16
+ * @version 17.11.21
  */
 define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/models/Rules", "js/views/common/Sound"],
     function (Common, Settings, Key, Rules, Sound) {
         return {
             manageSettings() {
                 Common.linearChoice({unbindOnEnter: false}, function (e) {
+                    let $description = cardGame.$container.find("#rule-description");
+                    $description.html("");
                     switch (e.key) {
                         case Key.ENTER:
                             switch (e.choice) {
@@ -50,6 +52,9 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                 case 8:
                                 case 9:
                                 case 10:
+                                    let description = $(cardGame.$container.find(".select-choices__choice")[e.choice - 1]).data("description");
+                                    $description.html(description);
+
                                     Sound.play(Sound.getKeys().SELECT);
                                     $(cardGame.$container.find(".select-choices__choice")[e.choice - 1]).parent().toggleClass("message__check--enabled");
                                     break;
@@ -127,7 +132,6 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                             $("input").blur();
                             cardGame.$container.find(".board").focus();
 
-                            let $description = cardGame.$container.find("#rule-description");
                             switch (e.choice) {
                                 case 6:
                                 case 7:
@@ -141,12 +145,7 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                     $description.text("");
                                     break;
                             }
-
                             break;
-
-                        default:
-                            break;
-
                     }
                 });
             }
