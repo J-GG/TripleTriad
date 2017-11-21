@@ -210,12 +210,14 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                         return;
                 }
             });
-
+            cardGame.$container.find(".card--deck-player-" + playerPlaying).off("click");
             cardGame.$container.find(".card--deck-player-" + playerPlaying).on("click", function () {
                 let $selectedCard = $(this);
                 cardGame.$container.find(".card--deck-player-" + playerPlaying).each(function (index) {
                     if ($selectedCard.get(0) === $(this).get(0)) {
-                        let selectedCard = cardGame.$container.find(".card--deck-player-" + playerPlaying).length - 1 - index;
+                        console.log(index);
+                        selectedCard = cardGame.$container.find(".card--deck-player-" + playerPlaying).length - 1 - index;
+                        console.log("sel" + selectedCard);
 
                         cardGame.$container.find(".cursor")
                             .removeClass("cursor--player-" + playerPlaying + " cursor--card-" + selectedCard);
@@ -347,6 +349,7 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
 
             let $board__grid = $(".board__grid");
             $board__grid.addClass("board__grid--pointer");
+            $board__grid.off("click"); //Remove the previous events if the player changed their card
             $board__grid.on("click", function (e) {
                 let x = e.clientX - $board__grid.offset().left;
                 let y = e.clientY - $board__grid.offset().top;

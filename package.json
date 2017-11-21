@@ -23,11 +23,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "/"
+    "url": "https://github.com/J-GG/TripleTriad"
   },
   "presets": [
     "env"
   ],
-  "author": "",
-  "license": "ISC"
+  "author": "Jean-Gabriel Genest"
 }

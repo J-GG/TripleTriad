@@ -40,14 +40,7 @@ define(["./i18n_en"], function (i18nDefault) {
         LOSE: "Perdu...",
         PLAY_AGAIN: "Voulez vous jouer une autre partie ?",
         YES: "Oui",
-        NO: "Non",
-        FOCUS_MESSAGE: "Cliquez sur la zone de jeu pour jouer",
-        CONTROLS: "Commandes",
-        MOVE_CURSOR: "Déplacer le curseur",
-        KEY_ENTER: "Entrée",
-        VALIDATE: "Valider",
-        KEY_ESC: "Echap",
-        CANCEL: "Annuler",
+        NO: "Non"
     };
 
     return Object.assign({}, i18nDefault, i18nFR);
