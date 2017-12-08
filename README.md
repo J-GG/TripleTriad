@@ -73,11 +73,15 @@ http-server
 
 <br />
 
-* To rebuild the entire **dist** folder, launch this gulp task
+* To rebuild the entire **dist** folder for production (minified files), launch this gulp task
 ```
-gulp build
+gulp build-prod
+```
+* To rebuild the entire **dist** folder for development (**not** minified files), launch this gulp task
+```
+gulp build-dev
 ```
 * For development purpose, run the watcher to update the **dist** folder in real time
 ```
-gulp dev
+gulp watch
 ```
