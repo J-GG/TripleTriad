@@ -4,5 +4,5 @@
 'use strict';
 
 require(["./js/CardGame"], function (cardGame) {
-    cardGame.start();
+    cardGame.start({nodePath: "../../../", gamePath: "/dist/"});
 });

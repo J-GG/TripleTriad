@@ -6,7 +6,8 @@
  * @since 17.10.30
  * @version 17.11.21
  */
-define(["js/toolbox/Key", "js/views/common/Sound"], function (Key, Sound) {
+define([cardGame.gamePath + "js/toolbox/Key.js",
+    cardGame.gamePath + "js/views/common/Sound.js"], function (Key, Sound) {
     return {
 
         /**

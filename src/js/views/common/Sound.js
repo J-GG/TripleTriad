@@ -6,7 +6,7 @@
  * @since 17.11.12
  * @version 17.11.12
  */
-define(["js/models/Settings"], function (Settings) {
+define([cardGame.gamePath + "js/models/Settings.js"], function (Settings) {
     return (function () {
 
         /**
@@ -68,8 +68,10 @@ define(["js/models/Settings"], function (Settings) {
 
                 if (Settings.isAudioEnabled()) {
                     let soundElement = document.getElementById(sound);
-                    soundElement.currentTime = 0;
-                    soundElement.play();
+                    if (soundElement !== null) {
+                        soundElement.currentTime = 0;
+                        soundElement.play();
+                    }
                 }
             }
         }

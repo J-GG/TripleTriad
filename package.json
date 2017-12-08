@@ -15,11 +15,13 @@
     "gulp-clean-css": "^3.9.0",
     "gulp-concat": "^2.6.1",
     "gulp-less": "^3.3.2",
+    "gulp-minify": "^2.1.0",
     "gulp-rename": "^1.2.2"
   },
   "scripts": {
-    "dev": "gulp dev",
-    "build": "gulp build"
+    "watch": "gulp watch",
+    "prod": "gulp build-prod",
+    "dev": "gulp build-dev"
   },
   "repository": {
     "type": "git",
@@ -28,5 +30,6 @@
   "presets": [
     "env"
   ],
-  "author": "Jean-Gabriel Genest"
+  "author": "Jean-Gabriel Genest",
+  "license": "ISC"
 }

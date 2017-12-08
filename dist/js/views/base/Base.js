@@ -6,7 +6,7 @@
  * @since 17.11.01
  * @version 17.11.18
  */
-define(["js/toolbox/Key"], function (Key) {
+define([cardGame.gamePath + "js/toolbox/Key.js"], function (Key) {
     return {
         initViews(){
             let sizeRatio = 1.66;

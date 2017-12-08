@@ -7,10 +7,10 @@
  * @since 17.10.30
  * @version 17.11.12
  */
-define(["../controllers/SplashScreenController",
-        "../controllers/SettingsController",
-        "../controllers/GameController",
-        "../controllers/FinalScreenController"],
+define([cardGame.gamePath + "js/controllers/SplashScreenController.js",
+        cardGame.gamePath + "js/controllers/SettingsController.js",
+        cardGame.gamePath + "js/controllers/GameController.js",
+        cardGame.gamePath + "js/controllers/FinalScreenController.js"],
     function (SplashScreenController, SettingsController, GameController, FinalScreenController) {
         return (function () {
 

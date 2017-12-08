@@ -6,7 +6,7 @@
  * @since 17.11.04
  * @version 17.11.04
  */
-define(["js/views/final-screen/FinalScreenScript"], function (FinalScreenScript) {
+define([cardGame.gamePath + "js/views/final-screen/FinalScreenScript.js"], function (FinalScreenScript) {
     return (function () {
 
         /**
@@ -14,7 +14,7 @@ define(["js/views/final-screen/FinalScreenScript"], function (FinalScreenScript)
          * @type {string}
          * @since 17.10.30
          */
-        let TEMPLATE = 'js/views/final-screen/final-screen.html';
+        let TEMPLATE = cardGame.gamePath + 'js/views/final-screen/final-screen.html';
 
         return {
 

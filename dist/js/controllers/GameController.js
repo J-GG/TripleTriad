@@ -6,7 +6,9 @@
  * @since 17.10.30
  * @version 17.11.01
  */
-define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"], function (GameScript, Settings, GameEngine) {
+define([cardGame.gamePath + "js/views/game/GameScript.js",
+    cardGame.gamePath + "js/models/Settings.js",
+    cardGame.gamePath + "js/models/GameEngine.js"], function (GameScript, Settings, GameEngine) {
     return (function () {
 
         /**
@@ -14,7 +16,7 @@ define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"
          * @type {string}
          * @since 17.10.30
          */
-        let TEMPLATE = 'js/views/game/game.html';
+        let TEMPLATE = cardGame.gamePath + 'js/views/game/game.html';
 
         /**
          * The game engine.
@@ -34,7 +36,8 @@ define(["js/views/game/GameScript", "js/models/Settings", "js/models/GameEngine"
                 let data = {
                     player1: Settings.getPlayer1Name(),
                     player2: onePlayer === true ? undefined : Settings.getPlayer2Name(),
-                    onePlayer: onePlayer === true
+                    onePlayer: onePlayer === true,
+                    gamePath: cardGame.gamePath
                 };
 
                 $.get(TEMPLATE, function (source) {

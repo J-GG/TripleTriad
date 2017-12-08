@@ -6,7 +6,9 @@
  * @since 17.10.30
  * @version 17.11.02
  */
-define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings", "js/models/Rules"], function (SettingsScreenScript, Settings, Rules) {
+define([cardGame.gamePath + "js/views/settings-screen/SettingsScreenScript.js",
+    cardGame.gamePath + "js/models/Settings.js",
+    cardGame.gamePath + "js/models/Rules.js"], function (SettingsScreenScript, Settings, Rules) {
     return (function () {
 
         /**
@@ -14,7 +16,7 @@ define(["js/views/settings-screen/SettingsScreenScript", "../models/Settings", "
          * @type {string}
          * @since 17.10.30
          */
-        let TEMPLATE = 'js/views/settings-screen/settings-screen.html';
+        let TEMPLATE = cardGame.gamePath + 'js/views/settings-screen/settings-screen.html';
 
         return {
 

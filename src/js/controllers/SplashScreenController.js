@@ -6,7 +6,7 @@
  * @since 17.10.30
  * @version 17.11.01
  */
-define(["js/views/splash-screen/SplashScreenScript"], function (splashScreenScript) {
+define([cardGame.gamePath + "js/views/splash-screen/SplashScreenScript.js"], function (splashScreenScript) {
     return (function () {
 
         /**
@@ -14,7 +14,7 @@ define(["js/views/splash-screen/SplashScreenScript"], function (splashScreenScri
          * @type {string}
          * @since 17.10.30
          */
-        let TEMPLATE = 'js/views/splash-screen/splash-screen.html';
+        let TEMPLATE = cardGame.gamePath + 'js/views/splash-screen/splash-screen.html';
 
         return {
 

@@ -6,7 +6,9 @@
  * @since 17.10.22
  * @version 17.11.10
  */
-define(["js/models/PlayerInGame", "js/models/Card", "js/models/CardOnBoard"], function (PlayerInGame, Card, CardOnBoard) {
+define([cardGame.gamePath + "js/models/PlayerInGame.js",
+    cardGame.gamePath + "js/models/Card.js",
+    cardGame.gamePath + "js/models/CardOnBoard.js"], function (PlayerInGame, Card, CardOnBoard) {
     return class Board {
 
         /**

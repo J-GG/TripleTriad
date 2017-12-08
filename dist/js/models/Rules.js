@@ -6,7 +6,7 @@
  * @since 17.11.04
  * @version 17.11.10
  */
-define(["js/models/Settings"], function (Settings) {
+define([cardGame.gamePath + "js/models/Settings.js"], function (Settings) {
     return class Rules {
 
         /**

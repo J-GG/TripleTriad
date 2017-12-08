@@ -6,7 +6,7 @@
  * @since 17.11.12
  * @version 17.11.19
  */
-define(["./i18n_en"], function (i18nDefault) {
+define([cardGame.gamePath + "js/lang/i18n_en.js"], function (i18nDefault) {
     let i18nFR = {
         ONE_PLAYER: "1 joueur",
         TWO_PLAYER: "2 joueurs",

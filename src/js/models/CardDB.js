@@ -1,12 +1,12 @@
-'uset strict';
+'use strict';
 
 /**
  * Simulate a database of cards.
  * @author Jean-Gabriel Genest
  * @since 17.10.22
- * @version 17.10.22
+ * @version 17.12.07
  */
-define(["js/models/Card"], function (Card) {
+define([cardGame.gamePath + "js/models/Card.js"], function (Card) {
     return class CardDB {
 
         /**

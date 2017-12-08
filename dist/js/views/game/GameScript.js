@@ -6,7 +6,11 @@
  * @since 17.11.02
  * @version 17.11.19
  */
-define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Board", "js/views/common/Sound"],
+define([cardGame.gamePath + "js/toolbox/Key.js",
+        cardGame.gamePath + "js/models/Settings.js",
+        cardGame.gamePath + "js/models/Rules.js",
+        cardGame.gamePath + "js/models/Board.js",
+        cardGame.gamePath + "js/views/common/Sound.js"],
     function (Key, Settings, Rules, Board, Sound) {
 
         /**
@@ -32,7 +36,9 @@ define(["js/toolbox/Key", "js/models/Settings", "js/models/Rules", "js/models/Bo
                 for (let j = deck.length - 1; j >= 0; j--) {
                     cardGame.$container.find(".card--player-" + (i + 1) + "-appearance-deck-" + j)
                         .addClass("card--player-" + (i + 1) + "-appearance-deck-" + j)
-                        .css({"background-image": "url('assets/img/cards/" + deck[j].getName().replace(/ /g, '').toLowerCase() + ".jpg')"});
+                        .css({
+                            "background-image": "url('" + cardGame.gamePath + "assets/img/cards/" + deck[j].getName().replace(/ /g, '').toLowerCase() + ".jpg')"
+                        });
                 }
 
                 /* Hide the card and show the back if open is disabled */

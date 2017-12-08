@@ -6,7 +6,8 @@
  * @since 17.10.22
  * @version 17.10.22
  */
-define(["./Player", "./Card"], function (Player, Card) {
+define([cardGame.gamePath + "js/models/Player.js",
+    cardGame.gamePath + "js/models/Card.js"], function (Player, Card) {
     return class PlayerInGame extends Player {
 
         /**

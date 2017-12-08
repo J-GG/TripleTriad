@@ -4,7 +4,8 @@
  * @since 17.10.22
  * @version 17.11.11
  */
-define(["js/models/Board", "js/models/PlayerInGame"], function (Board, PlayerInGame) {
+define([cardGame.gamePath + "js/models/Board.js",
+    cardGame.gamePath + "js/models/PlayerInGame.js"], function (Board, PlayerInGame) {
     return class GameState {
 
         /**

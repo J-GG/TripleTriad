@@ -6,7 +6,11 @@
  * @since 17.10.30
  * @version 17.11.21
  */
-define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/models/Rules", "js/views/common/Sound"],
+define([cardGame.gamePath + "js/views/common/Common.js",
+        cardGame.gamePath + "js/models/Settings.js",
+        cardGame.gamePath + "js/toolbox/Key.js",
+        cardGame.gamePath + "js/models/Rules.js",
+        cardGame.gamePath + "js/views/common/Sound.js"],
     function (Common, Settings, Key, Rules, Sound) {
         return {
             manageSettings() {
@@ -113,7 +117,7 @@ define(["js/views/common/Common", "js/models/Settings", "js/toolbox/Key", "js/mo
                                     logger.info("Settings updated");
                                     e.unbind();
                                     Sound.play(Sound.getKeys().SPECIAL);
-                                    require(["js/lang/i18n_" + Settings.getLanguage()], function (i18n) {
+                                    require([cardGame.gamePath + "js/lang/i18n_" + Settings.getLanguage() + ".js"], function (i18n) {
                                         window.cardGame.i18n = i18n;
                                         Routes.get(Routes.getKeys().DEFAULT)();
                                     });

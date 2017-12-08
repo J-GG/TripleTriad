@@ -6,12 +6,12 @@
  * @since 17.11.06
  * @version 17.11.11
  */
-define(["js/models/GameState",
-    "js/models/PlayerInGame",
-    "js/models/Settings",
-    "js/models/CardDB",
-    "js/models/Rules",
-    "js/models/AI"], function (GameState, PlayerInGame, Settings, CardDB, Rules, AI) {
+define([cardGame.gamePath + "js/models/GameState.js",
+    cardGame.gamePath + "js/models/PlayerInGame.js",
+    cardGame.gamePath + "js/models/Settings.js",
+    cardGame.gamePath + "js/models/CardDB.js",
+    cardGame.gamePath + "js/models/Rules.js",
+    cardGame.gamePath + "js/models/AI.js"], function (GameState, PlayerInGame, Settings, CardDB, Rules, AI) {
     return class GameEngine {
 
         /**

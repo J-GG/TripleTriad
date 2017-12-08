@@ -1,6 +1,9 @@
 'use strict';
 
-define(["js/models/Settings", "js/models/Rules", "js/models/CardOnBoard", "js/models/GameState"],
+define([cardGame.gamePath + "js/models/Settings.js",
+        cardGame.gamePath + "js/models/Rules.js",
+        cardGame.gamePath + "js/models/CardOnBoard.js",
+        cardGame.gamePath + "js/models/GameState.js"],
     function (Settings, Rules, CardOnBoard, GameState) {
         /**
          * The AI.
